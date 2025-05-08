@@ -1,0 +1,22 @@
+commands.txt
+
+1. pip install django
+2. django-admin startproject PROJECTNAME  // if it is not working then use it's alternative
+    python -m django startproject PROJECTNAME
+
+3. cd PROJECTNAME
+
+4. python manage.py startapp APPNAME
+5. python manage.py runserver
+
+6. create an urls.py in your app
+
+7. edit PROJECTNAME/urls.py  =>
+
+    from django.contrib import admin
+    from django.urls import path, include
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('APPNAME.urls'))
+    ]
