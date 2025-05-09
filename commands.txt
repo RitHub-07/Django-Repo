@@ -20,3 +20,9 @@ commands.txt
         path('admin/', admin.site.urls),
         path('', include('APPNAME.urls'))
     ]
+
+8. in settings.py =>   a . import os 
+                       b . add my app_name in the INSTALLED_APPS 
+                       C.  edit TEMPLATES => DIRS[]  -> DIRS[os.path.join(BASE_DIR,'templates')]
+                       d . at the lase for statics(css,js,images) => add one line code 
+                           => STATICFILES_DIRS = [os.path.join(BASE_DIR,'statics')]
