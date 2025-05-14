@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 # from django.http import HttpResponse
 from django.http import HttpResponse
 from .models import *
+# from .models import Student 
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout 
@@ -31,22 +32,22 @@ def register_page(request):
         password = request.POST.get('password')
 
         # Basic field validation
-        if not first_name or not last_name or not username or not password:
-            messages.error(request, 'All fields are required.')
-            return redirect('/register/')
+        # if not first_name or not last_name or not username or not password:
+        #     messages.error(request, 'All fields are required.')
+        #     return redirect('/register/')
         
 
-        # Password length check
-        if len(password) < 6:
-            messages.error(request, 'Password must be at least 6 characters long.')
-            return redirect('/register/')
+        # # Password length check
+        # if len(password) < 6:
+        #     messages.error(request, 'Password must be at least 6 characters long.')
+        #     return redirect('/register/')
         
 
 
-        # Username check
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already taken.')
-            return redirect('/register/')
+        # # Username check
+        # if User.objects.filter(username=username).exists():
+        #     messages.error(request, 'Username already taken.')
+        #     return redirect('/register/')
 
         # Create user
         user = User.objects.create(
@@ -61,3 +62,28 @@ def register_page(request):
         return redirect('/')
 
     return render(request, 'register.html')
+
+
+
+def student_submit(request):
+    if request.method == "POST":
+        student_id = request.POST.get('student_id')
+        student_name = request.POST.get('student_name')
+        father_name = request.POST.get('father_name')
+        student_roll = request.POST.get('student_roll')
+
+        std = Student.objects.create(
+            student_id = student_id,
+            student_name = student_name,
+            father_name = father_name,
+            student_roll = student_roll
+        )
+
+        std.save()
+
+        messages.success(request, 'student data submitted successfully')
+        return redirect('/')
+    
+    return render(request, 'student_form.html')
+
+

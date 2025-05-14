@@ -8,6 +8,7 @@ urlpatterns = [
 
   path('abouttt', about_view, name='about'),  
   path('contact',contact_view,name='contact'),
-  path("register/", register_page , name="register")
+  path("register/", register_page , name="register"),
+  path("student/create/", student_submit, name= "student_submit")
 
 ]
