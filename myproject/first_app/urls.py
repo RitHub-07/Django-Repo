@@ -9,6 +9,8 @@ urlpatterns = [
   path('abouttt', about_view, name='about'),  
   path('contact',contact_view,name='contact'),
   path("register/", register_page , name="register"),
-  path("student/create/", student_submit, name= "student_submit")
+  path("student/create/", student_submit, name= "student_submit"),
+  path("student/list",student_list_view,name = "student_list_view"),
+  path("login",login_page,name="login"),
 
 ]

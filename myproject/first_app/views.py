@@ -32,22 +32,22 @@ def register_page(request):
         password = request.POST.get('password')
 
         # Basic field validation
-        # if not first_name or not last_name or not username or not password:
-        #     messages.error(request, 'All fields are required.')
-        #     return redirect('/register/')
+        if not first_name or not last_name or not username or not password:
+            messages.error(request, 'All fields are required.')
+            return redirect('/register/')
         
 
-        # # Password length check
-        # if len(password) < 6:
-        #     messages.error(request, 'Password must be at least 6 characters long.')
-        #     return redirect('/register/')
+        # Password length check
+        if len(password) < 6:
+            messages.error(request, 'Password must be at least 6 characters long.')
+            return redirect('/register/')
         
 
 
-        # # Username check
-        # if User.objects.filter(username=username).exists():
-        #     messages.error(request, 'Username already taken.')
-        #     return redirect('/register/')
+        # Username check
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already taken.')
+            return redirect('/register/')
 
         # Create user
         user = User.objects.create(
@@ -63,6 +63,32 @@ def register_page(request):
 
     return render(request, 'register.html')
 
+
+def login_page(request):
+
+      if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+
+
+            if not User.objects.filter(username= username).exists():
+                  messages.error(request, 'Invalid Username')
+                  return redirect('/login/')
+
+            user = authenticate(username = username,password=password)      
+
+
+            if user is None:
+                  messages.error(request, 'Invalid Password') 
+                  return redirect('/login/')
+
+            else:
+                  login(request, user)    
+                  return redirect('/')  
+
+
+      return render(request,'login.html')
 
 
 def student_submit(request):
@@ -87,3 +113,6 @@ def student_submit(request):
     return render(request, 'student_form.html')
 
 
+def student_list_view(request):
+    std = Student.objects.all()
+    return render(request, 'student_list.html', {'student_data':std})

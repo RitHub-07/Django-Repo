@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>Student ID</th>
+          <th>Student Name</th>
+          <th>Father Name</th>
+          <th>Student Roll</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in student_data %}
+        <tr>
+          <td>{{ i.student_id }}</td>
+          <td>{{ i.student_name }}</td>
+          <td>{{ i.father_name }}</td>
+          <td>{{ i.student_roll }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

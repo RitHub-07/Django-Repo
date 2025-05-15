@@ -1,30 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Student Form</h2>
 
+          <form method="post">
+            {% csrf_token %}
 
+            <div class="mb-3">
+              <label for="student_id" class="form-label">Student ID</label>
+              <input type="text" class="form-control" id="student_id" name="student_id" required>
+            </div>
 
-  <h2>Student Form</h2>
+            <div class="mb-3">
+              <label for="student_name" class="form-label">Student Name</label>
+              <input type="text" class="form-control" id="student_name" name="student_name" required>
+            </div>
 
+            <div class="mb-3">
+              <label for="father_name" class="form-label">Father Name</label>
+              <input type="text" class="form-control" id="father_name" name="father_name" required>
+            </div>
 
-  <form method="post">
-    {% csrf_token %}
-    
-    <label for="student_id">Student ID:</label><br>
-    <input type="text" id="student_id" name="student_id" required><br><br>
+            <div class="mb-3">
+              <label for="roll" class="form-label">Roll Number</label>
+              <input type="text" class="form-control" id="roll" name="student_roll" required>
+            </div>
 
-    <label for="student_name">Student Name:</label><br>
-    <input type="text" id="student_name" name="student_name" required><br><br>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
 
-    <label for="student_name">Father name:</label><br>
-    <input type="text" id="father_name" name="father_name" required><br><br>
-
-
-    <label for="roll">Roll Number:</label><br>
-    <input type="text" id="roll" name="student_roll" required><br><br>
-
-    <button type="submit">Submit</button>
-  </form>
-
-
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
