@@ -11,6 +11,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 import os
+from django.contrib.auth import logout
+from django.shortcuts import render, get_object_or_404, redirect
+
+
 # Create your views here.
 
 def home_view(request):
@@ -81,7 +85,7 @@ def login_page(request):
 
             if user is None:
                   messages.error(request, 'Invalid Password') 
-                  return redirect('/login/')
+                  return redirect('/login')
 
             else:
                   login(request, user)    
@@ -91,18 +95,25 @@ def login_page(request):
       return render(request,'login.html')
 
 
+def logout_page(request):
+    logout(request)
+    return redirect('/login')  # Redirect to login page after logout
+     
+
 def student_submit(request):
     if request.method == "POST":
-        student_id = request.POST.get('student_id')
+        registration_id = request.POST.get('registration_id')
         student_name = request.POST.get('student_name')
         father_name = request.POST.get('father_name')
         student_roll = request.POST.get('student_roll')
+        student_image = request.FILES.get('student_image')
 
         std = Student.objects.create(
-            student_id = student_id,
+            registration_id = registration_id,
             student_name = student_name,
             father_name = father_name,
-            student_roll = student_roll
+            student_roll = student_roll,
+            student_image = student_image
         )
 
         std.save()
@@ -116,3 +127,28 @@ def student_submit(request):
 def student_list_view(request):
     std = Student.objects.all()
     return render(request, 'student_list.html', {'student_data':std})
+
+
+def student_edit(request, id):
+    
+    student = get_object_or_404(Student, id = id)
+
+    if request.method == "POST":
+        student.student_id = request.POST.get('student_id')
+        student.student_name = request.POST.get('student_name')
+        student.father_name = request.POST.get('father_name')
+        student.student_roll = request.POST.get('student_roll')
+        student.save()
+        return redirect('/')  # or redirect to student list
+
+    return render(request, 'student_update.html', {'student': student})
+
+
+def student_delete(request, id):
+    
+    student = get_object_or_404(Student, id = id)
+    if request.method == "POST":
+         student.delete()
+
+    return redirect('student_list.html')
+# return render(request, 'confirm_delete.html', {'student': student})

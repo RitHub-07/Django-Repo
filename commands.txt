@@ -26,3 +26,8 @@ commands.txt
                        C.  edit TEMPLATES => DIRS[]  -> DIRS[os.path.join(BASE_DIR,'templates')]
                        d . at the last for statics(css,js,images) => add one line code 
                            => STATICFILES_DIRS = [os.path.join(BASE_DIR,'statics')]
+
+pip install Pillow  => for images upload 
+
+for creating table => 1. models.py 2. register in admin.py for showing admin panel 3. create html form 
+

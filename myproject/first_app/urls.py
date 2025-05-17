@@ -12,5 +12,9 @@ urlpatterns = [
   path("student/create/", student_submit, name= "student_submit"),
   path("student/list",student_list_view,name = "student_list_view"),
   path("login",login_page,name="login"),
+  path('logout',logout_page, name="logout_page"),
+  path('student/edit/<int:id>/', student_edit, name='student_edit'),
+  path("student/delete/<int:id>/", student_delete, name="student_delete") 
+
 
 ]
