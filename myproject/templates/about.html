@@ -1,26 +1,66 @@
- {% extends "base.html" %}
+{% extends 'base.html' %}
 
- 
-{% block title %}About Us - My Website{% endblock %}
+{% block title %}
+  About Us - Flipkart
+{% endblock %}
 
 {% block content %}
-  <h1>About Us</h1>
-  <p class="lead">We are passionate about creating great web experiences.</p>
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <h1 class="display-4 fw-bold">About <span class="text-primary">Flipkart</span></h1>
+      <p class="lead">Bringing you the best products at unbeatable prices.</p>
+    </div>
 
-  <p>
-    Our team is dedicated to providing high-quality web development, design, and digital services. 
-    Whether you're a business, a student, or someone curious about the web, we’re here to help you succeed online.
-  </p>
+    <div class="row mb-5">
+      <div class="col-md-6">
+        <h3 class="fw-semibold">Who We Are</h3>
+        <p class="text-muted">At Flipkart, we’re passionate about redefining the way you shop. From electronics to fashion, we provide quality products that fit your lifestyle and budget. Our user-friendly platform and top-tier service make online shopping effortless.</p>
+      </div>
+      <div class="col-md-6">
+        <img src="https://static.vecteezy.com/system/resources/previews/024/454/835/original/18-years-experience-rubber-stamp-vector.jpg" alt="Flipkart Experience" class="img-fluid rounded shadow" style="width: 100px;" />
+      </div>
+    </div>
 
-  <h3>Our Mission</h3>
-  <p>
-    To empower individuals and organizations with simple, clean, and effective digital solutions.
-  </p>
+    <div class="row bg-light rounded p-4 mb-5">
+      <div class="col-md-12">
+        <h3 class="fw-semibold">Our Mission</h3>
+        <p class="text-muted">To connect people with the products they love through innovation, affordability, and trust. We strive to make every customer's journey smooth from browsing to delivery.</p>
+      </div>
+    </div>
 
-  <h3>Our Team</h3>
-  <ul>
-    <li><strong>John Doe</strong> – Founder & Lead Developer</li>
-    <li><strong>Jane Smith</strong> – UX/UI Designer</li>
-    <li><strong>Alex Johnson</strong> – Content Strategist</li>
-  </ul>
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <h3 class="fw-semibold text-center">Meet Our Team</h3>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+          <img src="https://assets-global.website-files.com/624ac40503a527cf47af4192/655c6883100932e9fcc96f7a_11.jpeg" class="card-img-top rounded-circle mx-auto mt-4" style="width: 100px;" alt="Emily" />
+          <div class="card-body">
+            <h5 class="card-title">Emily Carter</h5>
+            <p class="text-muted">Founder & CEO</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+          <img src="https://th.bing.com/th/id/R.bfded8b8ef9dafeb43937be0b88fa2fa?rik=sboTMa1tnQCloA&riu=http%3a%2f%2fhauteliving.com%2fwp-content%2fuploads%2f2017%2f06%2f22.jpg&ehk=2HiI%2f9NhImevoHeMY%2fgPQh1Sq235VjzsUx%2ft2h9YobU%3d&risl=&pid=ImgRaw&r=0" class="card-img-top rounded-circle mx-auto mt-4" style="width: 100px;" alt="Raj" />
+          <div class="card-body">
+            <h5 class="card-title">Raj Patel</h5>
+            <p class="text-muted">Head of Product & Logistics</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+          <img src="https://img.freepik.com/premium-photo/women-business-outfit-photo_745528-39564.jpg" class="card-img-top rounded-circle mx-auto mt-4" style="width: 100px;" alt="Sofia" />
+          <div class="card-body">
+            <h5 class="card-title">Sofia Alvarez</h5>
+            <p class="text-muted">Customer Experience Manager</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

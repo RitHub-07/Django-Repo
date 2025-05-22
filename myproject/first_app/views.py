@@ -13,6 +13,7 @@ from django.core.exceptions import ValidationError
 import os
 from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 
 
 # Create your views here.
@@ -106,6 +107,7 @@ def student_submit(request):
         student_name = request.POST.get('student_name')
         father_name = request.POST.get('father_name')
         student_roll = request.POST.get('student_roll')
+
         student_image = request.FILES.get('student_image')
 
         std = Student.objects.create(
@@ -134,13 +136,17 @@ def student_edit(request, id):
     student = get_object_or_404(Student, id = id)
 
     if request.method == "POST":
-        student.student_id = request.POST.get('student_id')
+        student.registration_id = request.POST.get('registration_id')
         student.student_name = request.POST.get('student_name')
         student.father_name = request.POST.get('father_name')
         student.student_roll = request.POST.get('student_roll')
-        student.save()
-        return redirect('/')  # or redirect to student list
 
+        if request.FILES.get('student_image'):
+             student.student_image = request.FILES.get('student_image')
+             
+        student.save()
+        messages.success(request, 'student data updated successfully')
+        return redirect('/')  
     return render(request, 'student_update.html', {'student': student})
 
 
@@ -150,5 +156,8 @@ def student_delete(request, id):
     if request.method == "POST":
          student.delete()
 
-    return redirect('student_list.html')
-# return render(request, 'confirm_delete.html', {'student': student})
+    return redirect('/')
+
+
+def categories_view(request):
+     return render(request, 'categories.html')

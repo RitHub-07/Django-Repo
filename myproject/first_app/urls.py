@@ -14,7 +14,8 @@ urlpatterns = [
   path("login",login_page,name="login"),
   path('logout',logout_page, name="logout_page"),
   path('student/edit/<int:id>/', student_edit, name='student_edit'),
-  path("student/delete/<int:id>/", student_delete, name="student_delete") 
+  path("student/delete/<int:id>/", student_delete, name="student_delete"),
+  path("categories/",categories_view,name="categories_view")
 
 
 ]

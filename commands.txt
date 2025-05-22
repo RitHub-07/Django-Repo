@@ -21,13 +21,33 @@ commands.txt
         path('', include('APPNAME.urls'))
     ]
 
+
 8. in settings.py =>   a . import os 
                        b . add my app_name in the INSTALLED_APPS 
                        C.  edit TEMPLATES => DIRS[]  -> DIRS[os.path.join(BASE_DIR,'templates')]
                        d . at the last for statics(css,js,images) => add one line code 
                            => STATICFILES_DIRS = [os.path.join(BASE_DIR,'statics')]
 
-pip install Pillow  => for images upload 
+# pip install Pillow  => for images upload 
+# pip install psycopg2-binary  => for connect pgSQL with django => and Edit database 
+
+ DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'first_project',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',  # or your database server IP/domain
+        'PORT': '5432',        # default PostgreSQL port
+    }
+}
+
 
 for creating table => 1. models.py 2. register in admin.py for showing admin panel 3. create html form 
 
+
+
+Category => Electronics, fashion, footwear, Home & Furniture, Beauty Products, Grocery  => 10
+
+
+for redirect urls => 2 methods  , a => href = "/login" , b => href = "{% url 'function_name" %}"

@@ -1,0 +1,33 @@
+commands.txt
+
+1. pip install django
+2. django-admin startproject PROJECTNAME  // if it is not working then use it's alternative
+    python -m django startproject PROJECTNAME
+
+3. cd PROJECTNAME
+
+4. python manage.py startapp APPNAME
+5. python manage.py runserver
+
+6. create an urls.py in your app
+
+7. edit PROJECTNAME/urls.py  =>
+
+    from django.contrib import admin
+    from django.urls import path, include
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('APPNAME.urls'))
+    ]
+
+8. in settings.py =>   a . import os 
+                       b . add my app_name in the INSTALLED_APPS 
+                       C.  edit TEMPLATES => DIRS[]  -> DIRS[os.path.join(BASE_DIR,'templates')]
+                       d . at the last for statics(css,js,images) => add one line code 
+                           => STATICFILES_DIRS = [os.path.join(BASE_DIR,'statics')]
+
+pip install Pillow  => for images upload 
+
+for creating table => 1. models.py 2. register in admin.py for showing admin panel 3. create html form 
+
