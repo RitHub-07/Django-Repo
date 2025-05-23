@@ -17,20 +17,21 @@
           Contact <span class="text-primary">Flipkart</span>
         </h2>
 
-        <form>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-            <input type="text" class="form-control" placeholder="Your Name" required>
+            <input type="text" class="form-control" placeholder="Your Name" name="contact_name" required>
           </div>
 
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-            <input type="email" class="form-control" placeholder="Your Email" required>
+            <input type="email" class="form-control" placeholder="Your Email" name="contact_email" required>
           </div>
 
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="bi bi-chat-dots-fill"></i></span>
-            <textarea class="form-control" rows="3" placeholder="Your Message" required></textarea>
+            <span class="input-group-text"><i class="bi bi-chat-left-text-fill"></i></span>
+            <textarea class="form-control" rows="3" placeholder="Your Message" name ="contact_message" required></textarea>
           </div>
 
           <button type="submit" class="btn btn-primary w-100">

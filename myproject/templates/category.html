@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+
+<!-- Container for categories -->
+<div class="categories-container" style="margin-top: 60px; display: flex; flex-wrap: wrap; gap: 60px; justify-content: center; padding: 20px;">
+
+  {% for i in category_variable %}
+  <div style="
+     flex: 0 0 calc(33.33% - 40px);  /* 3 items per row minus gap */
+  max-width: calc(33.33% - 40px);
+  border: 1px solid #e0e0e0;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+"
+onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 6px 15px rgba(0, 0, 0, 0.2)'"
+onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 10px rgba(0, 0, 0, 0.1)'"
+>
+
+    <!-- Image -->
+    <div style="height: 200px; width: 100%; background-image: url('{{ i.category_image.url }}'); background-size: cover; background-position: center;">
+    </div>
+
+    <!-- Text content -->
+    <div style="padding: 15px; text-align: center;">
+      <h4 style="margin-bottom: 12px;">{{ i.category_name }}</h4>
+      <button style="
+        padding: 10px 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      "
+      onmouseover="this.style.backgroundColor='#0056b3'"
+      onmouseout="this.style.backgroundColor='#007bff'"
+      >
+        Shop Now
+      </button>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+{% endblock %}

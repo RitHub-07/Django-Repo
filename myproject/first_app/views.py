@@ -160,4 +160,27 @@ def student_delete(request, id):
 
 
 def categories_view(request):
-     return render(request, 'categories.html')
+     categories = Category.objects.all()
+     return render(request, 'category.html', {'category_variable': categories})
+
+
+
+def contact_view(request):
+    if request.method == "POST":
+         contact_name = request.POST.get('contact_name')
+         contact_email = request.POST.get('contact_email')
+         contact_message = request.POST.get('contact_message')
+
+
+         contact = ContactUs.objects.create(
+              contact_name = contact_name,
+              contact_email = contact_email,
+              contact_message = contact_message
+         )
+
+         contact.save()
+
+         messages.success(request, 'Contact us form  submitted successfully')
+         return redirect('/')
+
+    return render(request,'contact.html')
