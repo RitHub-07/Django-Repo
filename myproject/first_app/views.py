@@ -163,6 +163,14 @@ def categories_view(request):
      categories = Category.objects.all()
      return render(request, 'category.html', {'category_variable': categories})
 
+from django.shortcuts import render
+
+def term_conditions(request):
+    return render(request, 'term_conditions.html')
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
+
 
 
 def contact_view(request):
@@ -184,3 +192,48 @@ def contact_view(request):
          return redirect('/')
 
     return render(request,'contact.html')
+
+
+def profile_view(request):
+     return render(request, 'my_profile.html')
+
+def edit_profile(request):
+     
+     return render(request, 'edit_profile.html')
+
+
+
+@login_required
+
+def edit_profile(request):
+    if request.method == "POST":
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+
+        if not first_name or not last_name or not username:
+            messages.error(request, 'All fields are required.')
+            return redirect('/edit-profile/')
+
+        # Check if username is taken by someone else
+        if User.objects.filter(username=username).exclude(id=request.user.id).exists():
+            messages.error(request, 'Username already taken.')
+            return redirect('/edit-profile/')
+
+        # Update the user info
+
+        user = request.user
+        user.first_name = first_name
+        user.last_name = last_name
+        user.username = username
+        user.save()
+
+        # request.user.first_name = first_name
+        # request.user.last_name = last_name
+        # request.user.username = username
+        # request.user.save()
+
+        messages.success(request, 'Profile updated successfully.')
+        return redirect('/my_profile/')
+
+    return render(request, 'edit_profile.html')
