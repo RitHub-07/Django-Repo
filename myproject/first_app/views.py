@@ -201,6 +201,8 @@ def edit_profile(request):
      
      return render(request, 'edit_profile.html')
 
+def saved_address(request):
+    return render(request, 'saved_address.html')
 
 
 @login_required

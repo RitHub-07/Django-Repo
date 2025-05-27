@@ -9,7 +9,8 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto"> <!-- ms-auto pushes items to the right -->
+      <!--Left Side Nav Links -->
+      <ul class="navbar-nav me-auto"> <!-- me-auto pushes next items to right -->
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
@@ -20,32 +21,34 @@
           <a class="nav-link" href="/contact">Contact Us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="categories/">Categories</a>
+          <a class="nav-link" href="/categories/">Categories</a>
         </li>
+      </ul>
 
-       {% if user.is_authenticated %}
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Profile
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-      <li><a class="dropdown-item" href="/my_profile">My Profile</a></li>
-      <li><a class="dropdown-item" href="/orders">My Orders</a></li>
-       <li><a class="dropdown-item" href="/orders">Saved address</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="/logout">Logout</a></li>
-    </ul>
-  </li>
-{% else %}
-  <li class="nav-item">
-    <a class="nav-link" href="/login">Login</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/register">Register</a>
-  </li>
-{% endif %}
-
-        
+      <!--Right Side Profile Dropdown -->
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+             role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Profile
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/my_profile"><class=rounded-circle>My Profile</a></li>
+            <li><a class="dropdown-item" href="/orders">My Orders</a></li>
+            <li><a class="dropdown-item" href="/saved_address">Saved address</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>
