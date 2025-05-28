@@ -14,6 +14,7 @@ import os
 from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+# from .models import Product
 
 
 # Create your views here.
@@ -246,3 +247,38 @@ def edit_profile(request):
         return redirect('/my_profile/')
 
     return render(request, 'edit_profile.html')
+
+# views.py
+from django.shortcuts import render
+
+def categories_product(request):
+    # Sample products data, from Database
+    products = [
+        {
+            'name': 'Delux FlawLess',
+            'category': 'Beauty',
+            'original_price': 65999,
+            'selling_price': 63999,
+            'image_url': 'images/liner.jpg',  
+            'description': 'A complete makeup kit with all essential cosmetics. Perfect for daily use and special occasions. Long-lasting and skin-friendly formula.'
+        },
+        {
+            'name': 'Smartphone',
+            'category': 'Electronics',
+            'original_price': 39999,
+            'selling_price': 34999,
+            'image_url': 'images/pix_phone.jpg',
+            'description': 'Latest smartphone with high-resolution display and powerful processor. Capture stunning photos and enjoy seamless multitasking.'
+
+        },
+        {
+            'name': 'Sneakers',
+            'category': 'Fashion',
+            'original_price': 17999,
+            'selling_price': 14999,
+            'image_url': 'images/shou-j.jpg',       
+            'description': 'Comfortable and stylish sneakers perfect for everyday wear. Durable sole and breathable material ensure long-lasting comfort.'
+
+        },
+    ]
+    return render(request, 'categories_product.html', {'products': products})

@@ -22,8 +22,9 @@ urlpatterns = [
   path("student/delete/<int:id>/", student_delete, name="student_delete"),
   path("categories/",categories_view,name="categories_view"),
   path("my_profile/",profile_view,name="profile_view"),
-   path('saved_address', saved_address, name='saved_address'),
+  path('saved_address', saved_address, name='saved_address'),
   path("edit_profile/",edit_profile, name="edit_profile"),
   path('term-and-conditions/', term_conditions, name='term_conditions'),
   path('privacy-policy/', privacy_policy, name='privacy_policy'),
+  path('products/', categories_product, name='categories_product'),
 ]

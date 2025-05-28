@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  Categories Product
+{% endblock %}
+
+{% block content %}
+<br> 
+<br>
+<div class="container mt-4">
+  <div class="row">
+    {% for product in products %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow">
+        <!-- Product Image -->
+        {% comment %} <img src="{% static 'images/mkp.jpg' %}" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;"> {% endcomment %}
+        
+        <img src="{% static product.image_url %}" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;"
+         onmouseover="this.style.transform='scale(1.05)'; this.style.filter='brightness(0.85)';" 
+     onmouseout="this.style.transform='scale(1)'; this.style.filter='brightness(1)';">
+
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title" style="color:rgb(119, 96, 57); font-family: 'Arial Black', Gadget, sans-serif;">{{ product.name }}</h5>
+          <p class="card-text description">{{ product.description }}</p>
+          <p class="card-text mb-2" style="color: #555; font-family: 'Verdana', Geneva, Tahoma, sans-serif;" >
+            <strong>Category:</strong> {{ product.category }}<br>
+            <strong>Original Price:</strong> <del>₹{{ product.original_price }}</del><br>
+            <strong>Selling Price:</strong> ₹{{ product.selling_price }}
+          </p>
+
+          <!-- Quantity selector -->
+          <div class="d-flex align-items-center mb-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm me-2 qty-btn" data-action="decrease">-</button>
+            <input type="text" class="form-control text-center qty-input" value="1" style="width: 50px;" readonly>
+            <button type="button" class="btn btn-outline-secondary btn-sm ms-2 qty-btn" data-action="increase">+</button>
+          </div>
+
+          <!-- Add to Cart button -->
+          <button class="btn btn-primary mt-auto w-100">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
