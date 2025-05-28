@@ -18,8 +18,15 @@ from django.urls import reverse
 
 # Create your views here.
 
-def home_view(request):
+def base_view(request):
     return render(request,'base.html')
+
+
+def home_view(request):
+    categories = Category.objects.all()
+    return render(request,'home.html', {'category_variable':categories})
+
+
 
 def about_view(request):
     return render(request, 'about.html')

@@ -7,7 +7,9 @@ from .views import privacy_policy
 
 
 urlpatterns = [
-  path('', home_view, name='home'),  
+  path('', base_view, name='base'),  
+  path('flipkart', home_view, name='home'),  
+
 
   path('abouttt', about_view, name='about'),  
   path('contact',contact_view,name='contact'),

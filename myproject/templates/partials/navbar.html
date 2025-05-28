@@ -9,8 +9,8 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <!--Left Side Nav Links -->
-      <ul class="navbar-nav me-auto"> <!-- me-auto pushes next items to right -->
+      <!-- Left Side Nav Links -->
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
@@ -25,18 +25,26 @@
         </li>
       </ul>
 
-      <!--Right Side Profile Dropdown -->
-      <ul class="navbar-nav">
+      <!-- Right Side Nav Links (Cart + Profile/Login/Register) -->
+      <ul class="navbar-nav align-items-center" style="gap: 15px;">
         {% if user.is_authenticated %}
+        <!-- Cart Button -->
+        <li class="nav-item">
+          <a class="nav-link" href="/cart">
+            <i class="bi bi-cart4" style="font-size: 1.2rem;"></i> Add
+          </a>
+        </li>
+
+        <!-- Profile Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
              role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Profile
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="/my_profile"><class=rounded-circle>My Profile</a></li>
+            <li><a class="dropdown-item" href="/my_profile">My Profile</a></li>
             <li><a class="dropdown-item" href="/orders">My Orders</a></li>
-            <li><a class="dropdown-item" href="/saved_address">Saved address</a></li>
+            <li><a class="dropdown-item" href="/saved_address">Saved Address</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">Logout</a></li>
           </ul>
@@ -53,3 +61,4 @@
     </div>
   </div>
 </nav>
+

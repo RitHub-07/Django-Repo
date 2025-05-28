@@ -8,13 +8,13 @@
 <div class="container mt-5">
 
   
-      <form
-        class="col-6 mx-auto card p-3 shadow-lg"
-        method="post"
-        enctype="multipart/form-data"
-      >
+<form
+  class="col-6 mx-auto card p-3 shadow-lg custom-form"
+  method="post"
+  enctype="multipart/form-data"
+>
         {% csrf_token %}
-        <h2>Update Your Profile</h2>
+       <h2 class="form-title">Update Your Profile</h2>
         <hr />
 
         {% if messages %}
@@ -63,5 +63,19 @@
   </div>
       </form>
     </div>
+
+    <style>
+  .form-title {
+    color: #17a2b8;
+  }
+  .custom-form {
+    border: 2px solid #17a2b8;
+  }
+  .custom-form .form-label {
+    color: #17a2b8;
+  }
+</style>
+
+
 
 {% endblock %}
