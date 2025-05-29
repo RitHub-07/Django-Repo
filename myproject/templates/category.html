@@ -30,20 +30,18 @@ onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 10px rg
     <!-- Text content -->
     <div style="padding: 15px; text-align: center;">
       <h4 style="margin-bottom: 12px;">{{ i.category_name }}</h4>
-      <button style="
-        padding: 10px 16px;
+     
+
+      <a href="{% url 'categories_product' i.id %}">
+  <button style=" padding: 10px 16px;
         background-color: #007bff;
         color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        transition: background-color 0.3s ease;
-      "
-      onmouseover="this.style.backgroundColor='#0056b3'"
-      onmouseout="this.style.backgroundColor='#007bff'"
-      >
-        Shop Now
-      </button>
+        transition: background-color 0.3s ease;">Shop Now</button>
+</a>
+
     </div>
   </div>
   {% endfor %}

@@ -167,11 +167,7 @@ def student_delete(request, id):
     return redirect('/')
 
 
-def categories_view(request):
-     categories = Category.objects.all()
-     return render(request, 'category.html', {'category_variable': categories})
 
-from django.shortcuts import render
 
 def term_conditions(request):
     return render(request, 'term_conditions.html')
@@ -248,37 +244,17 @@ def edit_profile(request):
 
     return render(request, 'edit_profile.html')
 
-# views.py
-from django.shortcuts import render
 
-def categories_product(request):
-    # Sample products data, from Database
-    products = [
-        {
-            'name': 'Delux FlawLess',
-            'category': 'Beauty',
-            'original_price': 65999,
-            'selling_price': 63999,
-            'image_url': 'images/liner.jpg',  
-            'description': 'A complete makeup kit with all essential cosmetics. Perfect for daily use and special occasions. Long-lasting and skin-friendly formula.'
-        },
-        {
-            'name': 'Smartphone',
-            'category': 'Electronics',
-            'original_price': 39999,
-            'selling_price': 34999,
-            'image_url': 'images/pix_phone.jpg',
-            'description': 'Latest smartphone with high-resolution display and powerful processor. Capture stunning photos and enjoy seamless multitasking.'
 
-        },
-        {
-            'name': 'Sneakers',
-            'category': 'Fashion',
-            'original_price': 17999,
-            'selling_price': 14999,
-            'image_url': 'images/shou-j.jpg',       
-            'description': 'Comfortable and stylish sneakers perfect for everyday wear. Durable sole and breathable material ensure long-lasting comfort.'
+def categories_view(request):
+     categories = Category.objects.all()
+     return render(request, 'category.html', {'category_variable': categories})
 
-        },
-    ]
-    return render(request, 'categories_product.html', {'products': products})
+def categories_product(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    
+    # products  = Category_Products.objects.all()
+    products = Category_Products.objects.filter(category=category)
+
+
+    return render(request, 'categories_product.html', {'products_variable': products, 'category_variable': category})

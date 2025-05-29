@@ -18,13 +18,17 @@ urlpatterns = [
   path("student/list",student_list_view,name = "student_list_view"),
   path("login",login_page,name="login"),
   path('logout',logout_page, name="logout_page"),
+
   path('student/edit/<int:id>/', student_edit, name='student_edit'),
+  
   path("student/delete/<int:id>/", student_delete, name="student_delete"),
-  path("categories/",categories_view,name="categories_view"),
   path("my_profile/",profile_view,name="profile_view"),
   path('saved_address', saved_address, name='saved_address'),
   path("edit_profile/",edit_profile, name="edit_profile"),
   path('term-and-conditions/', term_conditions, name='term_conditions'),
   path('privacy-policy/', privacy_policy, name='privacy_policy'),
-  path('products/', categories_product, name='categories_product'),
+  path("categories/",categories_view,name="categories_view"),
+
+  path('products/<int:category_id>/', categories_product, name='categories_product'),
+
 ]
