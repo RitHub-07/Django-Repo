@@ -258,3 +258,10 @@ def categories_product(request, category_id):
 
 
     return render(request, 'categories_product.html', {'products_variable': products, 'category_variable': category})
+
+
+def my_orders(request):
+    return render(request, 'my_orders.html')
+
+def cart_view(request):
+    return render(request, 'cart.html')
