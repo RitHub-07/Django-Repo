@@ -9,7 +9,7 @@
   <h1>Here is Your Cart</h1>
   <p>Add More Items In Cart To GET Free Delivery On Above 500rs</p>
 
-  <table class="table table-bordered text-center mt-4">
+  {% comment %} <table class="table table-bordered text-center mt-4">
     <thead class="table-secondary">
       <tr>
         <th>Action</th>
@@ -24,7 +24,7 @@
       {% for item in cart_items %}
       <tr>
         <td>
-          <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-sm btn-danger">Remove</a>
+          <a href="{% url 'cart.html' item.id %}" class="btn btn-sm btn-danger">Remove</a>
         </td>
         <td>
           <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="50" height="50">
@@ -47,12 +47,12 @@
       <h5>Grand Total: ₹{{ grand_total }}</h5>
     </div>
     <div class="col-md-6 text-end">
-      <form method="POST" action="{% url 'place_order' %}">
+      <form method="POST" action="{% url 'categories/' %}">
         {% csrf_token %}
         <button type="submit" class="btn btn-success">Place Order</button>
       </form>
     </div>
   </div>
 
-</div>
+</div> {% endcomment %}
 {% endblock %}

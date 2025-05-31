@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 import os
 from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import CartItem
+# from django.urls import CartItem
 # from .models import Product
 
 
@@ -219,7 +219,7 @@ def edit_profile(request):
 
         if not first_name or not last_name or not username:
             messages.error(request, 'All fields are required.')
-            return redirect('/edit-profile/')
+            return redirect('/edit_profile/')
 
         # Check if username is taken by someone else
         if User.objects.filter(username=username).exclude(id=request.user.id).exists():
@@ -264,15 +264,5 @@ def my_orders(request):
     return render(request, 'my_orders.html')
 
 def cart_view(request):
-    cart_items = request.session.get('cart_items', [])
-    for item in cart_items:
-        item['subtotal'] = item['price'] * item['quantity']
-    grand_total = sum(item['subtotal'] for item in cart_items)
-    return render(request, 'cart.html', {'cart_items': cart_items, 'grand_total': grand_total})
+    return render(request, 'cart.html')
 
-def remove_from_cart(request, item_index):
-    cart_items = request.session.get('cart_items', [])
-    if 0 <= item_index < len(cart_items):
-        cart_items.pop(item_index)
-        request.session['cart_items'] = cart_items
-    return redirect('cart_page')

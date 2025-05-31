@@ -30,31 +30,11 @@ class Category_Products(models.Model):
 
   def __str__(self):
     return self.product_name
-
-# class Cart(models.Model):
-#   user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='cart')
-#   cart = models.CharField(max_length=100, default='cart')
-#   created_at = models.DateTimeField(auto_now_add=True)
-
-
-#   def __str__(self):
-#     return f"Cart of {self.user.username} created at {self.created_at}"
-
-
-# class CartItem(models.Model):
-#   cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
-#   product = models.ForeignKey(Category_Products, on_delete=models.CASCADE)
-#   quantity = models.PositiveIntegerField(default=1)
-
-#   def __str__(self):
-#     return f"{self.product.product_name} in {self.cart.user.username}'s cart"
-
   
 class ContactUs(models.Model):
   contact_name = models.CharField(max_length=100)
   contact_email = models.CharField(max_length=100)
   contact_message = models.TextField()
-
 
 
 

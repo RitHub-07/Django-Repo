@@ -1,7 +1,7 @@
  {% extends "base.html" %}
 
  
-{% block title %}Edit Profile - My Website{% endblock %}
+{% block title %}Edit Profile - Flippkart{% endblock %}
 
 {% block content %}
 
@@ -14,7 +14,7 @@
   enctype="multipart/form-data"
 >
         {% csrf_token %}
-       <h2 class="form-title">Update Your Profile</h2>
+       <h2 class="form-title color: #17a2b8;">Update Your Profile</h2>
         <hr />
 
         {% if messages %}
@@ -29,18 +29,18 @@
           <label for="exampleInputEmail1" class="form-label">First Name</label>
           <input
             type="text"
-            class="form-control"
+            class="form-control custom-form border: 2px solid #17a2b8;"
             name="first_name"
             id="exampleInputEmail1"
           />
         </div>
 
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Last Name</label>
+          <label for="exampleInputEmail1" class="form-label ">Last Name</label>
           <input
             type="text"
             name="last_name"
-            class="form-control"
+            class="form-control custom-form border: 2px solid #17a2b8;"
             id="exampleInputEmail1"
           />
         </div>
@@ -49,7 +49,7 @@
           <label for="exampleInputEmail1" class="form-label">Username</label>
           <input
             type="text"
-            class="form-control"
+            class="form-control custom-form border: 2px solid #17a2b8;"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
             name="username"
