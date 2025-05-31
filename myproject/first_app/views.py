@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 import os
 from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import CartItem
 # from .models import Product
 
 
@@ -264,4 +264,15 @@ def my_orders(request):
     return render(request, 'my_orders.html')
 
 def cart_view(request):
-    return render(request, 'cart.html')
+    cart_items = request.session.get('cart_items', [])
+    for item in cart_items:
+        item['subtotal'] = item['price'] * item['quantity']
+    grand_total = sum(item['subtotal'] for item in cart_items)
+    return render(request, 'cart.html', {'cart_items': cart_items, 'grand_total': grand_total})
+
+def remove_from_cart(request, item_index):
+    cart_items = request.session.get('cart_items', [])
+    if 0 <= item_index < len(cart_items):
+        cart_items.pop(item_index)
+        request.session['cart_items'] = cart_items
+    return redirect('cart_page')
