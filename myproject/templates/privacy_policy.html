@@ -1,15 +1,32 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 
-{% block title %}Privacy Policy{% endblock %}
+{% block title %}Privacy Policy - Flippkart{% endblock %}
 
 {% block content %}
-<br>
-<br>
-  <h1>Privacy Policy</h1>
-  <p>We value your privacy and protect your personal data.</p>
-  <ul>
-    <li>We collect only necessary information.</li>
-    <li>No sharing with third parties without consent.</li>
-  </ul>
+<div class="container py-5">
+  <h1 class="fw-bold mb-4">Privacy Policy</h1>
+  <p class="text-muted">
+    At Flippkart, your privacy is important to us. This policy explains what information we collect, how we use it, and your rights regarding your data.
+  </p>
+
+  <h4 class="mt-4">1. Information We Collect</h4>
+  <p>We collect information you provide during account creation, orders, support requests, and browsing behavior on our site.</p>
+
+  <h4 class="mt-4">2. How We Use Your Information</h4>
+  <p>Your information helps us improve customer experience, process orders, send updates, and offer personalized services.</p>
+
+  <h4 class="mt-4">3. Sharing of Information</h4>
+  <p>We do not sell your data. We only share it with partners like payment gateways or logistics providers when necessary.</p>
+
+  <h4 class="mt-4">4. Security</h4>
+  <p>We use encryption, secure servers, and authentication systems to keep your data safe.</p>
+
+  <h4 class="mt-4">5. Your Rights</h4>
+  <p>You have the right to access, update, or delete your data at any time. Contact support for assistance.</p>
+
+  <h4 class="mt-4">6. Updates to Policy</h4>
+  <p>We may update this policy periodically. Any changes will be reflected on this page.</p>
+
+  <p class="mt-4">If you have any questions, feel free to contact our support team.</p>
+</div>
 {% endblock %}

@@ -32,6 +32,15 @@ def home_view(request):
 def about_view(request):
     return render(request, 'about.html')
 
+
+def our_vision(request):
+    return render(request, 'ourVision.html')
+
+
+def our_Mission(request):
+    return render(request, 'ourMission.html')
+
+
 def contact_view(request):
     return render(request,'contact.html')
 
