@@ -29,10 +29,13 @@ urlpatterns = [
   path("edit_profile/",edit_profile, name="edit_profile"),
   path('term-and-conditions/', term_conditions, name='term_conditions'),
   path('privacy-policy/', privacy_policy, name='privacy_policy'),
-  path("categories/",categories_view,name="categories_view"),
+ path("categories/",categories_view,name="categories_view"),
 
+  # path('categories_product/<int:category_id>/',categories_view, name='categories_product'),
   path('products/<int:category_id>/', categories_product, name='categories_product'),
   path('my-orders/', my_orders, name='my_orders'),
   path('cart/', cart_view, name='cart'),
-  path('')
+  path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
+  path('remove-cart-item/<int:item_id>/', remove_cart_item, name='remove_cart_item'),
+
 ]

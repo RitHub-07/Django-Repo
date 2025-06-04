@@ -273,7 +273,20 @@ def my_orders(request):
     return render(request, 'my_orders.html')
 
 def cart_view(request):
-    return render(request, 'cart.html')
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.items.select_related('product')
+    
+    grand_total = 0
+    for item in cart_items:
+        grand_total += item.product.selling_price * item.quantity
+
+    context = {
+        'cart_items': cart_items,
+        'cart': cart ,
+        'grand_total': grand_total,   
+        }
+
+    return render(request, 'cart.html', context)
 
 
 def add_to_cart(request,product_id):
@@ -282,7 +295,7 @@ def add_to_cart(request,product_id):
 
     if quantity > product.quantity:
         messages.error(request, 'Insufficient stock available.')
-        return redirect('/categories_product/' + str(product.category.id))
+        return redirect('categories_product', category_id=product.category.id)
     
     # get or create cart for user 
     cart , created = Cart.objects.get_or_create(user=request.user)
@@ -297,4 +310,9 @@ def add_to_cart(request,product_id):
     cartItem.save()
 
     messages.success(request, f'{product.product_name} added to cart successfully.')
-    return redirect('/categories_product/' + str(product.category.id))
+    return redirect('cart')
+
+def remove_cart_item(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    cart_item.delete()
+    return redirect('cart')
