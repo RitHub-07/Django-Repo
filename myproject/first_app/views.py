@@ -275,3 +275,26 @@ def my_orders(request):
 def cart_view(request):
     return render(request, 'cart.html')
 
+
+def add_to_cart(request,product_id):
+    product = get_object_or_404(Category_Products, id = product_id)
+    quantity = int(request.POST.get('quantity', 1))
+
+    if quantity > product.quantity:
+        messages.error(request, 'Insufficient stock available.')
+        return redirect('/categories_product/' + str(product.category.id))
+    
+    # get or create cart for user 
+    cart , created = Cart.objects.get_or_create(user=request.user)
+
+    # get or create CartItem 
+
+    cartItem, created = CartItem.objects.get_or_create(product=product, cart=cart)
+    cartItem.quantity += quantity
+    # cartItem.quantity = cartItem.quantity + quantity 
+
+
+    cartItem.save()
+
+    messages.success(request, f'{product.product_name} added to cart successfully.')
+    return redirect('/categories_product/' + str(product.category.id))

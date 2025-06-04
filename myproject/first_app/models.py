@@ -10,6 +10,13 @@ class Student(models.Model):
   student_roll = models.IntegerField()
 
 
+class ContactUs(models.Model):
+  contact_name = models.CharField(max_length=100)
+  contact_email = models.CharField(max_length=100)
+  contact_message = models.TextField()
+
+
+
 class Category(models.Model):
   category_name = models.CharField(max_length=100)
   category_description = models.TextField()
@@ -31,10 +38,20 @@ class Category_Products(models.Model):
   def __str__(self):
     return self.product_name
   
-class ContactUs(models.Model):
-  contact_name = models.CharField(max_length=100)
-  contact_email = models.CharField(max_length=100)
-  contact_message = models.TextField()
+
+  
+class Cart(models.Model):
+  user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='carts')
+  created_at = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return f"Cart {self.id} for {self.user.username}"
 
 
+class CartItem(models.Model):
+  cart = models.ForeignKey(Cart, on_delete = models.CASCADE, related_name = 'items')
+  product = models.ForeignKey(Category_Products, on_delete = models.CASCADE, related_name = 'cart_items')
+  quantity = models.PositiveBigIntegerField(default=1)
 
+  def __str__(self):
+    return self.product.product_name
