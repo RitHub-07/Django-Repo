@@ -316,3 +316,9 @@ def remove_cart_item(request, item_id):
     cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
     cart_item.delete()
     return redirect('cart')
+
+def checkout_view(request):
+    return render(request, 'check_out.html')
+
+# def checkout_view(request): 
+#     return render(request, 'checkout.html')

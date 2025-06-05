@@ -55,7 +55,7 @@
     <div class="col-md-6 text-end">
       <form method="POST" action="{% url 'categories_view' %}">
         {% csrf_token %}
-        <button type="submit" class="btn btn-success">Place Order</button>
+        <a href="{% url 'checkout' %}" class="btn btn-success">Place Order </a>
       </form>
     </div>
   </div>

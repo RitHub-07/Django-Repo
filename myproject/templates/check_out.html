@@ -1,19 +1,90 @@
-{% comment %} {% extends "base.html" %}
+{% extends "base.html" %}
+
+{% block title %}
+  Checkout - Flippkart
+{% endblock %}
 
 {% block content %}
-    <h1>Checkout</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <ul>
-            {% for item in cart.items %}
-                <li>{{ item.name }} - ₹{{ item.price }}</li>
-            {% endfor %}
-        </ul>
-        <h3>Total: ₹{{ cart.total_price }}</h3>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-5">
+          <h2 class="text-center fw-bold text-primary mb-4">Checkout</h2>
 
-        <label for="address">Shipping Address:</label>
-        <input type="text" name="address" required>
+          <form method="POST" class="row g-4">
+            {% csrf_token %}
 
-        <button type="submit">Place Order</button>
-    </form>
-{% endblock %} {% endcomment %}
+            <!-- User Info -->
+            <div class="col-md-6">
+              <label class="form-label">Full Name</label>
+              <input type="text" name="name" class="form-control form-control-lg" required placeholder="Enter your full name">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control form-control-lg" required placeholder="you@example.com">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Father's Name</label>
+              <input type="text" name="father_name" class="form-control form-control-lg" required placeholder="Enter father's name">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Mobile Number</label>
+              <input type="tel" name="mobile" class="form-control form-control-lg" required placeholder="e.g. 9876543210">
+            </div>
+
+            <!-- Address Section -->
+            <div class="col-md-6">
+              <label class="form-label">Current Address</label>
+              <textarea name="current_address" class="form-control form-control-lg" rows="2" required placeholder="Your current address"></textarea>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Shipping Address</label>
+              <textarea name="shipping_address" class="form-control form-control-lg" rows="2" required placeholder="Delivery address"></textarea>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="col-md-12">
+              <label class="form-label">Payment Method</label>
+              <select name="payment_method" class="form-select form-select-lg" required>
+               <option disabled selected>Select Payment Option</option>
+               <option value="cod" selected>💵 Cash on Delivery</option>
+               <option value="card">💳 Credit/Debit Card</option>
+               <option value="upi">📱 UPI / GPay / PhonePe</option>
+               <option value="netbanking">🏦 Net Banking</option>
+              </select>
+
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="col-12">
+              <h5 class="fw-semibold mt-4">Your Items:</h5>
+              <ul class="list-group mb-3 shadow-sm">
+                {% for item in cart.items %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ item.name }}</span>
+                    <span class="text-success fw-medium">₹{{ item.price }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            <!-- Total and Submit -->
+            <div class="col-md-12 text-end">
+              <h4 class="fw-bold text-danger">Total: ₹{{ cart.total_price }}</h4>
+            </div>
+
+            <div class="col-md-12 text-center mt-3">
+              <button type="submit" class="btn btn-primary btn-lg px-5 shadow">Submit Order</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

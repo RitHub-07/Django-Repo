@@ -37,6 +37,8 @@ urlpatterns = [
   path('cart/', cart_view, name='cart'),
   path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
   path('remove-cart-item/<int:item_id>/', remove_cart_item, name='remove_cart_item'),
+  path('checkout/', checkout_view, name='checkout'),
+
   
 
 ]
