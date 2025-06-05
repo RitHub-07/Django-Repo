@@ -6,7 +6,37 @@
   <title>Basic Navbar</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
+  <style>
+    /* Add padding to account for fixed navbar */
+    body {
+      padding-top: 56px;
+    }
+    /* Social media icons styling */
+    .social-icons {
+      font-size: 1.5rem;
+      margin-right: 15px;
+    }
+    .social-icons a {
+      color: #6c757d;
+      transition: color 0.3s;
+    }
+    .social-icons a:hover {
+      transform: scale(1.2);
+      text-decoration: none;
+    }
+      /* Platform-specific colors */
+    .bi-facebook:hover { color: #1877F2 !important; } /* Facebook blue */
+    .bi-twitter-x:hover { color: #000000 !important; } /* Twitter/X black */
+    .bi-instagram:hover { color: #E4405F !important; } /* Instagram pink */
+    .bi-linkedin:hover { color: #0A66C2 !important; } /* LinkedIn blue */
+    .bi-youtube:hover { color: #FF0000 !important; } /* YouTube red */
+    .bi-pinterest:hover { color: #BD081C !important; } /* Pinterest red */
+    /* Contact buttons */
+    .btn-email:hover {
+      background-color: #EA4335; /* Gmail red */
+      color: white !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -18,7 +48,7 @@
       <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
   </ul>
-{% endif %}
+  {% endif %}
 
   <main class="flex-fill">
     <div class="container py-4">
@@ -36,6 +66,14 @@
           <p>
             Thank you for visiting. Follow us on social media or contact us for more information.
           </p>
+          <div class="social-icons mb-3">
+            <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="me-3"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="me-3"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="me-3"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="me-3"><i class="bi bi-pinterest"></i></a>
+          </div>
         </div>
   
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
@@ -49,14 +87,20 @@
             <li><a href="/privacy-policy/" class="text-dark">Privacy Policy</a></li>
             <li><a href="/our_vision" class="text-dark">Our_Vision</a></li>
             <li><a href="/our_Mission" class="text-dark">Our_Mission</a></li>
-
-
           </ul>
         </div>
   
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
           <h5 class="text-uppercase">Contact</h5>
           <p>Email: support@example.com<br>Phone: +91 12345 67890</p>
+          <div class="mt-3">
+            <a href="#" class="btn btn-outline-dark btn-sm me-2">
+              <i class="bi bi-envelope"></i> Email Us
+            </a>
+            <a href="#" class="btn btn-outline-dark btn-sm">
+              <i class="bi bi-telephone"></i> Call Us
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -65,10 +109,7 @@
       © {{ year|default:"2025" }} Flippkart. All rights reserved.
     </div>
   </footer>
-  
 
-  
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
