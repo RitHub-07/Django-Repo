@@ -1,0 +1,19 @@
+{% comment %} {% extends "base.html" %}
+
+{% block content %}
+    <h1>Checkout</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <ul>
+            {% for item in cart.items %}
+                <li>{{ item.name }} - ₹{{ item.price }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Total: ₹{{ cart.total_price }}</h3>
+
+        <label for="address">Shipping Address:</label>
+        <input type="text" name="address" required>
+
+        <button type="submit">Place Order</button>
+    </form>
+{% endblock %} {% endcomment %}

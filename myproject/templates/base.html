@@ -10,7 +10,41 @@
     /* Add padding to account for fixed navbar */
     body {
       padding-top: 56px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
+    
+    /* Main content area */
+    main {
+      flex: 1;
+    }
+    
+    /* Carousel styling */
+    .hero-carousel {
+      margin-bottom: 2rem;
+    }
+    .hero-carousel .carousel-item {
+      height: 400px;
+    }
+    .hero-carousel img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+    .carousel-caption {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      padding: 20px;
+      bottom: 40px;
+    }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      padding: 15px;
+    }
+    
     /* Social media icons styling */
     .social-icons {
       font-size: 1.5rem;
@@ -18,23 +52,108 @@
     }
     .social-icons a {
       color: #6c757d;
-      transition: color 0.3s;
+      transition: all 0.3s;
     }
     .social-icons a:hover {
-      transform: scale(1.2);
+      transform: translateY(-3px);
       text-decoration: none;
     }
-      /* Platform-specific colors */
-    .bi-facebook:hover { color: #1877F2 !important; } /* Facebook blue */
-    .bi-twitter-x:hover { color: #000000 !important; } /* Twitter/X black */
-    .bi-instagram:hover { color: #E4405F !important; } /* Instagram pink */
-    .bi-linkedin:hover { color: #0A66C2 !important; } /* LinkedIn blue */
-    .bi-youtube:hover { color: #FF0000 !important; } /* YouTube red */
-    .bi-pinterest:hover { color: #BD081C !important; } /* Pinterest red */
-    /* Contact buttons */
+    /* Platform-specific colors */
+    .bi-facebook:hover { color: #1877F2 !important; }
+    .bi-twitter-x:hover { color: #000000 !important; }
+    .bi-instagram:hover { 
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .bi-linkedin:hover { color: #0A66C2 !important; }
+    .bi-youtube:hover { color: #FF0000 !important; }
+    .bi-pinterest:hover { color: #BD081C !important; }
+    
+    /* Footer styling */
+    footer {
+      background-color: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+    }
+    
+    .footer-content {
+      padding: 3rem 0;
+    }
+    
+    .footer-heading {
+      color: #2874f0;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    
+    .footer-heading:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 2px;
+      background-color: #2874f0;
+    }
+    
+    .footer-links {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+    
+    .footer-links a {
+      color: #495057;
+      text-decoration: none;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+    
+    .footer-links a:hover {
+      color: #2874f0;
+      transform: translateX(5px);
+    }
+    
+    .footer-contact p {
+      margin-bottom: 1rem;
+    }
+    
+    .btn-email {
+      transition: all 0.3s;
+    }
+    
     .btn-email:hover {
-      background-color: #EA4335; /* Gmail red */
+      background-color: #EA4335;
       color: white !important;
+    }
+    
+    .footer-bottom {
+      background-color: #2874f0;
+      color: white;
+      padding: 1rem 0;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 767.98px) {
+      .hero-carousel .carousel-item {
+        height: 300px;
+      }
+      
+      .footer-content .col-md-6, 
+      .footer-content .col-lg-3 {
+        margin-bottom: 2rem;
+      }
+      
+      .footer-heading {
+        margin-bottom: 1rem;
+      }
     }
   </style>
 </head>
@@ -51,6 +170,56 @@
   {% endif %}
 
   <main class="flex-fill">
+    <div class="container-fluid px-0">
+      <!-- Image Slider/Carousel -->
+      <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://image.shutterstock.com/image-vector/welcome-vector-illustration-template-design-260nw-1351066529.jpg" class="d-block w-100" alt="Slide 1">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>First slide label</h5>
+              <p>Some representative placeholder content for the first slide.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://s3b.cashify.in/gpro/uploads/2022/09/06161722/Latest-Realme-Mobile-Phones-Launched.jpg" class="d-block w-100" alt="Slide 2">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Second slide label</h5>
+              <p>Some representative placeholder content for the second slide.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://curviquevintage.com.au/cdn/shop/files/Untitled_design_1_79fe4cae-f4f6-4eaa-92ea-5a603071c9ae_1024x1024.png?v=1704526768" class="d-block w-100" alt="Slide 3">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Third slide label</h5>
+              <p>Some representative placeholder content for the third slide.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://img.freepik.com/premium-vector/modern-black-friday-sale-banner-background_627305-256.jpg" class="d-block w-100" alt="Slide 4">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Fourth slide label</h5>
+              <p>Some representative placeholder content for the fourth slide.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    
     <div class="container py-4">
        {% block content %}
       <!-- Page-specific content will go here -->
@@ -59,11 +228,11 @@
   </main>
 
   <footer class="bg-light text-center text-lg-start mt-auto">
-    <div class="container p-4">
+    <div class="container footer-content">
       <div class="row">
         <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Flippkart</h5>
-          <p>
+          <h5 class="text-uppercase footer-heading">Flippkart</h5>
+          <p class="mb-4">
             Thank you for visiting. Follow us on social media or contact us for more information.
           </p>
           <div class="social-icons mb-3">
@@ -77,24 +246,25 @@
         </div>
   
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Quick Links</h5>
-          <ul class="list-unstyled mb-0">
-            <li><a href="/" class="text-dark">Home</a></li>
-            <li><a href="abouttt" class="text-dark">About Us</a></li>
-            <li><a href="contact" class="text-dark">Contact Us</a></li>
-            <li><a href="categories/" class="text-dark">Categories</a></li>
-            <li><a href="/term-and-conditions/" class="text-dark">Terms & Conditions</a></li>
-            <li><a href="/privacy-policy/" class="text-dark">Privacy Policy</a></li>
-            <li><a href="/our_vision" class="text-dark">Our_Vision</a></li>
-            <li><a href="/our_Mission" class="text-dark">Our_Mission</a></li>
+          <h5 class="text-uppercase footer-heading">Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="abouttt">About Us</a></li>
+            <li><a href="contact">Contact Us</a></li>
+            <li><a href="categories/">Categories</a></li>
+            <li><a href="/term-and-conditions/">Terms & Conditions</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/our_vision">Our Vision</a></li>
+            <li><a href="/our_Mission">Our Mission</a></li>
           </ul>
         </div>
   
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Contact</h5>
-          <p>Email: support@example.com<br>Phone: +91 12345 67890</p>
+        <div class="col-lg-3 col-md-6 mb-4 mb-md-0 footer-contact">
+          <h5 class="text-uppercase footer-heading">Contact</h5>
+          <p><i class="bi bi-envelope me-2"></i>support@example.com</p>
+          <p><i class="bi bi-telephone me-2"></i>+91 12345 67890</p>
           <div class="mt-3">
-            <a href="#" class="btn btn-outline-dark btn-sm me-2">
+            <a href="#" class="btn btn-outline-dark btn-sm me-2 btn-email">
               <i class="bi bi-envelope"></i> Email Us
             </a>
             <a href="#" class="btn btn-outline-dark btn-sm">
@@ -105,7 +275,7 @@
       </div>
     </div>
   
-    <div class="text-center p-3 bg-dark text-white">
+    <div class="text-center p-3 footer-bottom">
       © {{ year|default:"2025" }} Flippkart. All rights reserved.
     </div>
   </footer>
