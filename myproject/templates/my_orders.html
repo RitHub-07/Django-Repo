@@ -6,7 +6,18 @@
 {% block content %}
 <br>
 <br>
-  <h1>Check in Your Cart</h1>
-  <p>This your Order Page </p>
-  <p>Here you can see your orders and their status.</p>
+  {% comment %} <h1>Check in Your Cart</h1> {% endcomment %}
+  {% comment %} <p>This your Order Page </p>
+  <p>Here you can see your orders and their status.</p> {% endcomment %}
+   <!-- Empty State (commented out, can be used when no orders exist) -->
+    
+    <div class="text-center py-5">
+      <i class="bi bi-box-seam display-1 text-muted"></i>
+      <h3 class="mt-3">No Orders Yet</h3>
+      <p class="text-muted">You haven't placed any orders with us yet</p>
+      <a href="/" class="btn btn-primary mt-3">Start Shopping</a>
+    </div>
+    
+  
+
 {% endblock %}

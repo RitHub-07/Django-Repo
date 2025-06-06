@@ -3,38 +3,75 @@
 {% block title %}My Profile - Flippkart{% endblock %}
 
 {% block content %}
+<style>
+  .profile-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+  .profile-field {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 15px;
+    min-height: 45px;
+  }
+  .profile-label {
+    color: #495057;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .profile-icon {
+    color: #2874f0;
+    font-size: 1.1rem;
+    margin-right: 8px;
+  }
+</style>
 
-<div class="container mt-5">
-  <div class="col-md-6 mx-auto card p-4 shadow rounded-4 bg-light">
-    <h2 class="mb-4 text-center text-primary">My Profile</h2>
-    <hr class="mb-4">
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="card profile-card">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="text-center mb-4 text-primary fw-bold">
+            <i class="bi bi-person-badge profile-icon"></i>My Profile
+          </h2>
+          <hr class="my-4">
 
-    <div class="mb-3">
-      <label class="form-label text-muted fw-semibold">
-        <i class="bi bi-person-circle me-2"></i>First Name:
-      </label>
-      <div class="form-control bg-white">{{ user.first_name }}</div>
-    </div>
+          <!-- First Name -->
+          <div class="mb-4">
+            <div class="profile-label">
+              <i class="bi bi-person-circle profile-icon"></i>First Name
+            </div>
+            <div class="profile-field">{{ user.first_name }}</div>
+          </div>
 
-    <div class="mb-3">
-      <label class="form-label text-muted fw-semibold">
-        <i class="bi bi-person-circle me-2"></i>Last Name:
-      </label>
-      <div class="form-control bg-white">{{ user.last_name }}</div>
-    </div>
+          <!-- Last Name -->
+          <div class="mb-4">
+            <div class="profile-label">
+              <i class="bi bi-person-circle profile-icon"></i>Last Name
+            </div>
+            <div class="profile-field">{{ user.last_name }}</div>
+          </div>
 
-    <div class="mb-4">
-      <label class="form-label text-muted fw-semibold">
-        <i class="bi bi-person-lines-fill me-2"></i>Username:
-      </label>
-      <div class="form-control bg-white">{{ user.username }}</div>
-    </div>
+          <!-- Username -->
+          <div class="mb-4">
+            <div class="profile-label">
+              <i class="bi bi-person-lines-fill profile-icon"></i>Username
+            </div>
+            <div class="profile-field">{{ user.username }}</div>
+          </div>
 
-    <div class="text-end">
-      <a href="{% url 'edit_profile' %}" class="btn btn-primary px-4">Edit Profile</a>
+          <!-- Edit Profile Button -->
+          <div class="d-grid mt-4">
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary py-2 px-4 rounded-pill">
+              <i class="bi bi-pencil-square me-2"></i>Edit Profile
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-
 {% endblock %}

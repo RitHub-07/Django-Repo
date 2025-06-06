@@ -54,6 +54,12 @@
     justify-content: center;
   }
   
+  /* Wishlist icon styling */
+  .bi-heart-fill {
+    color: #ff4081; /* Pink color */
+    font-size: 1.2rem;
+  }
+  
   .dropdown-menu {
     border: none;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -127,6 +133,11 @@
       <ul class="navbar-nav align-items-center" style="gap: 15px;">
         {% if user.is_authenticated %}
         <li class="nav-item">
+          <a class="nav-link" href="/wishlist">
+            <i class="bi bi-heart-fill"></i> Wishlist
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/cart">
             <i class="bi bi-cart4" style="font-size: 1.2rem;" data-count="0"></i> Cart
           </a>
@@ -140,6 +151,7 @@
             <li><a class="dropdown-item" href="/my_profile">My Profile</a></li>
             <li><a class="dropdown-item" href="/my-orders/">My Orders</a></li>
             <li><a class="dropdown-item" href="/saved_address">Saved Address</a></li>
+            <li><a class="dropdown-item" href="/wishlist">My Wishlist</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/logout">Logout</a></li>
           </ul>

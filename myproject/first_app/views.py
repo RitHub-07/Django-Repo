@@ -228,12 +228,12 @@ def edit_profile(request):
 
         if not first_name or not last_name or not username:
             messages.error(request, 'All fields are required.')
-            return redirect('/edit_profile/')
+            return redirect('edit_profile')
 
         # Check if username is taken by someone else
         if User.objects.filter(username=username).exclude(id=request.user.id).exists():
             messages.error(request, 'Username already taken.')
-            return redirect('/edit-profile/')
+            return redirect('edit_profile.html')
 
         # Update the user info
 
@@ -249,7 +249,7 @@ def edit_profile(request):
         # request.user.save()
 
         messages.success(request, 'Profile updated successfully.')
-        return redirect('/my_profile/')
+        return redirect('profile_view')
 
     return render(request, 'edit_profile.html')
 
@@ -329,3 +329,6 @@ def checkout_view(request):
 
 def return_policy(request):
     return render(request, 'return_policy.html')
+
+def wishlist_view(request):
+    return render(request, 'wish_list.html')
