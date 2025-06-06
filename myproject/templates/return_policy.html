@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+
+{% block title %}Flippkart - Hassle-Free Return Policy{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Hero Section -->
+    <div class="return-hero bg-light p-5 rounded-3 mb-4 text-center">
+        <h1 class="display-5 fw-bold">Flippkart's No-Stress Return Policy</h1>
+        <p class="lead">Your satisfaction is our priority - Easy returns within 30 days</p>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <div class="badge bg-success fs-6 p-3">
+                <i class="bi bi-check-circle-fill me-2"></i>30-Day Window
+            </div>
+            <div class="badge bg-primary fs-6 p-3">
+                <i class="bi bi-truck me-2"></i>Free Pickup
+            </div>
+            <div class="badge bg-warning text-dark fs-6 p-3">
+                <i class="bi bi-arrow-repeat me-2"></i>Instant Refunds
+            </div>
+        </div>
+    </div>
+
+    <!-- Policy Tabs -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <ul class="nav nav-tabs mb-4" id="policyTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="eligibility-tab" data-bs-toggle="tab" data-bs-target="#eligibility" type="button">
+                        <i class="bi bi-check2-circle me-2"></i>Eligibility
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="process-tab" data-bs-toggle="tab" data-bs-target="#process" type="button">
+                        <i class="bi bi-list-ol me-2"></i>Return Process
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="refunds-tab" data-bs-toggle="tab" data-bs-target="#refunds" type="button">
+                        <i class="bi bi-currency-exchange me-2"></i>Refunds
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content p-3 border border-top-0 rounded-bottom" id="policyTabsContent">
+                <!-- Eligibility Tab -->
+                <div class="tab-pane fade show active" id="eligibility" role="tabpanel">
+                    <div class="policy-card card mb-3 border-0">
+                        <div class="card-body">
+                            <h4 class="card-title"><i class="bi bi-check-lg text-success me-2"></i>What Can Be Returned</h4>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-3"></i>
+                                    <span>Most items within 30 days of delivery</span>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-3"></i>
+                                    <span>Damaged/defective items (report within 7 days)</span>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-3"></i>
+                                    <span>Wrong items received</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="policy-card card border-0">
+                        <div class="card-body">
+                            <h4 class="card-title"><i class="bi bi-x-circle text-danger me-2"></i>Non-Returnable Items</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Food items & groceries</li>
+                                        <li class="list-group-item">Cosmetics & beauty products</li>
+                                        <li class="list-group-item">Perishable goods</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Personalized items</li>
+                                        <li class="list-group-item">Software & digital products</li>
+                                        <li class="list-group-item">Gift cards</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Process Tab -->
+                <div class="tab-pane fade" id="process" role="tabpanel">
+                    <div class="step-indicator mb-4">
+                        <div class="d-flex justify-content-between">
+                            <div class="step active">
+                                <div class="step-circle">1</div>
+                                <div class="step-label">Initiate Return</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-circle">2</div>
+                                <div class="step-label">Package Item</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-circle">3</div>
+                                <div class="step-label">Pickup Scheduled</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-circle">4</div>
+                                <div class="step-label">Refund Processed</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">How to Return</h4>
+                            <div class="d-flex mb-3">
+                                <div class="me-3 text-primary">
+                                    <i class="bi bi-1-circle-fill fs-3"></i>
+                                </div>
+                                <div>
+                                    <h5>Start Your Return Online</h5>
+                                    <p>Go to "My Orders" and select the item you want to return. Choose a reason and submit your request.</p>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <div class="me-3 text-primary">
+                                    <i class="bi bi-2-circle-fill fs-3"></i>
+                                </div>
+                                <div>
+                                    <h5>Package Your Item</h5>
+                                    <p>Include all original packaging, tags, and accessories. Print and attach the return label we provide.</p>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="me-3 text-primary">
+                                    <i class="bi bi-3-circle-fill fs-3"></i>
+                                </div>
+                                <div>
+                                    <h5>Wait for Pickup</h5>
+                                    <p>Our delivery partner will collect the package from your doorstep within 2 business days.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Refunds Tab -->
+                <div class="tab-pane fade" id="refunds" role="tabpanel">
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Refund Information</h4>
+                            <div class="alert alert-success">
+                                <h5><i class="bi bi-lightning-charge-fill me-2"></i>Instant Refunds</h5>
+                                <p>For payments made via Flippkart Pay Later, credit/debit cards, or UPI, refunds are processed within 24 hours of us receiving your return.</p>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h5><i class="bi bi-credit-card text-primary me-2"></i>Original Payment Method</h5>
+                                            <p>Refunds are issued to the original payment method within 5-7 business days.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h5><i class="bi bi-gift text-success me-2"></i>Store Credit</h5>
+                                            <p>Opt for Flippkart Credit to get 5% extra on your refund amount (credited instantly).</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info mt-3">
+                                <h5><i class="bi bi-clock-history me-2"></i>Processing Times</h5>
+                                <ul class="mb-0">
+                                    <li>Electronics: 3-5 business days after quality check</li>
+                                    <li>Fashion: 2-3 business days</li>
+                                    <li>Large appliances: 5-7 business days</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <h3 class="text-center mb-4">Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            How long does it take to process my refund?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Refunds are typically processed within 24 hours for digital payments after we receive your return. Bank transfers may take 5-7 business days to reflect in your account.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Do I need to return the free gift with my product?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, if you received a free gift with your purchase, please return it along with the main product to qualify for a full refund.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            What if I miss the return pickup?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Don't worry! We'll automatically reschedule the pickup for the next business day. You'll receive an SMS with the new pickup details.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="text-center mt-5">
+        <div class="card bg-light border-0 py-4">
+            <div class="card-body">
+                <h3 class="card-title">Ready to Start Your Return?</h3>
+                <p class="card-text">Initiate your return in just a few clicks</p>
+                <a href="/my/orders" class="btn btn-primary btn-lg px-4 me-2">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Return Now
+                </a>
+                <a href="/contact" class="btn btn-outline-secondary btn-lg px-4">
+                    <i class="bi bi-headset me-2"></i>Need Help?
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .return-hero {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f0ff 100%);
+    }
+    .policy-card {
+        transition: transform 0.2s;
+    }
+    .policy-card:hover {
+        transform: translateY(-3px);
+    }
+    .step-indicator .step {
+        text-align: center;
+        position: relative;
+        flex: 1;
+    }
+    .step-indicator .step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #dee2e6;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+    }
+    .step-indicator .step.active .step-circle {
+        background: #0d6efd;
+        color: white;
+    }
+    .step-indicator .step:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 60%;
+        width: 80%;
+        height: 2px;
+        background: #dee2e6;
+    }
+    .step-indicator .step.active:not(:last-child)::after {
+        background: #0d6efd;
+    }
+    .accordion-button:not(.collapsed) {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+    }
+</style>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+{% endblock %}

@@ -320,5 +320,5 @@ def remove_cart_item(request, item_id):
 def checkout_view(request):
     return render(request, 'check_out.html')
 
-# def checkout_view(request): 
-#     return render(request, 'checkout.html')
+def return_policy(request):
+    return render(request, 'return_policy.html')
