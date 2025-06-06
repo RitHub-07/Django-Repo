@@ -11,10 +11,10 @@ urlpatterns = [
   path('flipkart', home_view, name='home'),  
 
 
-  path('abouttt', about_view, name='about'),  
+  path('abouttt/', about_view, name='about'),  
   path('our_vision/', our_vision, name='our_vision'),  
   path('our_Mission/', our_Mission, name='our_Mission'),  
-  path('contact',contact_view,name='contact'),
+  path('contact/',contact_view,name='contact'),
   path("register/", register_page , name="register"),
   path("student/create/", student_submit, name= "student_submit"),
   path("student/list",student_list_view,name = "student_list_view"),
@@ -38,6 +38,8 @@ urlpatterns = [
   path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
   path('remove-cart-item/<int:item_id>/', remove_cart_item, name='remove_cart_item'),
   path('checkout/', checkout_view, name='checkout'),
-  path('returns/', return_policy, name='return_policy'),
+
+  path('return-policy/', return_policy, name='return_policy'),
+
   path('wishlist/', wishlist_view, name='wish_list'),
 ]
