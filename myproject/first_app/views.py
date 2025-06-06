@@ -304,17 +304,24 @@ def add_to_cart(request,product_id):
 
     cartItem, created = CartItem.objects.get_or_create(product=product, cart=cart)
     cartItem.quantity += quantity
-    # cartItem.quantity = cartItem.quantity + quantity 
 
+    if created:
+        cartItem.quantity = quantity  # First time, set it
+    else:
+        cartItem.quantity += quantity  # Already exists, add to it
 
     cartItem.save()
 
     messages.success(request, f'{product.product_name} added to cart successfully.')
     return redirect('cart')
 
+
+
 def remove_cart_item(request, item_id):
     cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
     cart_item.delete()
+
+    messages.success(request, 'Item removed from cart successfully.')
     return redirect('cart')
 
 def checkout_view(request):

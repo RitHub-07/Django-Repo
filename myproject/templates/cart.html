@@ -11,20 +11,17 @@
   <table class="table table-bordered text-center mt-4">
     <thead class="table-secondary">
       <tr>
-        <th>Action</th>
         <th>Product Image</th>
         <th>Name</th>
         <th>Price</th>
         <th>Quantity</th>
         <th>Subtotal</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
       {% for item in cart_items %}
       <tr>
-        <td>
-          <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-sm btn-danger">Remove</a>
-        </td>
         <td>
           <img src="{{ item.product.product_image.url }}" alt="{{ item.product.product_name }}" width="50" height="50">
         </td>
@@ -32,6 +29,9 @@
         <td>₹{{ item.product.selling_price }}</td>
         <td>{{ item.quantity }}</td>
         <td>₹{{ item.subtotal }}</td>
+        <td>
+          <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-sm btn-danger">Remove</a>
+        </td>
       </tr>
       {% empty %}
       <tr>

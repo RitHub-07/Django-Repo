@@ -105,7 +105,7 @@
     }
 
     .btn-email:hover {
-      background-color: #EA4335;
+      background-color:black;
       color: white !important;
     }
 
@@ -113,6 +113,26 @@
       background-color: #2874f0;
       color: white;
       padding: 1rem 0;
+    }
+
+    /* Payment images styling - Added */
+    .payment-images-container {
+      margin-top: 1.5rem;
+    }
+    .payment-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    .payment-img {
+      height: 25px;
+      object-fit: contain;
+    }
+    .payment-heading {
+      font-size: 0.9rem;
+      color: #495057;
+      margin-bottom: 0.5rem;
     }
 
     /* Responsive adjustments */
@@ -129,7 +149,7 @@
   </style>
 </head>
 <body>
-
+  {% load static %}
   {% include "partials/navbar.html" %}
 
   {% if messages %}
@@ -146,7 +166,7 @@
     </div>
 
     <div class="container py-4">
-       {% block content %}
+      {% block content %}
       <!-- Page-specific content will go here -->
       {% endblock %}
     </div>
@@ -167,6 +187,17 @@
             <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
             <a href="#" class="me-3"><i class="bi bi-youtube"></i></a>
             <a href="#" class="me-3"><i class="bi bi-pinterest"></i></a>
+          </div>
+          
+          <!-- Payment images placed below social icons -->
+          <div class="payment-images-container">
+            <p class="payment-heading">We Accept:</p>
+            <div class="payment-images">
+              <img src="{% static 'images/upi.jpeg' %}" alt="UPI" class="payment-img">
+              <img src="{% static 'images/mastercard.jpg' %}" alt="Mastercard" class="payment-img">
+              <img src="{% static 'images/gpay.png' %}" alt="Google Pay" class="payment-img">
+              <img src="{% static 'images/Paytm_Logo.png' %}" alt="Paytm" class="payment-img">
+            </div>
           </div>
         </div>
 

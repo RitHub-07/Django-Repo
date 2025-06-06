@@ -55,3 +55,10 @@ class CartItem(models.Model):
 
   def __str__(self):
     return self.product.product_name
+  
+  @property
+  def subtotal(self):
+      return self.product.selling_price * self.quantity
+
+
+    
