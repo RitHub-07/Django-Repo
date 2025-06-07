@@ -7,7 +7,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
-    /* Add padding to account for fixed navbar */
     body {
       padding-top: 56px;
       display: flex;
@@ -15,47 +14,32 @@
       min-height: 100vh;
     }
 
-    /* Main content area */
     main {
       flex: 1;
     }
 
-    /* Social media icons styling */
+    /* Social icons - single color */
     .social-icons {
       font-size: 1.5rem;
-      margin-right: 15px;
     }
     .social-icons a {
       color: #6c757d;
       transition: all 0.3s;
+      margin-right: 15px;
     }
     .social-icons a:hover {
+      color: #2874f0 !important;
       transform: translateY(-3px);
-      text-decoration: none;
     }
-    /* Platform-specific colors */
-    .bi-facebook:hover { color: #1877F2 !important; }
-    .bi-twitter-x:hover { color: #000000 !important; }
-    .bi-instagram:hover { 
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .bi-linkedin:hover { color: #0A66C2 !important; }
-    .bi-youtube:hover { color: #FF0000 !important; }
-    .bi-pinterest:hover { color: #BD081C !important; }
 
     /* Footer styling */
     footer {
       background-color: #f8f9fa;
       border-top: 1px solid #e9ecef;
     }
-
     .footer-content {
       padding: 3rem 0;
     }
-
     .footer-heading {
       color: #2874f0;
       font-weight: 600;
@@ -64,7 +48,6 @@
       position: relative;
       padding-bottom: 0.5rem;
     }
-
     .footer-heading:after {
       content: '';
       position: absolute;
@@ -75,75 +58,81 @@
       background-color: #2874f0;
     }
 
+    /* Improved welcome text */
+    .welcome-text p {
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+
+    /* Quick links - 2 column layout */
+    .quick-links-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
     .footer-links {
       list-style: none;
       padding-left: 0;
+      margin: 0;
     }
-
     .footer-links li {
       margin-bottom: 0.75rem;
     }
-
     .footer-links a {
       color: #495057;
       text-decoration: none;
       transition: all 0.3s;
-      display: inline-block;
     }
-
     .footer-links a:hover {
       color: #2874f0;
-      transform: translateX(5px);
+      padding-left: 5px;
     }
 
+    /* Contact section */
     .footer-contact p {
       margin-bottom: 1rem;
     }
-
     .btn-email {
       transition: all 0.3s;
     }
-
     .btn-email:hover {
-      background-color:black;
+      background-color: black;
       color: white !important;
     }
 
+    /* Payment methods */
+    .payment-methods {
+      margin-top: 1.5rem;
+    }
+    .payment-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+    .payment-img {
+      height: 25px;
+      width: auto;
+      object-fit: contain;
+      transition: all 0.3s;
+    }
+  
+    /* Footer bottom */
     .footer-bottom {
       background-color: #2874f0;
       color: white;
       padding: 1rem 0;
     }
 
-    /* Payment images styling - Added */
-    .payment-images-container {
-      margin-top: 1.5rem;
-    }
-    .payment-images {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
-    }
-    .payment-img {
-      height: 25px;
-      object-fit: contain;
-    }
-    .payment-heading {
-      font-size: 0.9rem;
-      color: #495057;
-      margin-bottom: 0.5rem;
-    }
-
     /* Responsive adjustments */
-    @media (max-width: 767.98px) {
-      .footer-content .col-md-6, 
-      .footer-content .col-lg-3 {
-        margin-bottom: 2rem;
+    @media (max-width: 991.98px) {
+      .quick-links-container {
+        grid-template-columns: 1fr;
       }
-
-      .footer-heading {
-        margin-bottom: 1rem;
+    }
+    @media (max-width: 767.98px) {
+      .footer-content > .row > div {
+        margin-bottom: 2rem;
       }
     }
   </style>
@@ -161,79 +150,87 @@
   {% endif %}
 
   <main class="flex-fill">
-    <div class="container-fluid px-0">
-      <!-- Carousel removed -->
-    </div>
-
     <div class="container py-4">
       {% block content %}
-      <!-- Page-specific content will go here -->
+      <!-- Page content goes here -->
       {% endblock %}
     </div>
   </main>
 
-  <footer class="bg-light text-center text-lg-start mt-auto">
+  <footer class="mt-auto">
     <div class="container footer-content">
       <div class="row">
+        <!-- Company Info -->
         <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-          <h5 class="text-uppercase footer-heading">Flippkart</h5>
-          <p class="mb-4">
-            Thank you for visiting. Follow us on social media or contact us for more information.
-          </p>
-          <div class="social-icons mb-3">
-            <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="me-3"><i class="bi bi-twitter-x"></i></a>
-            <a href="#" class="me-3"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
-            <a href="#" class="me-3"><i class="bi bi-youtube"></i></a>
-            <a href="#" class="me-3"><i class="bi bi-pinterest"></i></a>
+          <h5 class="footer-heading">Flippkart</h5>
+          <div class="welcome-text">
+            <p>Thank you for choosing Flippkart for your shopping needs.</p>
+            <p>We're dedicated to providing quality products and excellent customer service.</p>
+            <p>Connect with us on social media for the latest updates and offers.</p>
           </div>
           
-          <!-- Payment images placed below social icons -->
-          <div class="payment-images-container">
-            <p class="payment-heading">We Accept:</p>
+          <div class="social-icons mb-4">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter-x"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
+          </div>
+          
+          <div class="payment-methods">
+            <p class="text-muted small mb-2">We Accept:</p>
             <div class="payment-images">
               <img src="{% static 'images/upi.jpeg' %}" alt="UPI" class="payment-img">
               <img src="{% static 'images/mastercard.jpg' %}" alt="Mastercard" class="payment-img">
               <img src="{% static 'images/gpay.png' %}" alt="Google Pay" class="payment-img">
               <img src="{% static 'images/Paytm_Logo.png' %}" alt="Paytm" class="payment-img">
+              <img src="{% static 'images/Maestro-Logo.png' %}" alt="Maestro" class="payment-img">
+              <img src="{% static 'images/rupay.png' %}" alt="RuPay" class="payment-img">
+              
             </div>
           </div>
         </div>
 
+        <!-- Quick Links -->
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase footer-heading">Quick Links</h5>
-          <ul class="footer-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/abouttt/">About Us</a></li>
-            <li><a href="/contact/">Contact Us</a></li>
-            <li><a href="/categories/">Categories</a></li>
-            <li><a href="/term-and-conditions/">Terms & Conditions</a></li>
-            <li><a href="/privacy-policy/">Privacy Policy</a></li>
-            <li><a href="/our_vision">Our Vision</a></li>
-            <li><a href="/our_Mission">Our Mission</a></li>
-            <li><a href="/return-policy/">Return Policy</a></li>
-          </ul>
+          <h5 class="footer-heading">Quick Links</h5>
+          <div class="quick-links-container">
+            <ul class="footer-links">
+              <li><a href="/">Home</a></li>
+              <li><a href="/abouttt/">About Us</a></li>
+              <li><a href="/contact/">Contact Us</a></li>
+              <li><a href="/categories/">Categories</a></li>
+            </ul>
+            <ul class="footer-links">
+              <li><a href="/term-and-conditions/">Terms & Conditions</a></li>
+              <li><a href="/privacy-policy/">Privacy Policy</a></li>
+              <li><a href="/return-policy/">Return Policy</a></li>
+              <li><a href="/our_vision">Our Vision</a></li>
+            </ul>
+          </div>
         </div>
 
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0 footer-contact">
-          <h5 class="text-uppercase footer-heading">Contact</h5>
-          <p><i class="bi bi-envelope me-2"></i>support@example.com</p>
+        <!-- Contact Info -->
+        <div class="col-lg-3 col-md-6 footer-contact">
+          <h5 class="footer-heading">Contact Us</h5>
+          <p><i class="bi bi-envelope me-2"></i>support@flippkart.com</p>
           <p><i class="bi bi-telephone me-2"></i>+91 12345 67890</p>
           <div class="mt-3">
-            <a href="#" class="btn btn-outline-dark btn-sm me-2 btn-email">
-              <i class="bi bi-envelope"></i> Email Us
+            <a href="#" class="btn btn-outline-dark btn-sm me-2">
+              <i class="bi bi-envelope"></i> Email
             </a>
             <a href="#" class="btn btn-outline-dark btn-sm">
-              <i class="bi bi-telephone"></i> Call Us
+              <i class="bi bi-telephone"></i> Call
             </a>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="text-center p-3 footer-bottom">
-      © {{ year|default:"2025" }} Flippkart. All rights reserved.
+    <div class="footer-bottom text-center">
+      <div class="container">
+        © {{ year|default:"2025" }} Flippkart. All Rights Reserved.
+      </div>
     </div>
   </footer>
 
