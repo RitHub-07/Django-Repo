@@ -18,18 +18,41 @@
       flex: 1;
     }
 
-    /* Social icons - single color */
+    /* Enhanced Social Icons */
     .social-icons {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      margin: 1.5rem 0;
     }
     .social-icons a {
-      color: #6c757d;
-      transition: all 0.3s;
-      margin-right: 15px;
+      color: #000;
+      margin-right: 20px;
+      display: inline-block;
+      position: relative;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .social-icons a:last-child {
+      margin-right: 0;
     }
     .social-icons a:hover {
-      color: #2874f0 !important;
-      transform: translateY(-3px);
+      color: #2874f0;
+      transform: translateY(-5px) scale(1.1);
+      text-shadow: 0 5px 15px rgba(40, 116, 240, 0.4);
+    }
+    .social-icons a::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .social-icons a:hover::after {
+      opacity: 1;
     }
 
     /* Footer styling */
@@ -58,13 +81,14 @@
       background-color: #2874f0;
     }
 
-    /* Improved welcome text */
+    /* Welcome text */
     .welcome-text p {
       margin-bottom: 0.8rem;
       line-height: 1.6;
+      color: #495057;
     }
 
-    /* Quick links - 2 column layout */
+    /* Quick links */
     .quick-links-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -88,9 +112,12 @@
       padding-left: 5px;
     }
 
-    /* Contact section */
+    /* Contact section with proper spacing */
+    .footer-contact {
+      padding-left: 2rem;
+    }
     .footer-contact p {
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
     .btn-email {
       transition: all 0.3s;
@@ -115,13 +142,17 @@
       width: auto;
       object-fit: contain;
       transition: all 0.3s;
+      {% comment %} filter: grayscale(100%); {% endcomment %}
     }
-  
+    {% comment %} .payment-img:hover {
+      filter: grayscale(0%);
+    } {% endcomment %}
+
     /* Footer bottom */
     .footer-bottom {
       background-color: #2874f0;
       color: white;
-      padding: 1rem 0;
+      padding: 1.2rem 0;
     }
 
     /* Responsive adjustments */
@@ -129,10 +160,21 @@
       .quick-links-container {
         grid-template-columns: 1fr;
       }
+      .footer-contact {
+        padding-left: 0;
+        margin-top: 2rem;
+      }
     }
     @media (max-width: 767.98px) {
       .footer-content > .row > div {
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
+      }
+      .social-icons {
+        font-size: 1.6rem;
+        margin: 1.2rem 0;
+      }
+      .social-icons a {
+        margin-right: 15px;
       }
     }
   </style>
@@ -164,8 +206,10 @@
         <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
           <h5 class="footer-heading">Flippkart</h5>
           <div class="welcome-text">
-            <p>Thank you for choosing Flippkart for your shopping needs.</p>
-            <p>We're dedicated to providing quality products and excellent customer service.</p>
+            <p>Thank you for choosing Flippkart </p>
+            <p>for your shopping needs.</p>
+            <p>We're dedicated to providing </p>
+            <p>quality products and excellent customer service.</p>
             <p>Connect with us on social media for the latest updates and offers.</p>
           </div>
           
@@ -186,7 +230,6 @@
               <img src="{% static 'images/Paytm_Logo.png' %}" alt="Paytm" class="payment-img">
               <img src="{% static 'images/Maestro-Logo.png' %}" alt="Maestro" class="payment-img">
               <img src="{% static 'images/rupay.png' %}" alt="RuPay" class="payment-img">
-              
             </div>
           </div>
         </div>
@@ -215,7 +258,7 @@
           <h5 class="footer-heading">Contact Us</h5>
           <p><i class="bi bi-envelope me-2"></i>support@flippkart.com</p>
           <p><i class="bi bi-telephone me-2"></i>+91 12345 67890</p>
-          <div class="mt-3">
+          <div class="mt-4">
             <a href="#" class="btn btn-outline-dark btn-sm me-2">
               <i class="bi bi-envelope"></i> Email
             </a>
