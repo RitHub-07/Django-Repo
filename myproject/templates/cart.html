@@ -28,7 +28,7 @@
         <td>{{ item.product.product_name }}</td>
         <td>₹{{ item.product.selling_price }}</td>
         <td>{{ item.quantity }}</td>
-        <td>₹{{ item.subtotal }}</td>
+        <td class="subtotal">₹{{ item.subtotal }}</td>
         <td>
           <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-sm btn-danger">Remove</a>
         </td>
@@ -48,16 +48,42 @@
     </a>
   </div>
 
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <h5>Grand Total: ₹{{ grand_total }}</h5>
+  <!-- Grand Total moved to right side -->
+  <div class="row mt-4 justify-content-end">
+    <div class="col-md-4 text-end">
+      <h5><strong>Grand Total: ₹<span id="grandTotal">{{ grand_total }}</span></strong></h5>
     </div>
-    <div class="col-md-6 text-end">
-      <form method="POST" action="{% url 'categories_view' %}">
+  </div>
+
+  <!-- Place Order Button -->
+  <div class="row mt-2 justify-content-end">
+    <div class="col-md-4 text-end">
+      <form method="POST" action="{% url 'checkout' %}">
         {% csrf_token %}
-        <a href="{% url 'checkout' %}" class="btn btn-success">Place Order </a>
+        <button type="submit" class="btn btn-success">Place Order</button>
       </form>
     </div>
   </div>
 </div>
+
+<!-- JavaScript to Update Grand Total Dynamically -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      let grandTotalElement = document.getElementById("grandTotal");
+
+      function updateGrandTotal() {
+          let subtotalElements = document.querySelectorAll(".subtotal");
+          let total = 0;
+
+          subtotalElements.forEach(item => {
+              total += parseFloat(item.innerText.replace("₹", ""));
+          });
+
+          grandTotalElement.innerText = total.toFixed(2);
+      }
+
+      updateGrandTotal();
+  });
+</script>
+
 {% endblock %}
