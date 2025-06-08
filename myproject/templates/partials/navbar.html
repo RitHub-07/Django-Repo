@@ -1,107 +1,125 @@
 <style>
-  /* Custom Navbar Styling */
+  /* Custom Navbar Styling with Gradient and Modern Effects */
   .navbar {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem 2rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   }
-  
+
+  .navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    padding: 0.3rem 2rem;
+  }
+
   .navbar-brand {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #2874f0 !important;
+    font-weight: 800;
+    font-size: 1.8rem;
+    background: linear-gradient(45deg, #2874f0, #1a5bb9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     letter-spacing: -0.5px;
+    position: relative;
+    padding-right: 15px;
   }
-  
-  .navbar-brand:hover {
-    color: #1a5bb9 !important;
-  }
-  
+
   .nav-link {
-    font-weight: 500;
-    color: #333 !important;
-    padding: 0.5rem 1rem !important;
-    transition: all 0.2s ease;
-    border-radius: 4px;
+    font-weight: 600;
+    color: #4a5568 !important;
+    padding: 0.6rem 1.2rem !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
   }
-  
+
+  .nav-link::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #2874f0;
+    transition: all 0.3s ease;
+  }
+
   .nav-link:hover {
     color: #2874f0 !important;
-    background-color: rgba(40, 116, 240, 0.1);
+    background-color: rgba(40, 116, 240, 0.05);
+    transform: translateY(-2px);
   }
-  
+
+  .nav-link:hover::before {
+    width: 60%;
+  }
+
   .nav-link.active {
     color: #2874f0 !important;
-    background-color: rgba(40, 116, 240, 0.1);
+    background-color: rgba(40, 116, 240, 0.08);
   }
-  
+
+  .nav-link.active::before {
+    width: 60%;
+  }
+
+  /* Cart Icon Styling */
   .bi-cart4 {
     position: relative;
+    transition: transform 0.3s ease;
   }
-  
-  .bi-cart4::after {
-    content: attr(data-count);
-    position: absolute;
-    top: -8px;
-    right: -12px;
-    background: #ff6161;
-    color: white;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    font-size: 0.7rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+  .bi-cart4:hover {
+    transform: scale(1.1);
   }
-  
-  /* Wishlist icon styling */
+
+  /* Wishlist Icon Styling */
   .bi-heart-fill {
-    color: #ff4081; /* Pink color */
+    color: #ff4081;
     font-size: 1.2rem;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(255, 64, 129, 0.3);
   }
-  
+
+  .bi-heart-fill:hover {
+    transform: scale(1.2);
+    color: #ff1a6b;
+  }
+
+  /* Dropdown Menu Styling */
   .dropdown-menu {
     border: none;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
     padding: 0.5rem 0;
+    margin-top: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.2s ease-out;
   }
-  
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .dropdown-item {
-    padding: 0.5rem 1.5rem;
+    padding: 0.6rem 1.5rem;
     transition: all 0.2s ease;
+    font-weight: 500;
+    color: #4a5568;
+    position: relative;
   }
-  
+
   .dropdown-item:hover {
-    background-color: #f5f7fa;
+    background-color: #f8f9fa;
     color: #2874f0;
-  }
-  
-  .dropdown-divider {
-    margin: 0.3rem 0;
-  }
-  
-  .navbar-toggler {
-    border: none;
-    padding: 0.5rem;
-  }
-  
-  .navbar-toggler:focus {
-    box-shadow: none;
-  }
-  
-  @media (max-width: 991.98px) {
-    .navbar-collapse {
-      padding: 1rem 0;
-    }
-    
-    .nav-item {
-      margin-bottom: 0.5rem;
-    }
-    
-    .navbar-nav {
-      gap: 0.5rem !important;
-    }
+    padding-left: 1.8rem;
   }
 </style>
 
@@ -134,34 +152,33 @@
         {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="/wishlist">
-            <i class="bi bi-heart-fill"></i> Wishlist
+            <i class="bi bi-heart-fill"></i> <span class="d-none d-lg-inline">Wishlist</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/cart">
-            <i class="bi bi-cart4" style="font-size: 1.2rem;" data-count="0"></i> Cart
+            <i class="bi bi-cart4" style="font-size: 1.2rem;" data-count="0"></i> <span class="d-none d-lg-inline">Cart</span>
           </a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown"
              role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Profile
+            <span>Profile</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="/my_profile">My Profile</a></li>
             <li><a class="dropdown-item" href="/my-orders/">My Orders</a></li>
             <li><a class="dropdown-item" href="/saved_address">Saved Address</a></li>
             <li><a class="dropdown-item" href="/wishlist">My Wishlist</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
           </ul>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link btn btn-outline-primary" href="/login">Login</a>
+          <a class="nav-link btn btn-outline-primary px-3" href="/login">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link btn btn-primary text-white" href="/register">Register</a>
+          <a class="nav-link btn btn-primary text-white px-3" href="/register">Register</a>
         </li>
         {% endif %}
       </ul>
