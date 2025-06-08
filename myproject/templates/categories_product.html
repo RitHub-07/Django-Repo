@@ -1,77 +1,294 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}
-  {{ category_variable.category_name }} Products
-{% endblock %}
-
 {% block content %}
-<br><br>
-<div class="container mt-4">
-  <h3 class="mb-4 text-center">Products in "{{ category_variable.category_name }}"</h3>
-  <div class="row">
+<div class="colorful-container">
+  <div class="colorful-header">
+    <h2>Explore <span>{{ category_variable.category_name }}</span></h2>
+    <div class="colorful-divider"></div>
+  </div>
 
+  <div class="colorful-grid">
     {% for product in products_variable %}
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 shadow">
-
-        <!-- Product Image -->
-        <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.product_name }}" style="height: 250px; object-fit: cover;"
-         onmouseover="this.style.transform='scale(1.05)'; this.style.filter='brightness(0.85)';" 
-         onmouseout="this.style.transform='scale(1)'; this.style.filter='brightness(1)';">
-
-        <!-- Product Info -->
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title" style="color:rgb(119, 96, 57); font-family: 'Arial Black', Gadget, sans-serif;">
-            {{ product.product_name }}
-          </h5>
-
-          <p class="card-text">{{ product.product_description }}</p>
-
-          <p class="card-text mb-2" style="color: #555;">
-            <strong>Original Price:</strong> <del>₹{{ product.original_price|floatformat:2 }}</del><br>
-            <strong>Selling Price:</strong> ₹{{ product.selling_price|floatformat:2 }}
-          </p>
-
-          <!-- Quantity selector inside form -->
-          <form method="post" action="{% url 'add_to_cart' product.id %}" class="mt-auto">
-            {% csrf_token %}
-            <div class="d-flex align-items-center mb-3">
-              <button type="button" class="btn btn-outline-secondary btn-sm me-2 qty-btn" data-action="decrease">-</button>
-              <input type="text" name="quantity" class="form-control text-center qty-input" value="1" style="width: 50px;" readonly>
-              <button type="button" class="btn btn-outline-secondary btn-sm ms-2 qty-btn" data-action="increase">+</button>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Add to Cart</button>
-          </form>
+    <div class="colorful-card">
+      <div class="colorful-img-box">
+        <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+        {% if product.original_price > product.selling_price %}
+        <div class="colorful-sale-tag">Off</div>
+        {% endif %}
+      </div>
+      
+      <div class="colorful-content">
+        <h3>{{ product.product_name }}</h3>
+        <p class="colorful-desc">{{ product.product_description|truncatechars:70 }}</p>
+        
+        <div class="colorful-pricing">
+          {% if product.original_price > product.selling_price %}
+          <span class="colorful-old">₹{{ product.original_price|floatformat:2 }}</span>
+          {% endif %}
+          <span class="colorful-new">₹{{ product.selling_price|floatformat:2 }}</span>
         </div>
+
+        <form method="post" action="{% url 'add_to_cart' product.id %}">
+          {% csrf_token %}
+          <div class="colorful-qty-selector">
+            <button type="button" class="colorful-qty-btn dec">-</button>
+            <input type="text" name="quantity" value="1" readonly>
+            <button type="button" class="colorful-qty-btn inc">+</button>
+          </div>
+          <button type="submit" class="colorful-cart-btn">
+            <span>Add to Cart</span>
+            <i class="fas fa-plus"></i>
+          </button>
+        </form>
       </div>
     </div>
-    
     {% empty %}
-      <p class="text-center">No products available in this category.</p>
+    <div class="colorful-empty">
+      <div class="colorful-empty-icon">
+        <i class="fas fa-paint-brush"></i>
+      </div>
+      <h3>No products found</h3>
+      <p>This collection is currently empty</p>
+    </div>
     {% endfor %}
-
   </div>
 </div>
 
-<!-- JS to enable + and - buttons -->
+<style>
+.colorful-container {
+  padding: 2rem 1rem;
+  background: #f8f9fa;
+}
+
+.colorful-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.colorful-header h2 {
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.colorful-header h2 span {
+  color: #ff6b6b;
+}
+
+.colorful-divider {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, #ff6b6b, #4ecdc4);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.colorful-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.colorful-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.colorful-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.colorful-img-box {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.colorful-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.colorful-card:hover .colorful-img-box img {
+  transform: scale(1.1);
+}
+
+.colorful-sale-tag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #ff6b6b;
+  color: white;
+  padding: 0.25rem 1rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 20px;
+  transform: rotate(15deg);
+}
+
+.colorful-content {
+  padding: 1.5rem;
+}
+
+.colorful-content h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.colorful-desc {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.colorful-pricing {
+  margin-bottom: 1.5rem;
+}
+
+.colorful-old {
+  text-decoration: line-through;
+  color: #999;
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.colorful-new {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #4ecdc4;
+}
+
+.colorful-qty-selector {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border: 2px solid #eee;
+  border-radius: 30px;
+  padding: 0.25rem;
+}
+
+.colorful-qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f1f1f1;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.colorful-qty-btn:hover {
+  background: #e1e1e1;
+}
+
+.colorful-qty-btn.inc {
+  color: #4ecdc4;
+}
+
+.colorful-qty-btn.dec {
+  color: #ff6b6b;
+}
+
+.colorful-qty-selector input {
+  width: 40px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-weight: 500;
+}
+
+.colorful-cart-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.colorful-cart-btn:hover {
+  background: linear-gradient(to right, #ff5252, #ff7676);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(255, 107, 107, 0.3);
+}
+
+.colorful-cart-btn i {
+  transition: transform 0.3s ease;
+}
+
+.colorful-cart-btn:hover i {
+  transform: rotate(90deg);
+}
+
+.colorful-empty {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.colorful-empty-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: white;
+  font-size: 2rem;
+}
+
+.colorful-empty h3 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.colorful-empty p {
+  color: #666;
+}
+</style>
+
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const qtyButtons = document.querySelectorAll('.qty-btn');
-
-    qtyButtons.forEach(button => {
-      button.addEventListener('click', function () {
-        const input = this.parentElement.querySelector('.qty-input');
-        let value = parseInt(input.value);
-
-        if (this.dataset.action === 'increase') {
-          input.value = value + 1;
-        } else if (this.dataset.action === 'decrease' && value > 1) {
-          input.value = value - 1;
-        }
-      });
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.colorful-qty-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const input = this.parentElement.querySelector('input');
+      let value = parseInt(input.value);
+      
+      if (this.classList.contains('dec') && value > 1) {
+        input.value = value - 1;
+      } else if (this.classList.contains('inc')) {
+        input.value = value + 1;
+      }
     });
   });
+});
 </script>
 {% endblock %}
