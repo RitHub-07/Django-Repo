@@ -34,11 +34,7 @@
           <div class="colorful-qty-selector">
             <button type="button" class="colorful-qty-btn dec">-</button>
             <input type="text" name="quantity" value="1" readonly>
-            <button type="button" class="colorful-qty-btn inc">+</button>  <!-- Wishlist Icon Button -->
-            {% comment %} <form method="post" action="{% url 'add_to_wishlist' product.id %}"> {% endcomment %}
-              {% csrf_token %}
-              <button type="submit" class="colorful-wishlist-icon">
-                <i class="bi bi-heart"></i>
+            <button type="button" class="colorful-qty-btn inc">+</button>  
           </div>
           <button type="submit" class="colorful-cart-btn">
             <span>Add to Cart</span>
@@ -46,6 +42,12 @@
            
               </button>
             </form>
+             <form method="post" action="{% url 'add_to_wishlist' product.id %}" class="colorful-wishlist-form">
+            {% csrf_token %}
+            <button type="submit" class="colorful-wishlist-btn" title="Add to Wishlist">
+              <i class="bi bi-heart"></i>
+            </button>
+          </form>
           </div>
         </form>
       </div>

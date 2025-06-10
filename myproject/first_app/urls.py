@@ -41,5 +41,8 @@ urlpatterns = [
 
   path('return-policy/', return_policy, name='return_policy'),
 
-  path('wishlist/', wishlist_view, name='wish_list'),
+
+  path('wishlist/', wishlist_view, name='wishlist'),
+  path('add-to-wishlist/<int:product_id>/', add_to_wishlist, name='add_to_wishlist'),
+  path('remove-wishlist-item/<int:item_id>/', remove_wishlist_item, name='remove_wishlist_item'),
 ]

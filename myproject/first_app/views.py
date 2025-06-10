@@ -330,5 +330,43 @@ def checkout_view(request):
 def return_policy(request):
     return render(request, 'return_policy.html')
 
+
 def wishlist_view(request):
-    return render(request, 'wish_list.html')
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    wishlist_items = wishlist.items.select_related('product')
+    
+    context = {
+        'wishlist_items': wishlist_items,
+        'wishlist': wishlist,
+        }
+
+    return render(request, 'wish_list.html', context)
+
+
+def add_to_wishlist(request,product_id):
+    product = get_object_or_404(Category_Products, id = product_id)
+    quantity = int(request.POST.get('quantity', 1))
+
+    
+    # get or create cart for user 
+    wishlist , created = Wishlist.objects.get_or_create(user=request.user)
+
+    # get or create CartItem 
+
+    wishlistItem, created = WishlistItem.objects.get_or_create(product=product, wishlist=wishlist)
+
+
+    wishlistItem.save()
+
+    messages.success(request, f'{product.product_name} added to wishlist successfully.')
+    return redirect('wishlist')
+
+
+
+
+def remove_wishlist_item(request, item_id):
+    wishlist_item = get_object_or_404(WishlistItem, id=item_id, cart__user=request.user)
+    wishlist_item.delete()
+
+    messages.success(request, 'Item removed from wishlist successfully.')
+    return redirect('wishlist')

@@ -9,5 +9,7 @@ admin.site.register(Category_Products)
 
 admin.site.register(Cart)
 admin.site.register(CartItem)
+admin.site.register(Wishlist)
+admin.site.register(WishlistItem)
 
 # this file is useful for admin panel 

@@ -61,4 +61,24 @@ class CartItem(models.Model):
       return self.product.selling_price * self.quantity
 
 
-    
+
+
+class Wishlist(models.Model):
+  user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='wishlists')
+  created_at = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return f"Cart {self.id} for {self.user.username}"
+
+
+class WishlistItem(models.Model):
+  wishlist = models.ForeignKey(Wishlist, on_delete = models.CASCADE, related_name = 'items')
+  product = models.ForeignKey(Category_Products, on_delete = models.CASCADE, related_name = 'wishlist_items')
+  added_at = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return self.product.product_name
+  
+
+
+
