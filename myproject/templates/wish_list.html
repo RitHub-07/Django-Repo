@@ -14,8 +14,8 @@
           <thead class="table-light">
             <tr>
               <th scope="col">Product</th>
-              <th scope="col">Original Price</th>
-              <th scope="col">Stock Status</th>
+              <th scope="col">Price</th>
+              <th scope="col">Status</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -24,24 +24,24 @@
             <tr>
               <td>
                 <div class="d-flex align-items-center">
-                  {% if item.product.image %}
-                  <img src="{{ item.product.image.url }}" alt="{{ item.product.product_name }}"
+                  {% if item.product.product_image %}
+                  <img src="{{ item.product.product_image.url }}" alt="{{ item.product.product_name }}"
                        class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: contain;">
                   {% else %}
-                  <img src="{% static 'images/default.png' %}" alt="No image"
-                       class="img-thumbnail me-3" style="width: 80px; height: 80px;">
+                  <img src="{% static 'images/default-product.png' %}" alt="No image available"
+                       class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: contain;">
                   {% endif %}
                   <div>
                     <h6 class="mb-1">{{ item.product.product_name }}</h6>
-                    <p class="text-muted mb-0">{{ item.product.short_description }}</p>
+                    <p class="text-muted mb-0">{{ item.product.short_description|truncatechars:50 }}</p>
                   </div>
                 </div>
               </td>
               <td>
-                <span class="fw-bold">₹{{ item.product.selling_price }}</span>
+                <span class="fw-bold text-primary">₹{{ item.product.selling_price }}</span>
               </td>
               <td>
-                {% if item.product.in_stock %}
+                {% if item.product.quantity > 0 %}
                 <span class="badge bg-success">In Stock</span>
                 {% else %}
                 <span class="badge bg-danger">Out of Stock</span>
@@ -49,6 +49,7 @@
               </td>
               <td>
                 <div class="d-flex gap-2">
+                  {% if item.product.quantity > 0 %}
                   <form action="{% url 'add_to_cart' item.product.id %}" method="post" class="d-inline">
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="1">
@@ -56,6 +57,7 @@
                       <i class="bi bi-cart-plus"></i> Add to Cart
                     </button>
                   </form>
+                  {% endif %}
                   <form action="{% url 'remove_wishlist_item' item.id %}" method="post" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-danger btn-sm">
@@ -70,20 +72,50 @@
         </table>
       </div>
 
-      <div class="text-end mt-4">
+      <div class="d-flex justify-content-between mt-4">
         <a href="/categories/" class="btn btn-outline-primary">
           <i class="bi bi-plus-circle"></i> Add More Items
         </a>
       </div>
       {% else %}
       <div class="text-center py-5">
-        <i class="bi bi-heart-fill" style="font-size: 3rem; color: #ff4081;"></i>
+        <div class="empty-wishlist-icon mb-4">
+          <i class="bi bi-heart" style="font-size: 4rem; color: #ff4081;"></i>
+        </div>
         <h4 class="my-3">Your wishlist is empty</h4>
-        <p class="text-muted">You haven't added any products to your wishlist yet</p>
-        <a href="/categories/" class="btn btn-primary mt-3">Continue Shopping</a>
+        <p class="text-muted">Save your favorite items here to keep track of them</p>
+        <a href="/categories/" class="btn btn-primary mt-3 px-4">
+          <i class="bi bi-shop"></i> Start Shopping
+        </a>
       </div>
       {% endif %}
     </div>
   </div>
 </div>
+
+<style>
+  .empty-wishlist-icon {
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  .table th {
+    white-space: nowrap;
+  }
+  
+  .table img {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+  
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+</style>
 {% endblock %}

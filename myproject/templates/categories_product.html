@@ -29,30 +29,31 @@
           <span class="colorful-new">₹{{ product.selling_price|floatformat:2 }}</span>
         </div>
 
-        <form method="post" action="{% url 'add_to_cart' product.id %}">
-          {% csrf_token %}
-          <div class="colorful-qty-selector">
-            <button type="button" class="colorful-qty-btn dec">-</button>
-            <input type="text" name="quantity" value="1" readonly>
-            <button type="button" class="colorful-qty-btn inc">+</button>  
-          </div>
-          <button type="submit" class="colorful-cart-btn">
-            <span>Add to Cart</span>
-            <i class="fas fa-plus"></i>
-           
+        <div class="colorful-action-container">
+          <div class="colorful-qty-selector-wrapper">
+            <div class="colorful-qty-selector">
+              <button type="button" class="colorful-qty-btn dec">-</button>
+              <input type="text" name="quantity" value="1" readonly>
+              <button type="button" class="colorful-qty-btn inc">+</button>  
+            </div>
+            <form method="post" action="{% url 'add_to_wishlist' product.id %}" class="colorful-wishlist-form">
+              {% csrf_token %}
+              <button type="submit" class="colorful-wishlist-btn" title="Add to Wishlist">
+                <i class="bi bi-heart"></i>
               </button>
             </form>
-             <form method="post" action="{% url 'add_to_wishlist' product.id %}" class="colorful-wishlist-form">
+          </div>
+          <form method="post" action="{% url 'add_to_cart' product.id %}">
             {% csrf_token %}
-            <button type="submit" class="colorful-wishlist-btn" title="Add to Wishlist">
-              <i class="bi bi-heart"></i>
+            <input type="hidden" name="quantity" value="1" class="qty-input">
+            <button type="submit" class="colorful-cart-btn">
+              <span>Add to Cart</span>
+              <i class="fas fa-plus"></i>
             </button>
           </form>
-          </div>
-        </form>
+        </div>
       </div>
-      
-    
+    </div>
     {% empty %}
     <div class="colorful-empty">
       <div class="colorful-empty-icon">
@@ -67,24 +68,28 @@
 
 <style>
   /* Styling for wishlist icon */
-.colorful-qty-container {
+.colorful-qty-selector-wrapper {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 1rem;
 }
 
-.colorful-wishlist-icon {
+.colorful-wishlist-btn {
   background: transparent;
   border: none;
-  font-size: 1.5rem;
-  color: #ff6b6b;
+  font-size: 1.2rem;
+  color: rgb(255, 107, 107);
   cursor: pointer;
   transition: transform 0.3s ease;
+  padding: 5px;
+  border-radius: 50%;
 }
 
-.colorful-wishlist-icon:hover {
+.colorful-wishlist-btn:hover {
   transform: scale(1.2);
 }
+
 .colorful-container {
   padding: 2rem 1rem;
   background: #f8f9fa;
@@ -203,10 +208,10 @@
 .colorful-qty-selector {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
   border: 2px solid #eee;
   border-radius: 30px;
   padding: 0.25rem;
+  flex-grow: 1;
 }
 
 .colorful-qty-btn {
@@ -306,9 +311,12 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Quantity selector functionality
   document.querySelectorAll('.colorful-qty-btn').forEach(button => {
     button.addEventListener('click', function() {
-      const input = this.parentElement.querySelector('input');
+      const wrapper = this.closest('.colorful-qty-selector-wrapper');
+      const input = wrapper.querySelector('input[name="quantity"]');
+      const cartFormInput = wrapper.closest('.colorful-action-container').querySelector('.qty-input');
       let value = parseInt(input.value);
       
       if (this.classList.contains('dec') && value > 1) {
@@ -316,6 +324,9 @@ document.addEventListener('DOMContentLoaded', function() {
       } else if (this.classList.contains('inc')) {
         input.value = value + 1;
       }
+      
+      // Update the hidden input in the cart form
+      cartFormInput.value = input.value;
     });
   });
 });
