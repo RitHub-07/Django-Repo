@@ -1,0 +1,99 @@
+1. pip install django
+
+2. django-admin startproject "PROJECT_NAME"
+
+3. cd PROJECT_NAME
+
+4. python manage.py startapp "APP_NAME"
+
+5. python manage.py runserver
+
+6.create a urls.py in your app
+
+7. edit PROJECT_NAME/urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('APP_NAME.urls')),
+]
+
+8. in settings.py => a. import os
+                     b. add 'app name' to INSTALLED_APPS
+                     c. edit TEMPLATES => 'DIRS': [os.path.join(BASE_DIR, 'templates')],
+                     => STATICFILES_DIRS= [os.path.join(BASE_DIR, 'statics')], for image upload through static folder
+
+9. install pip pyscopg2-binary : for connect postgresql database
+
+10 DATABASE: {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'first_app',
+        'USER': 'postgres'
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '5432',
+}
+
+11. for create table using models.py
+from django.db import models
+class YourModelName(models.Model):
+    field_name = models.CharField(max_length=100)
+    another_field(id,roll) = models.IntegerField()
+
+12. to show the table in admin panel
+python manage.py makemigrations
+python manage.py migrate  
+python manage.py runserver  
+
+13. to create admin panel
+python manage.py createsuperuser
+set username, email, password
+
+14. to register the model in admin.py
+
+    admin.register(YourModelName)
+
+15. in templates folder create html file
+    = base.html 
+    all files use ={% extends 'base.html' %}
+    {% block content %}
+    <h1>Welcome to My App</h1>
+    {% endblock %}    
+
+16. to upload image through admin panel
+    in models.py add:
+    from django.db import models
+    class YourModelName(models.Model):
+        image = models.ImageField(upload_to='images/')
+
+    in settings.py add:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+    in urls.py add:
+    from django.conf import settings
+    from django.conf.urls.static import static
+
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)   
+    
+  17. in views.py to render the home or any page
+def home_view(request):
+    return render(request, 'home.html')   
+
+    in urls.py give the path of page 
+    path('', home_view, name='home'),
+
+add extenstion for setup django 
+django 
+django 
+django snippet    
+
+to upload in github
+open new terminal 
+use commands => git init 
+                git add. 
+                git commit -m "__"
+                git push -u origin main
