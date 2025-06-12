@@ -43,6 +43,8 @@ class YourModelName(models.Model):
     field_name = models.CharField(max_length=100)
     another_field(id,roll) = models.IntegerField()
 
+
+
 12. to show the table in admin panel
 python manage.py makemigrations
 python manage.py migrate  
@@ -79,7 +81,7 @@ set username, email, password
 
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)   
     
-  17. in views.py to render the home or any page
+17. in views.py to render the home or any page
 def home_view(request):
     return render(request, 'home.html')   
 
