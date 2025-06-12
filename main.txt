@@ -88,14 +88,14 @@ def home_view(request):
     in urls.py give the path of page 
     path('', home_view, name='home'),
 
-add extenstion for setup django 
-django 
-django 
-django snippet    
+18. add extenstion for setup django 
+    django 
+    django 
+    django snippet    
 
-to upload in github
-open new terminal 
-use commands => git init 
-                git add. 
-                git commit -m "__"
-                git push -u origin main
+19. to upload in github
+    open new terminal 
+    use commands => git init 
+                    git add. 
+                    git commit -m "__"
+                    git push -u origin main

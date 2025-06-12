@@ -24,8 +24,15 @@ def base_view(request):
 
 
 def home_view(request):
-    categories = Category.objects.all()
-    return render(request,'home.html', {'category_variable':categories})
+    categories = Category.objects.all()[:6]  # only 6 categories
+    top_deals = Category_Products.objects.filter(is_top_deal=True)[:6]  # for banner section
+    all_products = Category_Products.objects.all()[:9]  # only 9 products below banner
+
+    return render(request, 'home.html', {
+        'category_variable': categories,
+        'top_deals': top_deals,
+        'all_products': all_products,
+    })
 
 
 
@@ -63,6 +70,7 @@ def register_page(request):
         if len(password) < 6:
             messages.error(request, 'Password must be at least 6 characters long.')
             return redirect('/register/')
+        
         
 
 

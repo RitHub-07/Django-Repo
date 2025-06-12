@@ -35,6 +35,8 @@ class Category_Products(models.Model):
   product_image = models.ImageField(upload_to="product_image")
   quantity = models.PositiveBigIntegerField(default=1)
 
+  is_top_deal = models.BooleanField(default=False)
+
   def __str__(self):
     return self.product_name
   
