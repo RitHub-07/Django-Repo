@@ -281,58 +281,108 @@ def my_orders(request):
     return render(request, 'my_orders.html')
 
 def cart_view(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to view your cart")
+        return redirect('login')  # Adjust to your login URL
+    
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = cart.items.select_related('product')
     
-    grand_total = 0
-    for item in cart_items:
-        grand_total += item.product.selling_price * item.quantity
+    grand_total = sum(item.product.selling_price * item.quantity for item in cart_items)
+    delivery_threshold = 500
+    amount_needed = max(0, delivery_threshold - grand_total)
 
     context = {
         'cart_items': cart_items,
-        'cart': cart ,
-        'grand_total': grand_total,   
-        }
-
+        'grand_total': grand_total,
+        'amount_needed': amount_needed,
+        'qualifies_for_free_delivery': grand_total >= delivery_threshold,
+    }
     return render(request, 'cart.html', context)
 
-
-def add_to_cart(request,product_id):
-    product = get_object_or_404(Category_Products, id = product_id)
+def add_to_cart(request, product_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to add items to cart")
+        return redirect('login')
+    
+    product = get_object_or_404(Category_Products, id=product_id)
     quantity = int(request.POST.get('quantity', 1))
-
+    
     if quantity > product.quantity:
-        messages.error(request, 'Insufficient stock available.')
+        messages.error(request, 'Insufficient stock available')
         return redirect('categories_product', category_id=product.category.id)
     
-    # get or create cart for user 
-    cart , created = Cart.objects.get_or_create(user=request.user)
-
-    # get or create CartItem 
-
-    cartItem, created = CartItem.objects.get_or_create(product=product, cart=cart)
-    cartItem.quantity += quantity
-
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    item, created = CartItem.objects.get_or_create(product=product, cart=cart)
+    
     if created:
-        cartItem.quantity = quantity  # First time, set it
+        item.quantity = quantity
     else:
-        cartItem.quantity += quantity  # Already exists, add to it
-
-    cartItem.save()
-
-    messages.success(request, f'{product.product_name} added to cart successfully.')
+        item.quantity += quantity
+    
+    item.save()
+    messages.success(request, f'{product.product_name} added to cart')
     return redirect('cart')
 
-
-
 def remove_cart_item(request, item_id):
-    cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
-    cart_item.delete()
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to manage cart")
+        return redirect('login')
+    
+    item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    item.delete()
+    messages.success(request, 'Item removed from cart')
+    return redirect('cart')
 
-    messages.success(request, 'Item removed from cart successfully.')
+def increase_quantity(request, item_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    
+    if item.quantity >= item.product.quantity:
+        messages.error(request, f"Only {item.product.quantity} available in stock")
+    else:
+        item.quantity += 1
+        item.save()
+    
+    return redirect('cart')
+
+def decrease_quantity(request, item_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    
+    if item.quantity > 1:
+        item.quantity -= 1
+        item.save()
+    else:
+        item.delete()
+    
+    return redirect('cart')
+
+def clear_cart(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to manage cart")
+        return redirect('login')
+    
+    cart = get_object_or_404(Cart, user=request.user)
+    cart.items.all().delete()
+    messages.success(request, "All items removed from cart")
     return redirect('cart')
 
 def checkout_view(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to checkout")
+        return redirect('login')
+    
+    cart = get_object_or_404(Cart, user=request.user)
+    if not cart.items.exists():
+        messages.error(request, "Your cart is empty")
+        return redirect('cart')
+    
+    # Add your checkout logic here
     return render(request, 'check_out.html')
 
 def return_policy(request):
