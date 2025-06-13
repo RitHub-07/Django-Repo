@@ -5,64 +5,277 @@
 
 {% block content %}
 
+<!-- Animated Hero Section -->
+<section class="contact-hero bg-gradient-primary py-5 position-relative overflow-hidden">
+  <div class="container position-relative z-index-1">
+    <div class="row align-items-center">
+      <div class="col-lg-8 mx-auto text-center">
+        <h1 class="display-4 fw-bold text-white mb-3">Contact Flippkart</h1>
+        <p class="lead text-white-80 mb-4">We're here to help you 24×7. Drop us a message or connect with our support team.</p>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="#contact-form" class="btn btn-light btn-lg px-4 rounded-pill shadow-sm">
+            <i class="bi bi-chat-left-text me-2"></i>Send Message
+          </a>
+          <a href="tel:+911800123456" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+            <i class="bi bi-telephone me-2"></i>Call Support
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="position-absolute top-0 start-0 w-100 h-100">
+    <div class="contact-hero-shapes"></div>
+  </div>
+</section>
 
+<!-- Main Contact Section -->
 <div class="container py-5">
   <div class="row g-4">
   
-    <!-- Contact Form Card -->
-    <div class="col-md-6">
-      <div class="card p-4 shadow-sm h-100">
-        <h2 class="mb-4 text-center">
-          Contact <span class="text-primary">Flippkart</span>
-        </h2>
-
-        <form method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-            <input type="text" class="form-control" placeholder="Your Name" name="contact_name" required>
+    <!-- Enhanced Contact Form Card -->
+    <div class="col-lg-6" id="contact-form">
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden h-100">
+        <div class="card-header bg-primary text-white py-3">
+          <h2 class="h4 mb-0"><i class="bi bi-envelope-plus me-2"></i>Get in Touch</h2>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          {% if messages %}
+          <div class="alert alert-success alert-dismissible fade show">
+            {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
           </div>
+          {% endif %}
 
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-            <input type="email" class="form-control" placeholder="Your Email" name="contact_email" required>
-          </div>
+          <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Full Name</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-person text-primary"></i></span>
+                <input type="text" class="form-control form-control-lg" placeholder="Enter your name" name="contact_name" required>
+              </div>
+            </div>
 
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="bi bi-chat-left-text-fill"></i></span>
-            <textarea class="form-control" rows="3" placeholder="Your Message" name ="contact_message" required></textarea>
-          </div>
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-envelope text-primary"></i></span>
+                <input type="email" class="form-control form-control-lg" placeholder="Enter your email" name="contact_email" required>
+              </div>
+            </div>
 
-          <button type="submit" class="btn btn-primary w-100">
-            <i class="bi bi-send-fill me-2"></i>Send
-          </button>
-        </form>
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Subject</label>
+              <select class="form-select form-select-lg" name="contact_subject">
+                <option selected>General Inquiry</option>
+                <option>Order Support</option>
+                <option>Returns & Refunds</option>
+                <option>Technical Support</option>
+                <option>Feedback/Suggestions</option>
+                <option>Business Inquiry</option>
+              </select>
+            </div>
 
-        <p class="text-center mt-4 text-muted">
-          <i class="bi bi-telephone-fill"></i> +91 1800 123 456 |
-          <i class="bi bi-envelope"></i> support@flippkart.com
-        </p>
-      </div>
-    </div>
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Your Message</label>
+              <textarea class="form-control form-control-lg" rows="5" placeholder="Type your message here..." name="contact_message" required></textarea>
+            </div>
 
-    <!-- Company Details & Map Card -->
-    <div class="col-md-6">
-      <div class="card p-4 shadow-sm h-100">
-        <h3 class="mb-4 text-center">Company Details</h3>
-        <p><strong>Address:</strong> 123 Flippkart St, Bengaluru, India</p>
-        <p><strong>Phone:</strong> +91 1800 123 456</p>
-        <p><strong>Email:</strong> support@flippkart.com</p>
-
-        <!-- Map embed -->
-        <div style="width: 100%; height: 300px; border-radius: 10px; overflow: hidden;">
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456789012!2d77.5945664152309!3d12.971598390858862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670f1234567%3A0x123456789abcdef!2sFlipkart%20Headquarters!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin" 
-            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3 fw-bold">
+                <i class="bi bi-send-fill me-2"></i>Send Message
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
 
+    <!-- Enhanced Contact Info Card -->
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden h-100">
+        <div class="card-header bg-primary text-white py-3">
+          <h2 class="h4 mb-0"><i class="bi bi-info-circle me-2"></i>Contact Information</h2>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          <div class="d-flex mb-4">
+            <div class="flex-shrink-0">
+              <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3">
+                <i class="bi bi-geo-alt fs-3"></i>
+              </div>
+            </div>
+            <div class="ms-4">
+              <h5 class="fw-bold">Our Headquarters</h5>
+              <p class="mb-0">Flippkart Internet Private Limited<br>
+              123 Flippkart Street, Bengaluru<br>
+              Karnataka 560034, India</p>
+            </div>
+          </div>
+
+          <div class="d-flex mb-4">
+            <div class="flex-shrink-0">
+              <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3">
+                <i class="bi bi-headset fs-3"></i>
+              </div>
+            </div>
+            <div class="ms-4">
+              <h5 class="fw-bold">Customer Support</h5>
+              <p class="mb-1"><strong>Phone:</strong> <a href="tel:+911800123456" class="text-decoration-none">+91 1800 123 456</a></p>
+              <p class="mb-0"><strong>Email:</strong> <a href="mailto:support@flippkart.com" class="text-decoration-none">support@flippkart.com</a></p>
+            </div>
+          </div>
+
+          <div class="d-flex mb-4">
+            <div class="flex-shrink-0">
+              <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3">
+                <i class="bi bi-clock fs-3"></i>
+              </div>
+            </div>
+            <div class="ms-4">
+              <h5 class="fw-bold">Business Hours</h5>
+              <p class="mb-1">Monday - Friday: 9:00 AM - 6:00 PM</p>
+              <p class="mb-0">Saturday: 10:00 AM - 4:00 PM</p>
+            </div>
+          </div>
+
+          <!-- Interactive Map -->
+          <div class="mt-4">
+            <h5 class="fw-bold mb-3">Our Location</h5>
+            <div class="ratio ratio-16x9 rounded-3 overflow-hidden border">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456789012!2d77.5945664152309!3d12.971598390858862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670f1234567%3A0x123456789abcdef!2sFlipkart%20Headquarters!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin" 
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-{% endblock %}
 
+<!-- FAQ Section with Toggle -->
+<section class="bg-light py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold">Frequently Asked Questions</h2>
+      <p class="lead text-muted">Find quick answers to common questions</p>
+    </div>
+    
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="accordion accordion-flush" id="faqAccordion">
+          <div class="accordion-item border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
+            <h3 class="accordion-header">
+              <button class="accordion-button bg-white fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne">
+                How can I track my order?
+              </button>
+            </h3>
+            <div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                <p>You can track your order by logging into your Flippkart account and visiting the "My Orders" section. Alternatively, you can use the tracking link sent to your email or contact our customer support for assistance.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed bg-white fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo">
+                What is your return policy?
+              </button>
+            </h3>
+            <div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                <p>We offer a 30-day return policy for most products. Some items may have different return windows. To initiate a return, please visit the "My Orders" section in your account and follow the return process. Refunds are processed within 3-5 business days after we receive the returned item.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed bg-white fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree">
+                How do I contact customer service?
+              </button>
+            </h3>
+            <div id="faqThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                <p>You can contact our 24/7 customer service through multiple channels:</p>
+                <ul>
+                  <li>Use the contact form on this page</li>
+                  <li>Call our toll-free number: 1800 123 456</li>
+                  <li>Live chat on our website or mobile app</li>
+                  <li>Email us at support@flippkart.com</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Live Chat Floating Button -->
+<div class="position-fixed bottom-0 end-0 mb-4 me-4 z-index-10">
+  <button class="btn btn-primary btn-lg rounded-circle shadow-lg p-3" data-bs-toggle="tooltip" data-bs-placement="left" title="Live Chat Support">
+    <i class="bi bi-chat-dots fs-3"></i>
+  </button>
+</div>
+
+<style>
+  /* Custom CSS for enhanced UI */
+  .contact-hero {
+    background: linear-gradient(135deg, #2874f0 0%, #1a5bb9 100%);
+  }
+  
+  .contact-hero-shapes {
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%231a5bb9' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .form-control-lg, .form-select-lg {
+    padding: 0.75rem 1.25rem;
+    font-size: 1.05rem;
+  }
+  
+  .accordion-button:not(.collapsed) {
+    color: #2874f0;
+    background-color: rgba(40, 116, 240, 0.05);
+  }
+  
+  .accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(40, 116, 240, 0.25);
+  }
+</style>
+
+<script>
+  // Initialize Bootstrap tooltips
+  document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+    
+    // Form validation
+    (function () {
+      'use strict'
+      var forms = document.querySelectorAll('.needs-validation')
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+  });
+</script>
+
+{% endblock %}
