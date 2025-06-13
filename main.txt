@@ -8,7 +8,7 @@
 
 5. python manage.py runserver
 
-6.create a urls.py in your app
+6. create a urls.py in your app
 
 7. edit PROJECT_NAME/urls.py
 
@@ -35,7 +35,7 @@ urlpatterns = [
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '5432',
-}
+}}
 
 11. for create table using models.py
 from django.db import models
