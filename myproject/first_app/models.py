@@ -81,6 +81,16 @@ class WishlistItem(models.Model):
   def __str__(self):
     return self.product.product_name
   
+class Employee(models.Model):
+  emp_id=models.IntegerField()
+  emp_first_name=models.CharField(max_length=100)
+  emp_last_name=models.CharField(max_length=100)
+  emp_city=models.CharField(max_length=100)
+  emp_name=models.CharField(max_length=100)
+  emp_salary=models.DecimalField(max_digits=10, decimal_places=2)
+
+  def __str__(self):
+    return f"{self.emp_first_name} {self.emp_last_name}"
 
 
 

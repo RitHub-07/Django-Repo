@@ -420,11 +420,55 @@ def add_to_wishlist(request,product_id):
     return redirect('wishlist')
 
 
-
-
 def remove_wishlist_item(request, item_id):
     wishlist_item = get_object_or_404(WishlistItem, id=item_id, wishlist__user=request.user)
     wishlist_item.delete()
 
     messages.success(request, 'Item removed from wishlist successfully.')
     return redirect('wishlist')
+
+
+def employee_list(request):
+    employees = Employee.objects.all()
+    return render(request, 'emp_list.html', {'employees': employees})
+
+
+def employee_add(request):
+    if request.method == 'POST':
+        emp_id = request.POST['emp_id']
+        emp_first_name = request.POST['emp_first_name']
+        emp_last_name = request.POST['emp_last_name']
+        emp_city = request.POST['emp_city']
+        emp_name = request.POST['emp_name']
+        emp_salary = request.POST['emp_salary']
+
+        Employee.objects.create(
+            emp_id=emp_id,
+            emp_first_name=emp_first_name,
+            emp_last_name=emp_last_name,
+            emp_city=emp_city,
+            emp_name=emp_name,
+            emp_salary=emp_salary,
+        )
+        return redirect('employee_list')
+    return render(request, 'emp_add.html')
+
+def employee_update(request, id):
+    employee = get_object_or_404(Employee, id=id)
+    if request.method == 'POST':
+        employee.emp_id = request.POST['emp_id']
+        employee.emp_first_name = request.POST['emp_first_name']
+        employee.emp_last_name = request.POST['emp_last_name']
+        employee.emp_city = request.POST['emp_city']
+        employee.emp_name = request.POST['emp_name']
+        employee.emp_salary = request.POST['emp_salary']
+        employee.save()
+        return redirect('employee_list')
+    return render(request, 'emp_update.html', {'employee': employee})
+
+def employee_delete(request, id):
+    employee = get_object_or_404(Employee, id=id)
+    if request.method == 'POST':
+        employee.delete()
+        return redirect('employee_list')
+    return redirect('employee_list')
