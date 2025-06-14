@@ -451,7 +451,7 @@ def employee_add(request):
             emp_salary=emp_salary,
         )
         return redirect('employee_list')
-    return render(request, 'emp_add.html')
+    return render(request, 'emp_form.html')
 
 def employee_update(request, id):
     employee = get_object_or_404(Employee, id=id)

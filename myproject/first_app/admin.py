@@ -11,5 +11,6 @@ admin.site.register(Cart)
 admin.site.register(CartItem)
 admin.site.register(Wishlist)
 admin.site.register(WishlistItem)
+admin.site.register(Employee)
 
 # this file is useful for admin panel 

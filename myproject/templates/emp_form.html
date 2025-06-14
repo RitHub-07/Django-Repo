@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Employee Form{% endblock %}
+
+{% block content %}
+<h2>Employee Form</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label for="emp_id">Employee ID:</label><br>
+    <input type="text" id="emp_id" name="emp_id" required><br><br>
+
+    <label for="emp_first_name">First Name:</label><br>
+    <input type="text" id="emp_first_name" name="emp_first_name" required><br><br>
+
+    <label for="emp_last_name">Last Name:</label><br>
+    <input type="text" id="emp_last_name" name="emp_last_name" required><br><br>
+
+    <label for="emp_name">Full Name:</label><br>
+    <input type="text" id="emp_name" name="emp_name" required><br><br>
+
+    <label for="emp_city">City:</label><br>
+    <input type="text" id="emp_city" name="emp_city" required><br><br>
+
+    <label for="salary">Salary:</label><br>
+    <input type="number" id="salary" name="salary" required><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
