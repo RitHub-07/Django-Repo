@@ -471,4 +471,4 @@ def employee_delete(request, id):
     if request.method == 'POST':
         employee.delete()
         return redirect('employee_list')
-    return redirect('employee_list')
+    # return redirect('employee_list')

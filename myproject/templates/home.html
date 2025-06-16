@@ -8,106 +8,113 @@
 {% block content %}
 
 <!-- Main Container -->
-<div class="container-fluid px-4 py-5" style="background: #f9f9f9;">
+<div class="main-container" style="background: linear-gradient(to bottom, #f9f9f9, #ffffff);">
 
-  <!-- Explore Categories -->
-  <div class="text-center mb-5">
-    <h2 class="display-4 fw-bold gradient-text mb-3">Explore Our Categories</h2>
-    <p class="lead text-muted">Discover premium collections tailored for you</p>
-    <div class="d-flex justify-content-center">
-      <div class="header-divider"></div>
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h1 class="hero-title">Summer Collection 2025</h1>
+      <p class="hero-subtitle">Up to 60% Off on Selected Items</p>
+      <button class="hero-btn">Shop Now</button>
     </div>
   </div>
 
-  <div class="row g-4 justify-content-center">
+  <!-- Explore Categories -->
+  <div class="section-header">
+    <h2 class="section-title">Explore Our Categories</h2>
+    <p class="section-subtitle">Discover premium collections tailored for you</p>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="categories-grid">
     {% for i in category_variable %}
-      <div class="col-lg-4 col-md-6">
-        <div class="card h-100 border-0 shadow-hover">
-          <div class="card-img-container">
-            <div class="card-img-top" style="height: 280px; background-image: url('{{ i.category_image.url }}');"></div>
-            <div class="img-overlay"></div>
-          </div>
-          <div class="card-body text-center d-flex flex-column">
-            <h3 class="card-title fw-bold mb-3">{{ i.category_name }}</h3>
-            <div class="mt-auto">
-              <a href="{% url 'categories_product' i.id %}" class="btn btn-shop-now">
-                Shop Now <i class="fas fa-arrow-right ms-2"></i>
-              </a>
-            </div>
-          </div>
+      <div class="category-card">
+        <div class="category-img" style="background-image: url('{{ i.category_image.url }}');">
+          <div class="category-overlay"></div>
+        </div>
+        <div class="category-content">
+          <h3 class="category-name">{{ i.category_name }}</h3>
+          <a href="{% url 'categories_product' i.id %}" class="category-btn">
+            Shop Now <i class="fas fa-arrow-right ms-2"></i>
+          </a>
         </div>
       </div>
     {% endfor %}
   </div>
 
-  <!-- 🔥 Top Deals Banner -->
-  <div class="mt-5 p-4 flash-sale-banner rounded-4 position-relative overflow-hidden">
-    <div class="position-absolute hot-deal-badge">
-      <span class="fw-bold">FLASH SALE</span>
-    </div>
-    <div class="row align-items-center">
-      <div class="col-lg-8">
-        <h3 class="fw-bold mb-3 display-5 text-white">🔥 Hot Deals - Up to 60% Off</h3>
-        <p class="mb-2 fs-4 text-white">Limited time offer! Ends in <span id="deal-timer" class="fw-bold">01:23:45</span></p>
+  <!-- Top Deals Banner -->
+  <div class="deals-banner">
+    <div class="deals-badge">FLASH SALE</div>
+    <div class="deals-content">
+      <div class="deals-text">
+        <h3 class="deals-title">🔥 Hot Deals - Up to 70% Off</h3>
+        <p class="deals-timer">Limited time offer! Ends in <span id="deal-timer">01:23:45</span></p>
       </div>
-      <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-        <button class="btn btn-light btn-lg fw-bold px-4 py-2 rounded-pill">Shop Now</button>
-      </div>
+      <button class="deals-btn">Shop Now</button>
     </div>
-    <div class="sale-progress-bar"></div>
+    <div class="deals-progress"></div>
+    <div class="deals-particles"></div>
   </div>
 
-  <!-- 🛒 Product Items -->
-  <div class="text-center my-5 pt-4">
-    <h2 class="display-4 fw-bold gradient-text mb-3">Trending Products</h2>
-    <p class="lead text-muted">Customers are loving these right now</p>
-    <div class="d-flex justify-content-center">
-      <div class="header-divider"></div>
-    </div>
+  <!-- Trending Products -->
+  <div class="section-header">
+    <h2 class="section-title">Trending Products</h2>
+    <p class="section-subtitle">Customers are loving these right now</p>
+    <div class="section-divider"></div>
   </div>
 
-  <div class="row g-4">
+  <div class="products-grid">
     {% for product in all_products %}
-      <div class="col-lg-4 col-md-6">
-        <div class="card h-100 border-0 product-card">
-          <div class="position-relative product-img-container">
-            <div class="card-img-top" style="height: 280px; background-image: url('{{ product.product_image.url }}');"></div>
-            {% if product.original_price > product.selling_price %}
-              <span class="discount-badge">
-                {{ product.get_discount_percentage }}% OFF
-              </span>
-            {% endif %}
-            <div class="product-actions">
-              <button class="btn btn-action rounded-circle"><i class="far fa-heart"></i></button>
-              <button class="btn btn-action rounded-circle"><i class="fas fa-eye"></i></button>
-              <button class="btn btn-action rounded-circle"><i class="fas fa-shopping-cart"></i></button>
-            </div>
+      <div class="product-card">
+        <div class="product-img-container">
+          <div class="product-img" style="background-image: url('{{ product.product_image.url }}');"></div>
+          {% if product.original_price > product.selling_price %}
+            <span class="discount-badge">
+              {{ product.get_discount_percentage }}% OFF
+            </span>
+          {% endif %}
+          <div class="product-actions">
+            <button class="action-btn" title="Add to Wishlist"><i class="far fa-heart"></i></button>
+            <button class="action-btn" title="Quick View"><i class="fas fa-eye"></i></button>
+            <button class="action-btn" title="Add to Cart"><i class="fas fa-shopping-cart"></i></button>
           </div>
-          <div class="card-body d-flex flex-column">
-            <h4 class="card-title fw-bold mb-2">{{ product.product_name }}</h4>
-            <div class="product-rating mb-3">
+        </div>
+        <div class="product-content">
+          <h4 class="product-name">{{ product.product_name }}</h4>
+          <div class="product-rating">
+            <div class="stars">
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star-half-alt"></i>
-              <span class="ms-2">(24)</span>
             </div>
-            <div class="mb-3 fs-4">
-              {% if product.original_price > product.selling_price %}
-                <span class="text-muted text-decoration-line-through">₹{{ product.original_price }}</span>
-              {% endif %}
-              <span class="text-danger fw-bold ms-2">₹{{ product.selling_price }}</span>
-            </div>
-            <div class="mt-auto">
-              <a href="{% url 'categories_product' product.category.id %}" class="btn btn-add-to-cart w-100">
-                <i class="fas fa-shopping-cart me-2"></i> View More
-              </a>
-            </div>
+            <span class="rating-count">(24)</span>
           </div>
+          <div class="product-pricing">
+            {% if product.original_price > product.selling_price %}
+              <span class="original-price">₹{{ product.original_price }}</span>
+            {% endif %}
+            <span class="sale-price">₹{{ product.selling_price }}</span>
+          </div>
+          <a href="{% url 'categories_product' product.category.id %}" class="add-to-cart-btn">
+            <i class="fas fa-shopping-cart me-2"></i> View More
+          </a>
         </div>
       </div>
     {% endfor %}
+  </div>
+
+  <!-- Newsletter Section -->
+  <div class="newsletter-section">
+    <div class="newsletter-content">
+      <h3 class="newsletter-title">Subscribe to Our Newsletter</h3>
+      <p class="newsletter-text">Get updates on special offers and new arrivals</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Your email address" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
   </div>
 
 </div>
@@ -115,9 +122,10 @@
 <script>
 // Enhanced countdown timer with fireworks effect
 document.addEventListener('DOMContentLoaded', function() {
+    // Timer functionality
     const timer = document.getElementById("deal-timer");
     let seconds = 5025;
-    const flashSaleBanner = document.querySelector('.flash-sale-banner');
+    const dealsBanner = document.querySelector('.deals-banner');
     
     function updateTimer() {
         if (seconds > 0) {
@@ -127,20 +135,40 @@ document.addEventListener('DOMContentLoaded', function() {
             const s = String(seconds % 60).padStart(2, '0');
             timer.textContent = `${h}:${m}:${s}`;
             
-            // Add pulse animation when time is running low
+            // Add urgency effects when time is running low
             if (seconds < 300) {
-                timer.classList.add('animate-pulse');
-                flashSaleBanner.style.animation = 'pulseBackground 1s infinite alternate';
-            }
-            
-            // Special effects when reaching certain milestones
-            if (seconds === 1800) {
-                createConfetti();
+                timer.classList.add('urgent');
+                dealsBanner.classList.add('urgent');
+                
+                // Create floating discount tags
+                if (seconds % 10 === 0) {
+                    createFloatingTag();
+                }
             }
         } else {
             timer.textContent = "SALE ENDED!";
-            flashSaleBanner.classList.add('sale-ended');
+            dealsBanner.classList.add('ended');
         }
+    }
+    
+    // Create floating discount tags
+    function createFloatingTag() {
+        const tag = document.createElement('div');
+        tag.className = 'floating-tag';
+        tag.textContent = `${Math.floor(Math.random() * 30) + 30}% OFF`;
+        tag.style.left = `${Math.random() * 80 + 10}%`;
+        dealsBanner.appendChild(tag);
+        
+        // Animation
+        setTimeout(() => {
+            tag.style.opacity = '0';
+            tag.style.transform = 'translateY(-50px)';
+        }, 100);
+        
+        // Remove after animation
+        setTimeout(() => {
+            tag.remove();
+        }, 2000);
     }
     
     // Initial call
@@ -161,54 +189,186 @@ document.addEventListener('DOMContentLoaded', function() {
             this.querySelector('.product-actions').style.transform = 'translateY(20px)';
         });
     });
+    
+    // Floating particles for deals banner
+    createParticles();
+    
+    function createParticles() {
+        const particlesContainer = document.querySelector('.deals-particles');
+        const particleCount = 20;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random properties
+            const size = Math.random() * 5 + 2;
+            const posX = Math.random() * 100;
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 10 + 10;
+            
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${posX}%`;
+            particle.style.animationDelay = `${delay}s`;
+            particle.style.animationDuration = `${duration}s`;
+            
+            particlesContainer.appendChild(particle);
+        }
+    }
 });
 </script>
 
 <style>
-/* Base Styles */
+/* CSS Variables */
 :root {
-  --primary-color: #2563eb;
-  --secondary-color: #10b981;
-  --accent-color: #f59e0b;
-  --dark-color: #1e293b;
-  --light-color: #f8fafc;
+  --primary: #2874f0;
+  --primary-dark: #1a5fcf;
+  --secondary: #fb641b;
+  --accent: #ff9f00;
+  --dark: #212121;
+  --light: #f9f9f9;
+  --gray: #878787;
+  --light-gray: #f1f3f6;
+  --success: #388e3c;
+  --danger: #e53935;
+  --warning: #ffb800;
 }
 
-/* Card Styles */
-.card {
-  border-radius: 16px !important;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-  background: white;
+/* Base Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--dark);
+  background-color: var(--light);
+}
+
+.main-container {
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Hero Banner */
+.hero-banner {
+  height: 500px;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+              url('https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 60px;
+}
+
+.hero-content {
+  text-align: center;
+  color: white;
+  z-index: 2;
+  animation: fadeInUp 1s ease;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.hero-btn {
+  background-color: var(--secondary);
+  color: white;
   border: none;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.shadow-hover {
+.hero-btn:hover {
+  background-color: #e55b17;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  margin: 60px 0 40px;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--gray);
+  margin-bottom: 20px;
+}
+
+.section-divider {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+/* Categories Grid */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+}
+
+.category-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
   box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  position: relative;
 }
 
-.shadow-hover:hover {
+.category-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
 
-/* Image Containers */
-.card-img-container {
-  position: relative;
-  overflow: hidden;
-}
-
-.card-img-top {
-  background-size: cover !important;
-  background-position: center !important;
+.category-img {
+  height: 250px;
+  background-size: cover;
+  background-position: center;
   transition: transform 0.5s ease;
+  position: relative;
 }
 
-.card:hover .card-img-top {
+.category-card:hover .category-img {
   transform: scale(1.05);
 }
 
-.img-overlay {
+.category-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -219,30 +379,42 @@ document.addEventListener('DOMContentLoaded', function() {
   transition: opacity 0.3s ease;
 }
 
-.card:hover .img-overlay {
+.category-card:hover .category-overlay {
   opacity: 1;
 }
 
-/* Buttons */
-.btn-shop-now {
-  background: var(--primary-color);
+.category-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.category-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--dark);
+}
+
+.category-btn {
+  display: inline-block;
+  background: var(--primary);
   color: white;
-  border: none;
   padding: 10px 25px;
   border-radius: 50px;
   font-weight: 600;
+  text-decoration: none;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
-.btn-shop-now:hover {
-  background: #1d4ed8;
+.category-btn:hover {
+  background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 5px 15px rgba(40, 116, 240, 0.3);
 }
 
-.btn-shop-now::after {
+.category-btn::after {
   content: '';
   position: absolute;
   top: 0;
@@ -253,37 +425,24 @@ document.addEventListener('DOMContentLoaded', function() {
   transition: 0.5s;
 }
 
-.btn-shop-now:hover::after {
+.category-btn:hover::after {
   left: 100%;
 }
 
-.btn-add-to-cart {
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.btn-add-to-cart:hover {
-  background:rgb(36, 166, 195);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
-}
-
-/* Flash Sale Banner */
-.flash-sale-banner {
-  background: linear-gradient(135deg, #f97316, #ef4444);
-  border: none;
-  padding: 2rem;
+/* Deals Banner */
+.deals-banner {
+  background: linear-gradient(135deg, #ff5e62, #ff9966);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 60px auto;
+  max-width: 1200px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 10px 20px rgba(255, 94, 98, 0.2);
   z-index: 1;
 }
 
-.flash-sale-banner::before {
+.deals-banner::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -296,17 +455,92 @@ document.addEventListener('DOMContentLoaded', function() {
   animation: shine 3s infinite linear;
 }
 
-.hot-deal-badge {
+.deals-badge {
+  position: absolute;
   top: 20px;
   right: 20px;
   background: rgba(0,0,0,0.3);
   backdrop-filter: blur(5px);
-  padding: 5px 15px;
+  padding: 8px 20px;
   border-radius: 50px;
   font-size: 14px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 2;
 }
 
-.sale-progress-bar {
+.deals-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 768px) {
+  .deals-content {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.deals-text {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .deals-text {
+    margin-bottom: 0;
+  }
+}
+
+.deals-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.deals-timer {
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.deals-timer span {
+  font-weight: 700;
+  background: rgba(0,0,0,0.2);
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.deals-btn {
+  background: white;
+  color: var(--primary);
+  border: none;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  white-space: nowrap;
+}
+
+.deals-btn:hover {
+  background: var(--light-gray);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.deals-progress {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -315,7 +549,7 @@ document.addEventListener('DOMContentLoaded', function() {
   width: 100%;
 }
 
-.sale-progress-bar::after {
+.deals-progress::after {
   content: '';
   position: absolute;
   top: 0;
@@ -326,25 +560,90 @@ document.addEventListener('DOMContentLoaded', function() {
   animation: progressBar 10s linear infinite;
 }
 
-/* Product Card */
+.deals-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: floatParticle linear infinite;
+}
+
+.floating-tag {
+  position: absolute;
+  background: white;
+  color: var(--secondary);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 14px;
+  z-index: 10;
+  opacity: 1;
+  transition: all 1s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+}
+
 .product-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
   position: relative;
 }
 
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
 .product-img-container {
+  height: 250px;
+  position: relative;
   overflow: hidden;
+}
+
+.product-img {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-img {
+  transform: scale(1.05);
 }
 
 .discount-badge {
   position: absolute;
   top: 15px;
   left: 0;
-  background: var(--accent-color);
+  background: var(--secondary);
   color: white;
   padding: 5px 15px;
-  font-weight: bold;
-  border-radius: 0 50px 50px 0;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 0 4px 4px 0;
   box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  z-index: 2;
 }
 
 .product-actions {
@@ -357,60 +656,176 @@ document.addEventListener('DOMContentLoaded', function() {
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.3s ease;
+  z-index: 2;
 }
 
-.btn-action {
+.product-card:hover .product-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.action-btn {
   width: 40px;
   height: 40px;
   background: white;
-  color: var(--dark-color);
+  color: var(--dark);
+  border: none;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.btn-action:hover {
-  background: var(--primary-color);
+.action-btn:hover {
+  background: var(--primary);
   color: white;
   transform: scale(1.1);
 }
 
+.product-content {
+  padding: 20px;
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
 .product-rating {
-  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-/* Text Effects */
-.gradient-text {
-  background: linear-gradient(90deg, #2563eb, #10b981);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
+.stars {
+  color: var(--accent);
+  margin-right: 5px;
 }
 
-.header-divider {
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #2563eb, #10b981);
-  border-radius: 2px;
+.rating-count {
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.product-pricing {
+  margin-bottom: 15px;
+}
+
+.original-price {
+  font-size: 0.9rem;
+  color: var(--gray);
+  text-decoration: line-through;
+  margin-right: 5px;
+}
+
+.sale-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.add-to-cart-btn {
+  display: block;
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+}
+
+.add-to-cart-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(40, 116, 240, 0.3);
+}
+
+/* Newsletter Section */
+.newsletter-section {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  padding: 60px 20px;
+  margin-top: 60px;
+}
+
+.newsletter-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+}
+
+.newsletter-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.newsletter-text {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+@media (min-width: 576px) {
+  .newsletter-form {
+    flex-direction: row;
+  }
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.newsletter-form button {
+  background: var(--secondary);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.newsletter-form button:hover {
+  background: #e55b17;
+  transform: translateY(-2px);
 }
 
 /* Animations */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-@keyframes pulseBackground {
-  0% { background: linear-gradient(135deg, #f97316, #ef4444); }
-  100% { background: linear-gradient(135deg, #ef4444, #f97316); }
-}
-
-@keyframes progressBar {
-  0% { width: 100%; }
-  100% { width: 0%; }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes shine {
@@ -418,28 +833,115 @@ document.addEventListener('DOMContentLoaded', function() {
   100% { transform: rotate(30deg) translate(10%, 10%); }
 }
 
-.animate-pulse {
+@keyframes progressBar {
+  0% { width: 100%; }
+  100% { width: 0%; }
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(100%) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%) translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* Urgent State for Timer */
+.deals-banner.urgent {
+  animation: pulseBackground 1s infinite alternate;
+}
+
+.deals-timer span.urgent {
   animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulseBackground {
+  0% { background: linear-gradient(135deg, #ff5e62, #ff9966); }
+  100% { background: linear-gradient(135deg, #ff9966, #ff5e62); }
+}
+
+.deals-banner.ended {
+  background: linear-gradient(135deg, #666, #999);
+}
+
+.deals-banner.ended::before {
+  animation: none;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 992px) {
-  .card-img-top {
-    height: 220px !important;
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
   }
 }
 
 @media (max-width: 768px) {
-  .card-img-top {
-    height: 200px !important;
+  .hero-banner {
+    height: 400px;
   }
   
-  .flash-sale-banner {
-    padding: 1.5rem;
+  .hero-title {
+    font-size: 2.2rem;
   }
   
-  .flash-sale-banner h3 {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .deals-title {
     font-size: 1.5rem;
+  }
+  
+  .deals-timer {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-banner {
+    height: 350px;
+  }
+  
+  .hero-title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .categories-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
