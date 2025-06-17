@@ -7,6 +7,11 @@
   <div class="row">
     <div class="col-12">
       <h2 class="mb-4">My Wishlist</h2>
+       {% comment %} {% if wishlist_items %}
+                    <a href="{% url 'wishlisht_all_remove' %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to remove all items?');">
+      <i class="fas fa-trash-alt"></i> Clear Wishlist
+    </a>
+    {% endif %} {% endcomment %}
       
       {% if wishlist_items %}
       <div class="table-responsive">

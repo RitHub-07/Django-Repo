@@ -53,6 +53,7 @@ urlpatterns = [
   path('emp/create/', employee_add, name='employee_add'),
   path('emp/list/', employee_list, name='employee_list'),
   path('emp/edit/<int:id>/', employee_update, name='employee_edit'),  
-  path('emp/delete/<int:id>/', employee_delete, name='employee_delete')
-    
+  path('emp/delete/<int:id>/', employee_delete, name='employee_delete'),
+  # path('clear_wishlist/', wishlisht_all_remove, name='clear_wishlist'),
+   
 ]

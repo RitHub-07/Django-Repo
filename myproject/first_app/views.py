@@ -427,6 +427,13 @@ def remove_wishlist_item(request, item_id):
     messages.success(request, 'Item removed from wishlist successfully.')
     return redirect('wishlist')
 
+# def wishlisht_all_remove(request):
+#     wishlist = get_object_or_404(WishlistItem, wishlist_user=request)
+#     wishlist.items.all().delete()
+#     messages.success(request, "All items removed from Wishlist")
+#     return redirect('wishlist')
+
+
 
 def employee_list(request):
     employees = Employee.objects.all()
