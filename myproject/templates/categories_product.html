@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Category productss - Flippkart{% endblock %}
-
+{% block title %}Category products - Flippkart{% endblock %}
 
 {% block content %}
 <div class="colorful-container">
@@ -14,7 +13,9 @@
     {% for product in products_variable %}
     <div class="colorful-card">
       <div class="colorful-img-box">
-        <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+        <a href="{% url 'product_detail' product.id %}">
+          <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+        </a>
         {% if product.original_price > product.selling_price %}
         <div class="colorful-sale-tag">Off</div>
         {% endif %}
@@ -148,6 +149,12 @@
   overflow: hidden;
 }
 
+.colorful-img-box a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .colorful-img-box img {
   width: 100%;
   height: 100%;
@@ -247,7 +254,6 @@
   width: 40px;
   text-align: center;
   border: none;
-  background: transparent;
   font-weight: 500;
 }
 

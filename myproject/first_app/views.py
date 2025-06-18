@@ -479,3 +479,18 @@ def employee_delete(request, id):
         employee.delete()
         return redirect('employee_list')
     # return redirect('employee_list')
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Category_Products, id=product_id)
+    
+    # Calculate discount percentage if there's an original price
+    if hasattr(product, 'get_discount_percentage'):
+        discount = product.get_discount_percentage()
+    else:
+        discount = None
+    
+    context = {
+        'product': product,
+        'discount': discount,
+    }
+    return render(request, 'products_detail_page.html', context)
