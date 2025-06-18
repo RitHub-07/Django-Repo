@@ -171,7 +171,7 @@ def student_edit(request, id):
              
         student.save()
         messages.success(request, 'student data updated successfully')
-        return redirect('/')  
+        return redirect('/base')  
     return render(request, 'student_update.html', {'student': student})
 
 
