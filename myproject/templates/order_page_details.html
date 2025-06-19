@@ -1,30 +1,53 @@
 {% extends "base.html" %}
-{% block title %}Order #{{ order.id }} - Flippkart{% endblock %}
+{% load static %}
+
+{% block title %}Order Details - Flippkart{% endblock %}
 
 {% block content %}
 <div class="container my-5">
-  <div class="card shadow-sm">
-    <div class="card-header bg-success text-white">
-      <h5 class="mb-0">Order #{{ order.id }} Details</h5>
-    </div>
-    <div class="card-body">
-      <p><strong>Order Date:</strong> {{ order.created_at|date:"d M Y, H:i" }}</p>
-      <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+  {% if order %}
+    <div class="card shadow-sm">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Order #{{ order.id }} Details</h5>
+      </div>
+      <div class="card-body">
+        <p><strong>Order Date:</strong> {{ order.created_at|date:"d M Y, H:i" }}</p>
+        <p><strong>Status:</strong> {{ order.status }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
 
-      <h5 class="mt-4">Items Ordered:</h5>
-      <ul class="list-group mt-2">
-        {% for item in order.items.all %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            <strong>{{ item.product.product_name }}</strong><br>
-            <small>{{ item.product.product_description }}</small><br>
-            <span>Quantity: {{ item.quantity }}</span>
+        <h5 class="mt-4">Items Ordered:</h5>
+        <div class="list-group mt-3">
+          {% for item in order.items.all %}
+          <div class="list-group-item">
+            <div class="row align-items-center">
+              <div class="col-md-2 col-4">
+                <a href="{% url 'product_detail' item.product.id %}">
+                  <img src="{{ item.product.product_image.url }}" class="img-fluid rounded" alt="{{ item.product.product_name }}">
+                </a>
+              </div>
+              <div class="col-md-6 col-8">
+                <h6>{{ item.product.product_name }}</h6>
+                <small class="text-muted">{{ item.product.product_description|truncatechars:100 }}</small><br>
+                <span class="badge bg-light text-dark">Qty: {{ item.quantity }}</span>
+              </div>
+              <div class="col-md-4 text-end">
+                ₹{{ item.price }} × {{ item.quantity }} = <strong>₹{% widthratio item.price 1 item.quantity %}</strong>
+              </div>
+            </div>
           </div>
-          <span>₹{{ item.price }} x {{ item.quantity }} = ₹{{ item.price|floatformat:2|add:item.price|multiply:item.quantity }}</span>
-        </li>
-        {% endfor %}
-      </ul>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'my_orders' %}" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left"></i> Back to Orders
+        </a>
+      </div>
     </div>
-  </div>
+  {% else %}
+    <div class="alert alert-danger">
+      Order not found or you don't have permission to view this order.
+    </div>
+  {% endif %}
 </div>
 {% endblock %}

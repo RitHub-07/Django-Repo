@@ -435,10 +435,12 @@ def order_detail_view(request, order_id):
         messages.error(request, "Please login to view your orders")
         return redirect('login')
 
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-    return render(request, 'order_page_details.html', {'order': order})
-
-
+    try:
+        order = Order.objects.get(id=order_id, user=request.user)
+        return render(request, 'order_page_details.html', {'order': order})
+    except Order.DoesNotExist:
+        messages.error(request, "Order not found or you don't have permission to view this order")
+        return redirect('my_orders')
 
 def return_policy(request):
     return render(request, 'return_policy.html')
