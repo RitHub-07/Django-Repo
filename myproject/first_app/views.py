@@ -219,7 +219,6 @@ def profile_view(request):
      return render(request, 'my_profile.html')
 
 def edit_profile(request):
-     
      return render(request, 'edit_profile.html')
 
 def saved_address(request):

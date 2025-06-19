@@ -13,7 +13,7 @@
     <div class="hero-content">
       <h1 class="hero-title">Summer Collection 2025</h1>
       <p class="hero-subtitle">Up to 60% Off on Selected Items</p>
-      <button class="hero-btn">Shop Now</button>
+      <a href="{% url 'categories_view' %}" class="hero-btn">Shop Now</a>
     </div>
   </div>
 
@@ -48,7 +48,8 @@
         <h3 class="deals-title">🔥 Hot Deals - Up to 70% Off</h3>
         <p class="deals-timer">Limited time offer! Ends in <span id="deal-timer">01:23:45</span></p>
       </div>
-      <button class="deals-btn">Shop Now</button>
+      <a href="{% url 'categories_view' %}" class="deals-btn">Shop Now</a>
+      {% comment %} <a href="" class="deals-btn">Shop Now</button> {% endcomment %}
     </div>
     <div class="deals-progress"></div>
     <div class="deals-particles"></div>
@@ -429,7 +430,7 @@ body {
 
 /* Deals Banner */
 .deals-banner {
-  background: linear-gradient(135deg, #ff5e62, #ff9966);
+  background: linear-gradient(135deg,rgb(42, 207, 108), rgb(56, 74, 215));
   border-radius: 12px;
   padding: 30px;
   margin: 60px auto;
