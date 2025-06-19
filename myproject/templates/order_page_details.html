@@ -6,42 +6,119 @@
 {% block content %}
 <div class="container my-5">
   {% if order %}
-    <div class="card shadow-sm">
+    <div class="card shadow-sm mb-4">
       <div class="card-header bg-success text-white">
         <h5 class="mb-0">Order #{{ order.id }} Details</h5>
       </div>
       <div class="card-body">
-        <p><strong>Order Date:</strong> {{ order.created_at|date:"d M Y, H:i" }}</p>
-        <p><strong>Status:</strong> {{ order.status }}</p>
-        <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+        <div class="row">
+          <!-- Delivery Address Card -->
+          <div class="col-md-6 mb-3 mb-md-0">
+            <div class="card h-100">
+              <div class="card-header bg-light">
+                <h6 class="mb-0">Delivery Address</h6>
+              </div>
+              <div class="card-body">
+                <p class="mb-1"><strong>{{ order.shipping_address.full_name }}</strong></p>
+                <p class="mb-1">{{ order.shipping_address.address_line1 }}</p>
+                {% if order.shipping_address.address_line2 %}
+                  <p class="mb-1">{{ order.shipping_address.address_line2 }}</p>
+                {% endif %}
+                <p class="mb-1">{{ order.shipping_address.city }}, {{ order.shipping_address.state }} - {{ order.shipping_address.postal_code }}</p>
+                <p class="mb-1">Phone: {{ order.shipping_address.phone }}</p>
+              </div>
+            </div>
+          </div>
 
-        <h5 class="mt-4">Items Ordered:</h5>
-        <div class="list-group mt-3">
+          <!-- Order Summary Card -->
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-header bg-light">
+                <h6 class="mb-0">Order Summary</h6>
+              </div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                  <span>Order Date:</span>
+                  <span>{{ order.created_at|date:"d M Y, H:i" }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <span>Status:</span>
+                  <span class="badge bg-{% if order.status == 'Delivered' %}success{% elif order.status == 'Cancelled' %}danger{% else %}warning{% endif %}">
+                    {{ order.status }}
+                  </span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between fw-bold">
+                  <span>Total Amount:</span>
+                  <span>₹{{ order.total_amount }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ordered Items -->
+        <h5 class="mt-4 mb-3">Items Ordered</h5>
+        <div class="list-group">
           {% for item in order.items.all %}
           <div class="list-group-item">
             <div class="row align-items-center">
-              <div class="col-md-2 col-4">
+              <div class="col-md-1 col-3">
                 <a href="{% url 'product_detail' item.product.id %}">
-                  <img src="{{ item.product.product_image.url }}" class="img-fluid rounded" alt="{{ item.product.product_name }}">
+                  <img src="{{ item.product.product_image.url }}" 
+                       class="img-fluid rounded" 
+                       style="width: 80px; height: 80px; object-fit: contain;"
+                       alt="{{ item.product.product_name }}">
                 </a>
               </div>
-              <div class="col-md-6 col-8">
-                <h6>{{ item.product.product_name }}</h6>
-                <small class="text-muted">{{ item.product.product_description|truncatechars:100 }}</small><br>
+              <div class="col-md-5 col-9">
+                <h6 class="mb-1">{{ item.product.product_name }}</h6>
+                <p class="mb-1 small text-muted">{{ item.product.product_description|truncatechars:80 }}</p>
                 <span class="badge bg-light text-dark">Qty: {{ item.quantity }}</span>
               </div>
-              <div class="col-md-4 text-end">
-                ₹{{ item.price }} × {{ item.quantity }} = <strong>₹{% widthratio item.price 1 item.quantity %}</strong>
+              <div class="col-md-3 text-md-center">
+                <span>₹{{ item.price }}</span>
+              </div>
+              <div class="col-md-3 text-end">
+                <strong>₹{% widthratio item.price 1 item.quantity %}</strong>
               </div>
             </div>
           </div>
           {% endfor %}
         </div>
       </div>
-      <div class="card-footer">
+      <div class="card-footer d-flex justify-content-between">
         <a href="{% url 'my_orders' %}" class="btn btn-outline-secondary">
           <i class="bi bi-arrow-left"></i> Back to Orders
         </a>
+        {% if order.status != 'Cancelled' and order.status != 'Delivered' %}
+          <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
+            <i class="bi bi-x-circle"></i> Cancel Order
+          </button>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Cancel Order Modal -->
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to cancel this order?</p>
+            <p><strong>Order #{{ order.id }}</strong> - Total: ₹{{ order.total_amount }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <form method="post" action="{% url 'cancel_order' order.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Confirm Cancel</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   {% else %}
@@ -50,4 +127,30 @@
     </div>
   {% endif %}
 </div>
+
+<style>
+  .card {
+    border-radius: 8px;
+  }
+  .list-group-item {
+    padding: 1rem;
+    border-left: none;
+    border-right: none;
+  }
+  .list-group-item:first-child {
+    border-top: none;
+  }
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+  .img-fluid {
+    max-height: 80px;
+    width: auto;
+  }
+  @media (max-width: 768px) {
+    .col-md-1, .col-md-5, .col-md-3 {
+      margin-bottom: 10px;
+    }
+  }
+</style>
 {% endblock %}

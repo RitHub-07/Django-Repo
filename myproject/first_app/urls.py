@@ -61,6 +61,6 @@ urlpatterns = [
   # path('product/<int:product_id>/', product_detail, name='product_detail'),
   path('product/<int:product_id>/', product_detail, name='product_detail'),
   path('order/<int:order_id>/', order_detail_view, name='order_detail'),
-
+  path('order/cancel/<int:order_id>/', cancel_order, name='cancel_order'),
    
 ]

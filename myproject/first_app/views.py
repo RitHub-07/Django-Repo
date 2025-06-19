@@ -441,6 +441,24 @@ def order_detail_view(request, order_id):
     except Order.DoesNotExist:
         messages.error(request, "Order not found or you don't have permission to view this order")
         return redirect('my_orders')
+    
+def cancel_order(request, order_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to cancel orders")
+        return redirect('login')
+
+    try:
+        order = Order.objects.get(id=order_id, user=request.user)
+        if order.status not in ['Cancelled', 'Delivered']:
+            order.status = 'Cancelled'
+            order.save()
+            messages.success(request, "Order has been cancelled successfully")
+        else:
+            messages.error(request, "This order cannot be cancelled")
+    except Order.DoesNotExist:
+        messages.error(request, "Order not found")
+
+    return redirect('order_detail', order_id=order_id)
 
 def return_policy(request):
     return render(request, 'return_policy.html')
