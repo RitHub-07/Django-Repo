@@ -46,7 +46,7 @@
                 <span class="fw-bold text-primary">₹{{ item.product.selling_price }}</span>
               </td>
               <td>
-                {% if item.product.quantity > 0 %}
+                {% if item.product.quantity > 1 %}
                 <span class="badge bg-success">In Stock</span>
                 {% else %}
                 <span class="badge bg-danger">Out of Stock</span>
