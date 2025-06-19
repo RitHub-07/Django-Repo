@@ -278,7 +278,12 @@ def categories_product(request, category_id):
 
 
 def my_orders(request):
-    return render(request, 'my_orders.html')
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to view orders")
+        return redirect('login')
+
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'my_orders.html', {'orders': orders})
 
 def cart_view(request):
     if not request.user.is_authenticated:
@@ -381,9 +386,59 @@ def checkout_view(request):
     if not cart.items.exists():
         messages.error(request, "Your cart is empty")
         return redirect('cart')
-    
-    # Add your checkout logic here
-    return render(request, 'check_out.html')
+
+    cart_items = cart.items.select_related('product')
+    grand_total = sum(item.product.selling_price * item.quantity for item in cart_items)
+
+    return render(request, 'check_out.html', {
+        'cart_items': cart_items,
+        'grand_total': grand_total
+    })
+
+def place_order(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to place an order")
+        return redirect('login')
+
+    cart = get_object_or_404(Cart, user=request.user)
+    cart_items = cart.items.select_related('product')
+
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty")
+        return redirect('cart')
+
+    total_amount = sum(item.product.selling_price * item.quantity for item in cart_items)
+
+    order = Order.objects.create(user=request.user, total_amount=total_amount)
+
+    for item in cart_items:
+        # Create order item
+        OrderItem.objects.create(
+            order=order,
+            product=item.product,
+            quantity=item.quantity,
+            price=item.product.selling_price
+        )
+
+        # Update product quantity
+        item.product.quantity -= item.quantity
+        item.product.save()
+
+    # Clear cart
+    cart.items.all().delete()
+
+    messages.success(request, "Order placed successfully!")
+    return redirect('my_orders')
+
+def order_detail_view(request, order_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to view your orders")
+        return redirect('login')
+
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'order_page_details.html', {'order': order})
+
+
 
 def return_policy(request):
     return render(request, 'return_policy.html')

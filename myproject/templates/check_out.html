@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block title %}Check_out - Flippkart{% endblock %}
 
 {% block content %}
@@ -10,12 +9,11 @@
         <div class="card-body p-4">
           <h2 class="text-center mb-4">Complete Your Order</h2>
           
-          <div class="row">
-            <!-- Left Column - Customer Info -->
-            <div class="col-md-7">
-              <form method="POST">
-                {% csrf_token %}
-                
+          <form method="POST" action="{% url 'place_order' %}">
+            {% csrf_token %}
+            <div class="row">
+              <!-- Left Column - Customer Info -->
+              <div class="col-md-7">
                 <div class="mb-4">
                   <h5 class="border-bottom pb-2 mb-3">Contact Information</h5>
                   <div class="mb-3">
@@ -27,7 +25,7 @@
                     <input type="tel" name="phone" class="form-control" required>
                   </div>
                 </div>
-                
+
                 <div class="mb-4">
                   <h5 class="border-bottom pb-2 mb-3">Shipping Address</h5>
                   <div class="mb-3">
@@ -49,75 +47,66 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="mb-4">
                   <h5 class="border-bottom pb-2 mb-3">Payment Method</h5>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="payment" id="cod" checked>
-                    <label class="form-check-label" for="cod">
-                      Cash on Delivery (COD)
-                    </label>
+                    <input class="form-check-input" type="radio" name="payment" id="cod" value="COD" checked>
+                    <label class="form-check-label" for="cod">Cash on Delivery (COD)</label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="payment" id="card">
-                    <label class="form-check-label" for="card">
-                      Credit/Debit Card
-                    </label>
+                    <input class="form-check-input" type="radio" name="payment" id="card" value="Card">
+                    <label class="form-check-label" for="card">Credit/Debit Card</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment" id="upi">
-                    <label class="form-check-label" for="upi">
-                      UPI Payment
-                    </label>
+                    <input class="form-check-input" type="radio" name="payment" id="upi" value="UPI">
+                    <label class="form-check-label" for="upi">UPI Payment</label>
                   </div>
                 </div>
-              </form>
-            </div>
-            
-            <!-- Right Column - Order Summary -->
-            <div class="col-md-5">
-              <div class="bg-light p-3 rounded">
-                <h5 class="border-bottom pb-2">Order Summary</h5>
-                
-                {% for item in cart.items %}
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <div>
-                    {{ item.name }} 
-                    <small class="text-muted">x{{ item.quantity }}</small>
+              </div>
+
+              <!-- Right Column - Order Summary -->
+              <div class="col-md-5">
+                <div class="bg-light p-3 rounded">
+                  <h5 class="border-bottom pb-2">Order Summary</h5>
+
+                  {% for item in cart_items %}
+                  <div class="d-flex justify-content-between py-2 border-bottom">
+                    <div>
+                      {{ item.product.product_name }} 
+                      <small class="text-muted">x{{ item.quantity }}</small>
+                    </div>
+                    <div>₹{{ item.product.selling_price }}</div>
                   </div>
-                  <div>₹{{ item.price }}</div>
-                </div>
-                {% endfor %}
-                
-                <div class="mt-3">
-                  <div class="d-flex justify-content-between">
-                    <span>Subtotal:</span>
-                    <span>₹{{ cart.subtotal }}</span>
+                  {% endfor %}
+
+                  <div class="mt-3">
+                    <div class="d-flex justify-content-between">
+                      <span>Subtotal:</span>
+                      <span>₹{{ grand_total }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <span>Shipping:</span>
+                      <span class="text-success">FREE</span>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold mt-2">
+                      <span>Total:</span>
+                      <span>₹{{ grand_total }}</span>
+                    </div>
                   </div>
-                  <div class="d-flex justify-content-between">
-                    <span>Shipping:</span>
-                    <span class="text-success">FREE</span>
+
+                  <button type="submit" class="btn btn-primary w-100 mt-3 py-2">
+                    Place Order
+                  </button>
+
+                  <div class="text-center mt-2 small text-muted">
+                    <i class="bi bi-lock"></i> Secure checkout
                   </div>
-                  <div class="d-flex justify-content-between">
-                    <span>Tax:</span>
-                    <span>₹{{ cart.tax }}</span>
-                  </div>
-                  <div class="d-flex justify-content-between fw-bold mt-2">
-                    <span>Total:</span>
-                    <span>₹{{ cart.total_price }}</span>
-                  </div>
-                </div>
-                
-                <button type="submit" class="btn btn-primary w-100 mt-3 py-2">
-                  Place Order
-                </button>
-                
-                <div class="text-center mt-2 small text-muted">
-                  <i class="bi bi-lock"></i> Secure checkout
                 </div>
               </div>
             </div>
-          </div>
+          </form>
+
         </div>
       </div>
     </div>

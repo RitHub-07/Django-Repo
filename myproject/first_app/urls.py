@@ -38,6 +38,8 @@ urlpatterns = [
   path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
   path('remove-cart-item/<int:item_id>/', remove_cart_item, name='remove_cart_item'),
   path('checkout/', checkout_view, name='checkout'),
+  path('place-order/', place_order, name='place_order'),
+
 
   path('increase-quantity/<int:item_id>/', increase_quantity, name='increase_quantity'),
   path('decrease-quantity/<int:item_id>/', decrease_quantity, name='decrease_quantity'),
@@ -58,5 +60,7 @@ urlpatterns = [
 
   # path('product/<int:product_id>/', product_detail, name='product_detail'),
   path('product/<int:product_id>/', product_detail, name='product_detail'),
+  path('order/<int:order_id>/', order_detail_view, name='order_detail'),
+
    
 ]
