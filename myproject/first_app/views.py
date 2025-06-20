@@ -24,17 +24,20 @@ def base_view(request):
 
 
 def home_view(request):
-    categories = Category.objects.all()[:6]  # only 6 categories
-    top_deals = Category_Products.objects.filter(is_top_deal=True)[:6]  # for banner section
-    all_products = Category_Products.objects.all()[:9]  # only 9 products below banner
-
+    # Main categories to display (change number/order anytime)
+    categories = Category.objects.all()[:6]  # Show 6 categories
+    
+    # Top deals section (filter products marked as deals)
+    top_deals = Category_Products.objects.filter(is_top_deal=True)[:4]  # Show 4 deals
+    
+    # Main products section (shows all products by default)
+    products = Category_Products.objects.all().order_by('-id')[:8]  # Show 8 newest
+    
     return render(request, 'home.html', {
-        'category_variable': categories,
-        'top_deals': top_deals,
-        'all_products': all_products,
+        'category_variable': categories,  # Kept same name for template compatibility
+        'top_deals': top_deals,          # For deals banner
+        'all_products': products,        # Kept same name for template compatibility
     })
-
-
 
 def about_view(request):
     return render(request, 'about.html')
