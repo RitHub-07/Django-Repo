@@ -56,9 +56,7 @@ urlpatterns = [
   path('emp/list/', employee_list, name='employee_list'),
   path('emp/edit/<int:id>/', employee_update, name='employee_edit'),  
   path('emp/delete/<int:id>/', employee_delete, name='employee_delete'),
-  # path('clear_wishlist/', wishlisht_all_remove, name='clear_wishlist'),
 
-  # path('product/<int:product_id>/', product_detail, name='product_detail'),
   path('product/<int:product_id>/', product_detail, name='product_detail'),
   path('order/<int:order_id>/', order_detail_view, name='order_detail'),
   path('order/cancel/<int:order_id>/', cancel_order, name='cancel_order'),

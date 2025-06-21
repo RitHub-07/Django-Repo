@@ -1,7 +1,31 @@
 {% extends 'base.html' %}
+
+{% block title %}Saved Addresses - Flippkart{% endblock %}
+
 {% block content %}
-<br>
-<br>
-<h2>Saved Addresses</h2>
-<p>Here are your saved addresses.</p>
+<div class="container my-5">
+  <h2 class="mb-4">Saved Delivery Addresses</h2>
+
+  {% if addresses %}
+    <div class="row">
+      {% for address in addresses %}
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{ address.name }}</h5>
+              <p class="card-text mb-1">{{ address.address }}</p>
+              <p class="card-text mb-1">{{ address.city }} - {{ address.pincode }}</p>
+              <p class="card-text mb-1">Phone: {{ address.phone }}</p>
+              <p class="card-text mb-1">Email: {{ address.email }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">
+      You have not placed any orders yet, so no saved addresses found.
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

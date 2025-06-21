@@ -3,8 +3,17 @@
 
 {% block title %} My Orders - Flippkart {% endblock %}
 
+
 {% block content %}
 <div class="container my-5">
+  
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
   <h2 class="mb-4 text-center">My Orders</h2>
 
   {% if orders %}

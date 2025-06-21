@@ -187,18 +187,22 @@
         </div>
       </div>
       <div class="col-md-3">
-        <div class="card border-0 shadow-sm h-100">
-          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
-               class="card-img-top rounded-circle mx-auto mt-4" 
-               style="width: 120px;" 
-               alt="Arjun">
-          <div class="card-body">
-            <h5 class="card-title">Arjun Mehta</h5>
-            <p class="text-muted">CTO</p>
-            <p class="card-text text-muted small">Technology innovator and platform architect</p>
-          </div>
-        </div>
+  <div class="card border-0 shadow-sm h-100">
+    <div class="d-flex justify-content-center mt-4">
+      <div class="team-img-circle">
+        <img src="https://filmfare.wwmindia.com/content/2024/mar/johncenaoscars202421710153718.jpg" 
+             alt="Arjun Mehta"
+             class="img-fluid">
       </div>
+    </div>
+    <div class="card-body text-center">
+      <h5 class="card-title">Arjun Mehta</h5>
+      <p class="text-muted">CTO</p>
+      <p class="card-text text-muted small">Technology innovator and platform architect</p>
+    </div>
+  </div>
+</div>
+
     </div>
 
     <!-- Our Offices -->
@@ -252,4 +256,20 @@
       </div>
     </div>
   </div>
+  <style>
+     .team-img-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    {% comment %} border: 3px solid #2874f0; {% endcomment %}
+  }
+  
+  .team-img-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
 {% endblock %}

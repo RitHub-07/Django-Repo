@@ -187,6 +187,51 @@ def student_delete(request, id):
     return redirect('/')
 
 
+def employee_list(request):
+    employees = Employee.objects.all()
+    return render(request, 'emp_list.html', {'employees': employees})
+
+
+def employee_add(request):
+    if request.method == 'POST':
+        emp_id = request.POST['emp_id']
+        emp_first_name = request.POST['emp_first_name']
+        emp_last_name = request.POST['emp_last_name']
+        emp_city = request.POST['emp_city']
+        emp_name = request.POST['emp_name']
+        emp_salary = request.POST['emp_salary']
+
+        Employee.objects.create(
+            emp_id=emp_id,
+            emp_first_name=emp_first_name,
+            emp_last_name=emp_last_name,
+            emp_city=emp_city,
+            emp_name=emp_name,
+            emp_salary=emp_salary,
+        )
+        return redirect('employee_list')
+    return render(request, 'emp_form.html')
+
+def employee_update(request, id):
+    employee = get_object_or_404(Employee, id=id)
+    if request.method == 'POST':
+        employee.emp_id = request.POST['emp_id']
+        employee.emp_first_name = request.POST['emp_first_name']
+        employee.emp_last_name = request.POST['emp_last_name']
+        employee.emp_city = request.POST['emp_city']
+        employee.emp_name = request.POST['emp_name']
+        employee.emp_salary = request.POST['emp_salary']
+        employee.save()
+        return redirect('employee_list')
+    return render(request, 'emp_update.html', {'employee': employee})
+
+def employee_delete(request, id):
+    employee = get_object_or_404(Employee, id=id)
+    if request.method == 'POST':
+        employee.delete()
+        return redirect('employee_list')
+    # return redirect('employee_list')
+
 
 
 def term_conditions(request):
@@ -224,8 +269,17 @@ def profile_view(request):
 def edit_profile(request):
      return render(request, 'edit_profile.html')
 
+
+@login_required
 def saved_address(request):
-    return render(request, 'saved_address.html')
+    # Get unique addresses the user has used in past orders
+    addresses = (
+        Order.objects.filter(user=request.user)
+        .values('name', 'email', 'phone', 'address', 'city', 'pincode')
+        .distinct()
+        .order_by('-id')
+    )
+    return render(request, 'saved_address.html', {'addresses': addresses})
 
 
 @login_required
@@ -278,14 +332,6 @@ def categories_product(request, category_id):
 
     return render(request, 'categories_product.html', {'products_variable': products, 'category_variable': category})
 
-
-def my_orders(request):
-    if not request.user.is_authenticated:
-        messages.error(request, "Please login to view orders")
-        return redirect('login')
-
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'my_orders.html', {'orders': orders})
 
 def cart_view(request):
     if not request.user.is_authenticated:
@@ -379,88 +425,6 @@ def clear_cart(request):
     messages.success(request, "All items removed from cart")
     return redirect('cart')
 
-def checkout_view(request):
-    if not request.user.is_authenticated:
-        messages.error(request, "Please login to checkout")
-        return redirect('login')
-    
-    cart = get_object_or_404(Cart, user=request.user)
-    if not cart.items.exists():
-        messages.error(request, "Your cart is empty")
-        return redirect('cart')
-
-    cart_items = cart.items.select_related('product')
-    grand_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-    return render(request, 'check_out.html', {
-        'cart_items': cart_items,
-        'grand_total': grand_total
-    })
-
-def place_order(request):
-    if not request.user.is_authenticated:
-        messages.error(request, "Please login to place an order")
-        return redirect('login')
-
-    cart = get_object_or_404(Cart, user=request.user)
-    cart_items = cart.items.select_related('product')
-
-    if not cart_items.exists():
-        messages.error(request, "Your cart is empty")
-        return redirect('cart')
-
-    total_amount = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-    order = Order.objects.create(user=request.user, total_amount=total_amount)
-
-    for item in cart_items:
-        # Create order item
-        OrderItem.objects.create(
-            order=order,
-            product=item.product,
-            quantity=item.quantity,
-            price=item.product.selling_price
-        )
-
-        # Update product quantity
-        item.product.quantity -= item.quantity
-        item.product.save()
-
-    # Clear cart
-    cart.items.all().delete()
-
-    messages.success(request, "Order placed successfully!")
-    return redirect('my_orders')
-
-def order_detail_view(request, order_id):
-    if not request.user.is_authenticated:
-        messages.error(request, "Please login to view your orders")
-        return redirect('login')
-
-    try:
-        order = Order.objects.get(id=order_id, user=request.user)
-        return render(request, 'order_page_details.html', {'order': order})
-    except Order.DoesNotExist:
-        messages.error(request, "Order not found or you don't have permission to view this order")
-        return redirect('my_orders')
-    
-def cancel_order(request, order_id):
-    if not request.user.is_authenticated:
-        messages.error(request, "Please login to cancel orders")
-        return redirect('login')
-
-    try:
-        order = Order.objects.get(id=order_id, user=request.user)
-        if order.status not in ['Cancelled', 'Delivered']:
-            order.status = 'Cancelled'
-            order.save()
-            messages.success(request, "Order has been cancelled successfully")
-        else:
-            messages.error(request, "This order cannot be cancelled")
-    except Order.DoesNotExist:
-        messages.error(request, "Order not found")
-
-    return redirect('order_detail', order_id=order_id)
 
 def return_policy(request):
     return render(request, 'return_policy.html')
@@ -512,50 +476,6 @@ def remove_wishlist_item(request, item_id):
 
 
 
-def employee_list(request):
-    employees = Employee.objects.all()
-    return render(request, 'emp_list.html', {'employees': employees})
-
-
-def employee_add(request):
-    if request.method == 'POST':
-        emp_id = request.POST['emp_id']
-        emp_first_name = request.POST['emp_first_name']
-        emp_last_name = request.POST['emp_last_name']
-        emp_city = request.POST['emp_city']
-        emp_name = request.POST['emp_name']
-        emp_salary = request.POST['emp_salary']
-
-        Employee.objects.create(
-            emp_id=emp_id,
-            emp_first_name=emp_first_name,
-            emp_last_name=emp_last_name,
-            emp_city=emp_city,
-            emp_name=emp_name,
-            emp_salary=emp_salary,
-        )
-        return redirect('employee_list')
-    return render(request, 'emp_form.html')
-
-def employee_update(request, id):
-    employee = get_object_or_404(Employee, id=id)
-    if request.method == 'POST':
-        employee.emp_id = request.POST['emp_id']
-        employee.emp_first_name = request.POST['emp_first_name']
-        employee.emp_last_name = request.POST['emp_last_name']
-        employee.emp_city = request.POST['emp_city']
-        employee.emp_name = request.POST['emp_name']
-        employee.emp_salary = request.POST['emp_salary']
-        employee.save()
-        return redirect('employee_list')
-    return render(request, 'emp_update.html', {'employee': employee})
-
-def employee_delete(request, id):
-    employee = get_object_or_404(Employee, id=id)
-    if request.method == 'POST':
-        employee.delete()
-        return redirect('employee_list')
-    # return redirect('employee_list')
 
 def product_detail(request, product_id):
     product = get_object_or_404(Category_Products, id=product_id)
@@ -571,3 +491,163 @@ def product_detail(request, product_id):
         'discount': discount,
     }
     return render(request, 'products_detail_page.html', context)
+
+
+# def place_order(request):
+#     if not request.user.is_authenticated:
+#         messages.error(request, "Please login to place an order")
+#         return redirect('login')
+
+#     cart = get_object_or_404(Cart, user=request.user)
+#     cart_items = cart.items.select_related('product')
+
+#     if not cart_items.exists():
+#         messages.error(request, "Your cart is empty")
+#         return redirect('cart')
+
+#     total_amount = sum(item.product.selling_price * item.quantity for item in cart_items)
+
+#     order = Order.objects.create(user=request.user, total_amount=total_amount)
+
+#     for item in cart_items:
+#         # Create order item
+#         OrderItem.objects.create(
+#             order=order,
+#             product=item.product,
+#             quantity=item.quantity,
+#             price=item.product.selling_price
+#         )
+
+#         # Update product quantity
+#         item.product.quantity -= item.quantity
+#         item.product.save()
+
+#     # Clear cart
+#     cart.items.all().delete()
+
+#     messages.success(request, "Order placed successfully!")
+#     return redirect('my_orders')
+
+
+
+def place_order(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to place an order")
+        return redirect('login')
+
+    if request.method == "POST":
+        cart = get_object_or_404(Cart, user=request.user)
+        cart_items = cart.items.select_related('product')
+
+        if not cart_items.exists():
+            messages.error(request, "Your cart is empty")
+            return redirect('cart')
+
+        # Get form data
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        name = request.POST.get('name')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        pincode = request.POST.get('pincode')
+        payment_method = request.POST.get('payment')
+
+        # Calculate total
+        total_amount = sum(item.product.selling_price * item.quantity for item in cart_items)
+
+        # Create Order
+        order = Order.objects.create(
+            user=request.user,
+            email=email,
+            phone=phone,
+            name=name,
+            address=address,
+            city=city,
+            pincode=pincode,
+            payment_method=payment_method,
+            total_amount=total_amount
+        )
+
+        # Create Order Items
+        for item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.selling_price
+            )
+
+            # Update stock
+            item.product.quantity -= item.quantity
+            item.product.save()
+
+        # Clear cart
+        cart.items.all().delete()
+
+        messages.success(request, "Order placed successfully!")
+        return redirect('my_orders')
+
+    # fallback if accessed via GET
+    return redirect('checkout')
+
+
+def checkout_view(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to checkout")
+        return redirect('login')
+    
+    cart = get_object_or_404(Cart, user=request.user)
+    if not cart.items.exists():
+        messages.error(request, "Your cart is empty")
+        return redirect('cart')
+
+    cart_items = cart.items.select_related('product')
+    grand_total = sum(item.product.selling_price * item.quantity for item in cart_items)
+
+    return render(request, 'check_out.html', {
+        'cart_items': cart_items,
+        'grand_total': grand_total
+    })
+
+
+
+def cancel_order(request, order_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to cancel orders")
+        return redirect('login')
+
+    try:
+        order = Order.objects.get(id=order_id, user=request.user)
+        if order.status not in ['Cancelled', 'Delivered']:
+            order.status = 'Cancelled'
+            order.save()
+            messages.success(request, "Order has been cancelled successfully")
+        else:
+            messages.error(request, "This order cannot be cancelled")
+    except Order.DoesNotExist:
+        messages.error(request, "Order not found")
+
+    return redirect('order_detail', order_id=order_id)
+
+
+def my_orders(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to view orders")
+        return redirect('login')
+
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'my_orders.html', {'orders': orders})
+
+
+
+def order_detail_view(request, order_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to view your orders")
+        return redirect('login')
+
+    try:
+        order = Order.objects.get(id=order_id, user=request.user)
+        return render(request, 'order_page_details.html', {'order': order})
+    except Order.DoesNotExist:
+        messages.error(request, "Order not found or you don't have permission to view this order")
+        return redirect('my_orders')

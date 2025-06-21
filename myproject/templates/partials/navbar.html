@@ -116,7 +116,7 @@
     position: relative;
   }
 
-  .dropdown-item:hover {
+  .dropdown-item:hover, .dropdown-item.active {
     background-color: #f8f9fa;
     color: #2874f0;
     padding-left: 1.8rem;
@@ -135,53 +135,65 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/abouttt">About Us</a>
+          <a class="nav-link {% if request.path|slice:'0:7' == '/abouttt' %}active{% endif %}" href="/abouttt">About Us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/contact">Contact Us</a>
+          <a class="nav-link {% if request.path|slice:'0:8' == '/contact' %}active{% endif %}" href="/contact">Contact Us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/categories/">Categories</a>
+          <a class="nav-link {% if request.path|slice:'0:11' == '/categories/' %}active{% endif %}" href="/categories/">Categories</a>
         </li>
       </ul>
 
       <ul class="navbar-nav align-items-center" style="gap: 15px;">
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="/wishlist">
+          <a class="nav-link {% if request.path|slice:'0:9' == '/wishlist' %}active{% endif %}" href="/wishlist">
             <i class="bi bi-heart-fill"></i> <span class="d-none d-lg-inline">Wishlist</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/cart">
-            <i class="bi bi-cart4" style="font-size: 1.2rem;" data-count="0"></i> <span class="d-none d-lg-inline">Cart</span>
+          <a class="nav-link {% if request.path|slice:'0:5' == '/cart' %}active{% endif %}" href="/cart">
+            <i class="bi bi-cart4" style="font-size: 1.2rem;"></i> <span class="d-none d-lg-inline">Cart</span>
           </a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown"
-             role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle d-flex align-items-center {% if request.path|slice:'0:10' == '/my_profile' or request.path|slice:'0:10' == '/my-orders' or request.path|slice:'0:14' == '/saved_address' %}active{% endif %}" 
+             href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span>Profile</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="/my_profile">My Profile</a></li>
-            <li><a class="dropdown-item" href="/my-orders/">My Orders</a></li>
-            <li><a class="dropdown-item" href="/saved_address">Saved Address</a></li>
-            <li><a class="dropdown-item" href="/wishlist">My Wishlist</a></li>
+            <li><a class="dropdown-item {% if request.path|slice:'0:10' == '/my_profile' %}active{% endif %}" href="/my_profile">My Profile</a></li>
+            <li><a class="dropdown-item {% if request.path|slice:'0:10' == '/my-orders' %}active{% endif %}" href="/my-orders/">My Orders</a></li>
+            <li><a class="dropdown-item {% if request.path|slice:'0:14' == '/saved_address' %}active{% endif %}" href="/saved_address">Saved Address</a></li>
+            <li><a class="dropdown-item {% if request.path|slice:'0:9' == '/wishlist' %}active{% endif %}" href="/wishlist">My Wishlist</a></li>
             <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
           </ul>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link btn btn-outline-primary px-3" href="/login">Login</a>
+          <a class="nav-link btn btn-outline-primary px-3 {% if request.path|slice:'0:6' == '/login' %}active{% endif %}" href="/login">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link btn btn-primary text-white px-3" href="/register">Register</a>
+          <a class="nav-link btn btn-primary text-white px-3 {% if request.path|slice:'0:9' == '/register' %}active{% endif %}" href="/register">Register</a>
         </li>
         {% endif %}
       </ul>
     </div>
   </div>
 </nav>
+
+<script>
+  // Add scrolled class on scroll
+  window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 10) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
