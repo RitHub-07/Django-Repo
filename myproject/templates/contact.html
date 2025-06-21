@@ -7,7 +7,7 @@
 
 <!-- Minimal Hero -->
 <div class="text-center py-5">
-  <h1 class="fw-bold mb-3">Contact Flippkart</h1>
+  <h1 class="fw-bold mb-3">Contact <span class="text-primary">Flippkart</span></h1>
   <p class="text-muted">We're here to help with any questions</p>
 </div>
 
@@ -50,6 +50,10 @@
                 <option>General Inquiry</option>
                 <option>Order Support</option>
                 <option>Returns & Refunds</option>
+                {% comment %} <option>Account Issues</option>
+                <option>Payment Related Issues</option>
+                <option>Gift Cards</option> {% endcomment %}
+                <option>Other</option>
               </select>
             </div>
 
@@ -125,6 +129,61 @@
     </div>
   </div>
 </div>
+
+<!-- FAQ Section -->
+<div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="text-center mb-4 fw-bold">Frequently Asked Questions</h2>
+          <div class="accordion" id="faqAccordion">
+            <div class="accordion-item border-0 mb-3 rounded-3 overflow-hidden shadow-sm">
+              <h3 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                  How can I track my order?
+                </button>
+              </h3>
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-muted">
+                  You can track your order by logging into your Flippkart account and visiting the 'My Orders' section. 
+                  Alternatively, you can use the tracking link sent to your email.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item border-0 mb-3 rounded-3 overflow-hidden shadow-sm">
+              <h3 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                  What is your return policy?
+                </button>
+              </h3>
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-muted">
+                  Most items can be returned within 30 days of delivery. Items must be unused, in original packaging with tags attached. 
+                  Some products have different policies which will be mentioned on the product page.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item border-0 rounded-3 overflow-hidden shadow-sm">
+              <h3 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                  How do I contact customer service?
+                </button>
+              </h3>
+              <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-muted">
+                  You can contact us 24/7 through live chat, email at support@flippkart.com, or call our toll-free number 1800 123 456. 
+                  Response time is typically within 2 hours for chat and email, instantly for calls.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <style>
   /* Clean, modern styles */
