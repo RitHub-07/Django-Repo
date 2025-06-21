@@ -138,7 +138,7 @@
           <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.path|slice:'0:7' == '/abouttt' %}active{% endif %}" href="/abouttt">About Us</a>
+          <a class="nav-link {% if request.path == '/abouttt' %}active{% endif %}" aria-current="page" href="/abouttt">About Us</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if request.path|slice:'0:8' == '/contact' %}active{% endif %}" href="/contact">Contact Us</a>

@@ -377,6 +377,7 @@ def add_to_cart(request, product_id):
     messages.success(request, f'{product.product_name} added to cart')
     return redirect('cart')
 
+
 def remove_cart_item(request, item_id):
     if not request.user.is_authenticated:
         messages.error(request, "Please login to manage cart")
