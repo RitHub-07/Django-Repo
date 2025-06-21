@@ -40,18 +40,16 @@ urlpatterns = [
   path('checkout/', checkout_view, name='checkout'),
   path('place-order/', place_order, name='place_order'),
 
-
   path('increase-quantity/<int:item_id>/', increase_quantity, name='increase_quantity'),
   path('decrease-quantity/<int:item_id>/', decrease_quantity, name='decrease_quantity'),
   path('clear-cart/', clear_cart, name='clear_cart'),
-
   path('return-policy/', return_policy, name='return_policy'),
-
 
   path('wishlist/', wishlist_view, name='wishlist'),
   path('add-to-wishlist/<int:product_id>/', add_to_wishlist, name='add_to_wishlist'),
   path('remove-wishlist-item/<int:item_id>/', remove_wishlist_item, name='remove_wishlist_item'),
-  
+ 
+  # Employee URLs
   path('emp/create/', employee_add, name='employee_add'),
   path('emp/list/', employee_list, name='employee_list'),
   path('emp/edit/<int:id>/', employee_update, name='employee_edit'),  
