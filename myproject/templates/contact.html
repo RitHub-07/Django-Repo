@@ -5,161 +5,119 @@
 
 {% block content %}
 
-<!-- Clean Hero Section -->
-<section class="contact-hero py-5" style="background-color: #2874f0;">
-  <div class="container text-center text-white">
-    <h1 class="fw-bold mb-3">Contact Flippkart</h1>
-    <p class="fs-5 mb-4">We're here to help you 24×7</p>
-    <div class="d-flex flex-wrap justify-content-center gap-3">
-      <a href="#contact-form" class="btn btn-light btn-lg px-4 rounded-1 fw-medium">
-        <i class="bi bi-chat-left-text me-2"></i>Send Message
-      </a>
-      <a href="tel:+911800123456" class="btn btn-outline-light btn-lg px-4 rounded-1 fw-medium">
-        <i class="bi bi-telephone me-2"></i>Call Support
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Main Content - Borderless Design -->
-<div class="container my-5">
-  <div class="row g-4">
-  
-    <!-- Contact Form - Clean Card -->
-    <div class="col-lg-6" id="contact-form">
-      <div class="bg-white p-4 rounded-2 shadow-sm h-100">
-        <h2 class="h4 mb-4 text-primary fw-bold">
-          <i class="bi bi-envelope-plus me-2"></i>Get in Touch
-        </h2>
-        
-        {% if messages %}
-        <div class="alert alert-success alert-dismissible fade show mb-4">
-          {% for message in messages %}
-            {{ message }}
-          {% endfor %}
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        {% endif %}
-
-        <form method="post">
-          {% csrf_token %}
-          
-          <div class="mb-3">
-            <label class="form-label fw-medium">Full Name</label>
-            <input type="text" class="form-control border-0 border-bottom" placeholder="Enter your name" name="contact_name" required style="background-color: #f8f9fa;">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-medium">Email Address</label>
-            <input type="email" class="form-control border-0 border-bottom" placeholder="Enter your email" name="contact_email" required style="background-color: #f8f9fa;">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-medium">Subject</label>
-            <select class="form-select border-0 border-bottom" name="contact_subject" style="background-color: #f8f9fa;">
-              <option>General Inquiry</option>
-              <option>Order Support</option>
-              <option>Returns & Refunds</option>
-              <option>Technical Support</option>
-            </select>
-          </div>
-
-          <div class="mb-4">
-            <label class="form-label fw-medium">Your Message</label>
-            <textarea class="form-control border-0 border-bottom" rows="4" placeholder="Type your message here..." name="contact_message" required style="background-color: #f8f9fa;"></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary w-100 py-2 fw-medium rounded-1">
-            <i class="bi bi-send-fill me-2"></i>Send Message
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Contact Info - Clean Card -->
-    <div class="col-lg-6">
-      <div class="bg-white p-4 rounded-2 shadow-sm h-100">
-        <h2 class="h4 mb-4 text-primary fw-bold">
-          <i class="bi bi-info-circle me-2"></i>Contact Information
-        </h2>
-        
-        <div class="mb-4">
-          <div class="d-flex align-items-center mb-2">
-            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
-              <i class="bi bi-geo-alt text-primary"></i>
-            </div>
-            <h5 class="fw-bold mb-0">Our Headquarters</h5>
-          </div>
-          <p class="ps-5">Flippkart Internet Private Limited<br>
-          123 Flippkart Street, Bengaluru<br>
-          Karnataka 560034, India</p>
-        </div>
-
-        <div class="mb-4">
-          <div class="d-flex align-items-center mb-2">
-            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
-              <i class="bi bi-headset text-primary"></i>
-            </div>
-            <h5 class="fw-bold mb-0">Customer Support</h5>
-          </div>
-          <p class="ps-5 mb-1">Phone: <a href="tel:+911800123456" class="text-decoration-none">+91 1800 123 456</a></p>
-          <p class="ps-5 mb-0">Email: <a href="mailto:support@flippkart.com" class="text-decoration-none">support@flippkart.com</a></p>
-        </div>
-
-        <div class="mb-4">
-          <div class="d-flex align-items-center mb-2">
-            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
-              <i class="bi bi-clock text-primary"></i>
-            </div>
-            <h5 class="fw-bold mb-0">Business Hours</h5>
-          </div>
-          <p class="ps-5 mb-1">Monday - Friday: 9:00 AM - 6:00 PM</p>
-          <p class="ps-5 mb-0">Saturday: 10:00 AM - 4:00 PM</p>
-        </div>
-
-        <div class="mt-4">
-          <h5 class="fw-bold mb-3">Our Location</h5>
-          <div class="ratio ratio-16x9 rounded-1 overflow-hidden">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456789012!2d77.5945664152309!3d12.971598390858862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670f1234567%3A0x123456789abcdef!2sFlipkart%20Headquarters!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Minimal Hero -->
+<div class="text-center py-5">
+  <h1 class="fw-bold mb-3">Contact Flippkart</h1>
+  <p class="text-muted">We're here to help with any questions</p>
 </div>
 
-<!-- Clean FAQ Section -->
+<!-- Cards Section -->
 <div class="container mb-5">
-  <div class="text-center mb-4">
-    <h2 class="fw-bold">Frequently Asked Questions</h2>
-    <p class="text-muted">Quick answers to common questions</p>
-  </div>
-  
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="accordion">
-        <div class="accordion-item border-0 mb-2 shadow-sm">
-          <h3 class="accordion-header">
-            <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne">
-              How can I track my order?
-            </button>
-          </h3>
-          <div id="faqOne" class="accordion-collapse collapse show">
-            <div class="accordion-body">
-              <p>Log into your Flippkart account and visit "My Orders" section or use the tracking link in your confirmation email.</p>
-            </div>
+  <div class="row justify-content-center g-4">
+    <!-- Card 1: Send us message -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body p-4">
+          <h2 class="h4 mb-4 text-center">Send us a message</h2>
+          
+          {% if messages %}
+          <div class="mb-4">
+            {% for message in messages %}
+              <div class="alert alert-success">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                {{ message }}
+              </div>
+            {% endfor %}
           </div>
-        </div>
-        
-        <div class="accordion-item border-0 mb-2 shadow-sm">
-          <h3 class="accordion-header">
-            <button class="accordion-button collapsed fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo">
-              What is your return policy?
+          {% endif %}
+
+          <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-control" name="contact_name" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-control" name="contact_email" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Subject</label>
+              <select class="form-select" name="contact_subject">
+                <option>General Inquiry</option>
+                <option>Order Support</option>
+                <option>Returns & Refunds</option>
+              </select>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Message</label>
+              <textarea class="form-control" rows="4" name="contact_message" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-3">
+              Send Message
             </button>
-          </h3>
-          <div id="faqTwo" class="accordion-collapse collapse">
-            <div class="accordion-body">
-              <p>We offer 30-day returns for most products. Initiate returns from your "My Orders" section within this period.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Card 2: Reach us details with map -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body p-4">
+          <h2 class="h4 mb-4 text-center">Reach us</h2>
+          
+          <!-- Map Placeholder -->
+          <div class="ratio ratio-16x9 mb-4 bg-light overflow-hidden">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.003168779773!2d77.61631921482193!3d12.971997990857037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1700345154c7%3A0x6c6e4f1e3a6a3f8!2sBangalore%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" 
+              width="600" 
+              height="450" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy">
+            </iframe>
+          </div>
+          
+          <!-- Contact Info -->
+          <div class="text-center">
+            <div class="d-flex justify-content-center gap-4 mb-4 flex-wrap">
+              <div class="p-3">
+                <div class="text-primary mb-2">
+                  <i class="bi bi-telephone fs-3"></i>
+                </div>
+                <h5 class="h6 mb-1">Phone</h5>
+                <p class="mb-0 text-muted">+91 1800 123 456</p>
+              </div>
+              
+              <div class="p-3">
+                <div class="text-primary mb-2">
+                  <i class="bi bi-envelope fs-3"></i>
+                </div>
+                <h5 class="h6 mb-1">Email</h5>
+                <p class="mb-0 text-muted">support@flippkart.com</p>
+              </div>
+              
+              <div class="p-3">
+                <div class="text-primary mb-2">
+                  <i class="bi bi-clock fs-3"></i>
+                </div>
+                <h5 class="h6 mb-1">Hours</h5>
+                <p class="mb-0 text-muted">Mon-Fri: 9AM-6PM</p>
+              </div>
+            </div>
+            
+            <div class="p-3">
+              <div class="text-primary mb-2">
+                <i class="bi bi-geo-alt fs-3"></i>
+              </div>
+              <h5 class="h6 mb-1">Address</h5>
+              <p class="mb-0 text-muted">Flippkart Headquarters,<br>Bengaluru, Karnataka, India</p>
             </div>
           </div>
         </div>
@@ -169,44 +127,51 @@
 </div>
 
 <style>
-  /* Enhanced Minimal Styling */
-  .contact-hero {
-    background: linear-gradient(135deg, #2874f0, #1a5fcf);
+  /* Clean, modern styles */
+  body {
+    background-color: #f8f9fa;
   }
   
-  .rounded-1 {
-    border-radius: 0.25rem !important;
+  .card {
+    border-radius: 8px;
+    transition: transform 0.2s;
   }
   
-  .shadow-sm {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+  .card:hover {
+    transform: translateY(-5px);
   }
   
   .form-control, .form-select, textarea {
-    padding: 0.5rem 0;
-    border-radius: 0;
     background-color: #f8f9fa !important;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px !important;
   }
   
-  .form-control:focus, .form-select:focus {
-    box-shadow: none;
-    border-color: #2874f0;
+  .form-control:focus, .form-select:focus, textarea:focus {
+    box-shadow: 0 0 0 0.25rem rgba(40, 116, 240, 0.15);
     background-color: white !important;
   }
   
-  .accordion-button:not(.collapsed) {
-    color: #2874f0;
-    background-color: rgba(40, 116, 240, 0.05);
+  .btn-primary {
+    background-color: #2874f0;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
   }
   
-  .accordion-button:focus {
-    box-shadow: none;
+  .btn-primary:hover {
+    background-color: #1a66d6;
   }
   
-  @media (max-width: 768px) {
-    .contact-hero {
-      padding: 2.5rem 0;
-    }
+  .text-primary {
+    color: #2874f0 !important;
+  }
+  
+  .alert-success {
+    background-color: #e8f5e9;
+    border-color: #c8e6c9;
+    color: #2e7d32;
   }
 </style>
 
