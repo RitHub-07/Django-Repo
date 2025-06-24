@@ -31,6 +31,7 @@ urlpatterns = [
   path('privacy-policy/', privacy_policy, name='privacy_policy'),
   path("categories/",categories_view,name="categories_view"),
 
+
   # path('categories_product/<int:category_id>/',categories_view, name='categories_product'),
   path('products/<int:category_id>/', categories_product, name='categories_product'),
   path('my-orders/', my_orders, name='my_orders'),

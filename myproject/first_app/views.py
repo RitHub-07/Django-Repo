@@ -272,13 +272,24 @@ def edit_profile(request):
 
 @login_required
 def saved_address(request):
-    # Get unique addresses the user has used in past orders
-    addresses = (
-        Order.objects.filter(user=request.user)
-        .values('name', 'email', 'phone', 'address', 'city', 'pincode')
-        .distinct()
-        .order_by('-id')
-    )
+    orders = Order.objects.filter(user=request.user)
+    addresses = []
+    seen = set()
+
+    for order in orders:
+        key = (order.name, order.email, order.phone, order.address, order.city, order.pincode)
+
+        if key not in seen:
+            seen.add(key)  # Mark this address as seen
+            addresses.append({
+                'name': order.name,
+                'email': order.email,
+                'phone': order.phone,
+                'address': order.address,
+                'city': order.city,
+                'pincode': order.pincode
+            })
+
     return render(request, 'saved_address.html', {'addresses': addresses})
 
 
