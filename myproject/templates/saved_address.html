@@ -18,7 +18,9 @@
         <div class="card address-card h-100 border-2">
           <div class="card-header bg-white border-bottom-0 py-3">
             <div class="d-flex justify-content-between align-items-center">
-              <h5 class="card-title mb-0 fw-bold text-primary">{{ address.name }}</h5>
+              <h5 class="card-title mb-0 fw-bold text-primary">
+                 {{ address.name }}
+              </h5>
               <div>
                 <a href="#" class="btn btn-sm btn-outline-success me-1"><i class="fas fa-edit"></i></a>
                 <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
@@ -29,15 +31,15 @@
             <ul class="list-unstyled mb-0">
               <li class="mb-2 d-flex">
                 <i class="fas fa-home text-muted me-3 mt-1"></i>
-                <span>{{ address.address }}, {{ address.city }} - {{ address.pincode }}</span>
+                <span><strong>Address:</strong> {{ address.address }}, {{ address.city }} - {{ address.pincode }}</span>
               </li>
               <li class="mb-2 d-flex">
                 <i class="fas fa-mobile-alt text-muted me-3 mt-1"></i>
-                <span>{{ address.phone }}</span>
+                <span><strong>Phone:</strong> {{ address.phone }}</span>
               </li>
               <li class="d-flex">
                 <i class="fas fa-envelope text-muted me-3 mt-1"></i>
-                <span>{{ address.email }}</span>
+                <span><strong>Email:</strong> {{ address.email }}</span>
               </li>
             </ul>
           </div>
@@ -69,19 +71,19 @@
     transition: all 0.3s ease;
     border-color: #e9ecef;
   }
-  
+
   .address-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     border-color: #0d6efd;
   }
-  
+
   .address-card .card-header {
     border-radius: 12px 12px 0 0 !important;
   }
-  
+
   .address-card .list-unstyled li span {
-    color:rgb(73, 87, 79);
+    color: rgb(73, 87, 79);
   }
 </style>
 {% endblock %}
