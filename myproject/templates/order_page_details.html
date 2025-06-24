@@ -6,352 +6,150 @@
 {% block content %}
 <div class="container my-5">
   {% if order %}
-    <div class="card border-0 shadow-lg mb-4">
-      <div class="card-header bg-gradient-success text-white py-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="mb-0 fw-bold"><i class="fas fa-receipt me-2"></i> Order #{{ order.id }}</h5>
-          <span class="badge bg-white text-success">{{ order.status }}</span>
-        </div>
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Order #{{ order.id }} Details</h5>
       </div>
-      
       <div class="card-body">
-        <!-- Enhanced Two-Column Layout -->
-        <div class="row g-4">
-          <!-- Enhanced Address Card -->
-          <div class="col-lg-6">
-            <div class="card h-100 border-0 shadow-sm hover-effect" onclick="window.location.href='{% url 'saved_address' %}';" style="cursor: pointer;">
-              <div class="card-header bg-light-primary d-flex justify-content-between align-items-center py-3">
-                <h6 class="mb-0 fw-bold text-primary"><i class="fas fa-map-marker-alt me-2"></i>Delivery Address</h6>
-                <span class="badge bg-primary bg-opacity-10 text-primary">View All</span>
+        <div class="row">
+          <!-- Delivery Address Card -->
+          <div class="col-md-6 mb-3 mb-md-0">
+            <div class="card h-100">
+              <div class="card-header bg-light">
+                <h6 class="mb-0">Delivery Address</h6>
               </div>
-              <div class="card-body py-3">
-                <div class="address-details">
-                  <div class="d-flex mb-3">
-                    <div class="icon-circle bg-primary bg-opacity-10 text-primary me-3">
-                      <i class="fas fa-user"></i>
-                    </div>
-                    <div>
-                      <h6 class="fw-bold mb-0">{{ order.name }}</h6>
-                      <small class="text-muted">Recipient Name</small>
-                    </div>
-                  </div>
-                  
-                  <div class="d-flex mb-3">
-                    <div class="icon-circle bg-primary bg-opacity-10 text-primary me-3">
-                      <i class="bi bi-home"></i>
-                    </div>
-                    <div>
-                      <p class="mb-0">{{ order.address }}</p>
-                      <p class="mb-0 text-muted">{{ order.city }}, {{ order.pincode }}</p>
-                    </div>
-                  </div>
-                  
-                  <div class="d-flex mb-3">
-                    <div class="icon-circle bg-primary bg-opacity-10 text-primary me-3">
-                      <i class="fas fa-phone"></i>
-                    </div>
-                    <div>
-                      <p class="mb-0">{{ order.phone }}</p>
-                      <p class="mb-0 text-muted">{{ order.email }}</p>
-                    </div>
-                  </div>
-                </div>
+              <div class="card-body">
+                <p class="mb-1"><strong>Name:</strong> {{ order.name }}</p>
+                <p class="mb-1"><strong>Address:</strong> {{ order.address }}</p>
+                <p class="mb-1"><strong>City:</strong> {{ order.city }}</p> 
+                <p class="mb-1"><strong>Pincode:</strong> {{ order.pincode }}</p>
+                <p class="mb-1"><strong>Phone:</strong> {{ order.phone }}</p>
+                <p class="mb-1"><strong>Email:</strong> {{ order.email }}</p>
               </div>
             </div>
           </div>
 
-          <!-- Enhanced Order Summary Card -->
-          <div class="col-lg-6">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-header bg-light-primary py-3">
-                <h6 class="mb-0 fw-bold text-primary"><i class="fas fa-clipboard-list me-2"></i>Order Summary</h6>
+          <!-- Order Summary Card -->
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-header bg-light">
+                <h6 class="mb-0">Order Summary</h6>
               </div>
-              <div class="card-body py-3">
-                <div class="timeline-steps">
-                  <div class="timeline-step {% if order.status == 'Delivered' %}complete{% elif order.status == 'Shipped' %}complete{% else %}active{% endif %}">
-                    <div class="timeline-content">
-                      <div class="inner-circle"></div>
-                      <p class="mb-0">Placed</p>
-                      <small class="text-muted">{{ order.created_at|date:"d M" }}</small>
-                    </div>
-                  </div>
-                  <div class="timeline-step {% if order.status == 'Delivered' %}complete{% elif order.status == 'Shipped' %}complete{% else %}{% endif %}">
-                    <div class="timeline-content">
-                      <div class="inner-circle"></div>
-                      <p class="mb-0">Shipped</p>
-                      <small class="text-muted">{% if order.status == 'Delivered' or order.status == 'Shipped' %}{{ order.shipped_date|date:"d M" }}{% endif %}</small>
-                    </div>
-                  </div>
-                  <div class="timeline-step {% if order.status == 'Delivered' %}complete{% else %}{% endif %}">
-                    <div class="timeline-content">
-                      <div class="inner-circle"></div>
-                      <p class="mb-0">Delivered</p>
-                      <small class="text-muted">{% if order.status == 'Delivered' %}{{ order.delivered_date|date:"d M" }}{% endif %}</small>
-                    </div>
-                  </div>
-                </div>
-                
-                <hr class="my-4">
-                
-                <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
                   <span>Order Date:</span>
-                  <span class="fw-bold">{{ order.created_at|date:"d M Y, H:i" }}</span>
+                  <span>{{ order.created_at|date:"d M Y, H:i" }}</span>
                 </div>
-                
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span>Payment Method:</span>
-                  <span class="badge bg-success bg-opacity-10 text-success">Cash On Delivery</span>
+                <div class="d-flex justify-content-between mb-2">
+                  <span>Status:</span>
+                  <span class="badge bg-{% if order.status == 'Delivered' %}success{% elif order.status == 'Cancelled' %}danger{% else %}warning{% endif %}">
+                    {{ order.status }}
+                  </span>
                 </div>
-                
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <span>Total Items:</span>
-                  <span class="fw-bold">{{ order.items.count }}</span>
-                </div>
-                
-                <div class="total-amount bg-light-primary p-3 rounded text-center">
-                  <small class="text-muted">Total Amount</small>
-                  <h4 class="mb-0 fw-bold text-primary">₹{{ order.total_amount }}</h4>
+                <hr>
+                <div class="d-flex justify-content-between fw-bold">
+                  <span>Total Amount:</span>
+                  <span>₹{{ order.total_amount }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Enhanced Ordered Items Section -->
-        <div class="mt-4">
-          <h5 class="fw-bold mb-3"><i class="fas fa-boxes me-2"></i>Ordered Items</h5>
-          <div class="card border-0 shadow-sm">
-            <div class="card-body p-0">
-              <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                  <thead class="bg-light">
-                    <tr>
-                      <th scope="col" style="width: 60px">Item</th>
-                      <th scope="col">Product</th>
-                      <th scope="col" class="text-center">Price</th>
-                      <th scope="col" class="text-center">Qty</th>
-                      <th scope="col" class="text-end">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for item in order.items.all %}
-                    <tr>
-                      <td>
-                        <a href="{% url 'product_detail' item.product.id %}">
-                          <img src="{{ item.product.product_image.url }}" 
-                               class="img-fluid rounded" 
-                               style="width: 50px; height: 50px; object-fit: contain;"
-                               alt="{{ item.product.product_name }}">
-                        </a>
-                      </td>
-                      <td>
-                        <h6 class="mb-1">{{ item.product.product_name }}</h6>
-                        <p class="small text-muted mb-0">{{ item.product.product_description|truncatechars:60 }}</p>
-                      </td>
-                      <td class="text-center">₹{{ item.price }}</td>
-                      <td class="text-center">{{ item.quantity }}</td>
-                      <td class="text-end fw-bold">₹{% widthratio item.price 1 item.quantity %}</td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+        <!-- Ordered Items -->
+        <h5 class="mt-4 mb-3">Items Ordered</h5>
+        <div class="list-group">
+          {% for item in order.items.all %}
+          <div class="list-group-item">
+            <div class="row align-items-center">
+              <div class="col-md-1 col-3">
+                <a href="{% url 'product_detail' item.product.id %}">
+                  <img src="{{ item.product.product_image.url }}" 
+                       class="img-fluid rounded" 
+                       style="width: 80px; height: 80px; object-fit: contain;"
+                       alt="{{ item.product.product_name }}">
+                </a>
+              </div>
+              <div class="col-md-5 col-9">
+                <h6 class="mb-1">{{ item.product.product_name }}</h6>
+                <p class="mb-1 small text-muted">{{ item.product.product_description|truncatechars:80 }}</p>
+                <span class="badge bg-light text-dark">Qty: {{ item.quantity }}</span>
+              </div>
+              <div class="col-md-3 text-md-center">
+                <span>₹{{ item.price }}</span>
+              </div>
+              <div class="col-md-3 text-end">
+                <strong>₹{% widthratio item.price 1 item.quantity %}</strong>
               </div>
             </div>
           </div>
+          {% endfor %}
         </div>
       </div>
-      
-      <div class="card-footer bg-white border-top-0 py-3">
-        <div class="d-flex justify-content-between">
-          <a href="{% url 'my_orders' %}" class="btn btn-outline-secondary">
-            <i class="fas fa-arrow-left me-2"></i> Back to Orders
-          </a>
-          {% if order.status != 'Cancelled' and order.status != 'Delivered' %}
-            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
-              <i class="fas fa-times-circle me-2"></i> Cancel Order
-            </button>
-          {% endif %}
-        </div>
+      <div class="card-footer d-flex justify-content-between">
+        <a href="{% url 'my_orders' %}" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left"></i> Back to Orders
+        </a>
+        {% if order.status != 'Cancelled' and order.status != 'Delivered' %}
+          <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
+            <i class="bi bi-x-circle"></i> Cancel Order
+          </button>
+        {% endif %}
       </div>
     </div>
 
     <!-- Cancel Order Modal -->
-    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header border-0">
-            <h5 class="modal-title fw-bold">Cancel Order #{{ order.id }}</h5>
+          <div class="modal-header">
+            <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body py-4">
-            <div class="text-center mb-4">
-              <i class="fas fa-exclamation-circle fa-4x text-danger mb-3"></i>
-              <h5>Are you sure you want to cancel this order?</h5>
-              <p class="text-muted">This action cannot be undone.</p>
-            </div>
-            <div class="bg-light p-3 rounded text-center">
-              <p class="mb-1"><strong>Order Total:</strong> ₹{{ order.total_amount }}</p>
-              <p class="mb-0"><strong>Items:</strong> {{ order.items.count }}</p>
-            </div>
+          <div class="modal-body">
+            <p>Are you sure you want to cancel this order?</p>
+            <p><strong>Order #{{ order.id }}</strong> - Total: ₹{{ order.total_amount }}</p>
           </div>
-          <div class="modal-footer border-0">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <form method="post" action="{% url 'cancel_order' order.id %}">
               {% csrf_token %}
-              <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
+              <button type="submit" class="btn btn-danger">Confirm Cancel</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   {% else %}
-    <div class="alert alert-danger text-center py-4">
-      <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
-      <h4>Order Not Found</h4>
-      <p class="mb-0">The requested order doesn't exist or you don't have permission to view it.</p>
+    <div class="alert alert-danger">
+      Order not found or you don't have permission to view this order.
     </div>
   {% endif %}
 </div>
 
 <style>
-  /* Enhanced Card Styling */
   .card {
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.3s ease;
+    border-radius: 8px;
   }
-  
-  .bg-gradient-success {
-    background: linear-gradient(135deg, #28a745, #20c997);
+  .list-group-item {
+    padding: 1rem;
+    border-left: none;
+    border-right: none;
   }
-  
-  .bg-light-primary {
-    background-color: rgba(13, 110, 253, 0.05);
+  .list-group-item:first-child {
+    border-top: none;
   }
-  
-  .hover-effect:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  .list-group-item:last-child {
+    border-bottom: none;
   }
-  
-  /* Address Card Specific */
-  .icon-circle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+  .img-fluid {
+    max-height: 80px;
+    width: auto;
   }
-  
-  /* Timeline Steps */
-  .timeline-steps {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-    position: relative;
-    margin-bottom: 30px;
-  }
-  
-  .timeline-steps::before {
-    content: "";
-    position: absolute;
-    top: 14px;
-    left: 10%;
-    width: 80%;
-    height: 2px;
-    background-color: #e9ecef;
-    z-index: 0;
-  }
-  
-  .timeline-step {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-  }
-  
-  .timeline-step.complete .inner-circle {
-    background-color: #28a745;
-    border-color: #28a745;
-  }
-  
-  .timeline-step.active .inner-circle {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-  }
-  
-  .inner-circle {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #e9ecef;
-    border: 2px solid #e9ecef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 12px;
-    z-index: 1;
-  }
-  
-  .timeline-content {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-  }
-  
-  /* Table Styling */
-  .table-hover tbody tr:hover {
-    background-color: rgba(13, 110, 253, 0.03);
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 992px) {
-    .timeline-steps::before {
-      width: 70%;
-      left: 15%;
-    }
-  }
-  
   @media (max-width: 768px) {
-    .timeline-steps {
-      flex-direction: column;
-      align-items: flex-start;
-      padding-left: 30px;
-    }
-    
-    .timeline-steps::before {
-      height: 80%;
-      width: 2px;
-      top: 0;
-      left: 15px;
-    }
-    
-    .timeline-step {
-      flex-direction: row;
-      margin-bottom: 20px;
-      flex: initial;
-    }
-    
-    .timeline-content {
-      text-align: left;
-      margin-top: 0;
-      margin-left: 15px;
+    .col-md-1, .col-md-5, .col-md-3 {
+      margin-bottom: 10px;
     }
   }
 </style>
-
-<script>
-  // Add click effect to address card
-  document.querySelector('.address-card').addEventListener('mousedown', function() {
-    this.style.transform = 'translateY(-2px) scale(0.99)';
-  });
-  
-  document.querySelector('.address-card').addEventListener('mouseup', function() {
-    this.style.transform = 'translateY(-5px)';
-  });
-</script>
 {% endblock %}
