@@ -622,10 +622,6 @@ def checkout_view(request):
     })
 
 
-
-
-
-
 # def my_orders(request):
 #     if not request.user.is_authenticated:
 #         messages.error(request, "Please login to view orders")
