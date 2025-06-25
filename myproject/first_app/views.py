@@ -597,7 +597,7 @@ def place_order(request):
         cart.items.all().delete()
 
         messages.success(request, "Order placed successfully!")
-        return redirect('my_orders')
+        return redirect('home')
 
     # fallback if accessed via GET
     return redirect('checkout')
@@ -647,19 +647,20 @@ def my_orders(request):
 
     from_date = request.GET.get('from_date')
     to_date = request.GET.get('to_date')
+    search_query = request.GET.get('search', '')
 
     if from_date:
-        try:
-            orders = orders.filter(created_at__date__gte=parse_date(from_date))
-        except:
-            pass
+        orders = orders.filter(created_at__date__gte=parse_date(from_date))
     if to_date:
-        try:
-            orders = orders.filter(created_at__date__lte=parse_date(to_date))
-        except:
-            pass
+        orders = orders.filter(created_at__date__lte=parse_date(to_date))
+    if search_query:
+        orders = orders.filter(items__product__product_name__icontains=search_query).distinct()
 
-    return render(request, 'my_orders.html', {'orders': orders})
+    return render(request, 'my_orders.html', {
+        'orders': orders,
+        'search_query': search_query,})
+
+    # return render(request, 'my_orders.html', {'orders': orders})
 
 
 def order_detail_view(request, order_id):
