@@ -623,6 +623,57 @@ def checkout_view(request):
 
 
 
+
+
+
+# def my_orders(request):
+#     if not request.user.is_authenticated:
+#         messages.error(request, "Please login to view orders")
+#         return redirect('login')
+
+#     orders = Order.objects.filter(user=request.user).order_by('-created_at')
+#     return render(request, 'my_orders.html', {'orders': orders})
+
+
+from django.utils.dateparse import parse_date
+from datetime import datetime
+
+def my_orders(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to view orders")
+        return redirect('login')
+
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+
+    from_date = request.GET.get('from_date')
+    to_date = request.GET.get('to_date')
+
+    if from_date:
+        try:
+            orders = orders.filter(created_at__date__gte=parse_date(from_date))
+        except:
+            pass
+    if to_date:
+        try:
+            orders = orders.filter(created_at__date__lte=parse_date(to_date))
+        except:
+            pass
+
+    return render(request, 'my_orders.html', {'orders': orders})
+
+
+def order_detail_view(request, order_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to view your orders")
+        return redirect('login')
+
+    try:
+        order = Order.objects.get(id=order_id, user=request.user)
+        return render(request, 'order_page_details.html', {'order': order})
+    except Order.DoesNotExist:
+        messages.error(request, "Order not found or you don't have permission to view this order")
+        return redirect('my_orders')
+    
 def cancel_order(request, order_id):
     if not request.user.is_authenticated:
         messages.error(request, "Please login to cancel orders")
@@ -640,26 +691,3 @@ def cancel_order(request, order_id):
         messages.error(request, "Order not found")
 
     return redirect('order_detail', order_id=order_id)
-
-
-def my_orders(request):
-    if not request.user.is_authenticated:
-        messages.error(request, "Please login to view orders")
-        return redirect('login')
-
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'my_orders.html', {'orders': orders})
-
-
-
-def order_detail_view(request, order_id):
-    if not request.user.is_authenticated:
-        messages.error(request, "Please login to view your orders")
-        return redirect('login')
-
-    try:
-        order = Order.objects.get(id=order_id, user=request.user)
-        return render(request, 'order_page_details.html', {'order': order})
-    except Order.DoesNotExist:
-        messages.error(request, "Order not found or you don't have permission to view this order")
-        return redirect('my_orders')
