@@ -4,43 +4,59 @@
 {% block title %}Order Details - Flippkart{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<div class="container py-4 py-lg-5">
   {% if order %}
     <div class="order-details-container">
       <!-- Order Header -->
-      <div class="order-header mb-4">
-        <div class="d-flex justify-content-between align-items-center">
-          <h2 class="order-title">Order #{{ order.id }}</h2>
+      <div class="order-header mb-4 p-3 bg-light rounded-3">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+          <h1 class="order-title h4 mb-2 mb-md-0">
+            <i class="bi bi-receipt me-2"></i>Order #{{ order.id }}
+          </h1>
           <span class="order-status-badge 
-            {% if order.status == 'Delivered' %}delivered
-            {% elif order.status == 'Cancelled' %}cancelled
-            {% else %}processing{% endif %}">
+            {% if order.status == 'Delivered' %}bg-success
+            {% elif order.status == 'Cancelled' %}bg-danger
+            {% else %}bg-warning{% endif %}">
             {{ order.status }}
           </span>
         </div>
-        <div class="order-meta">
-          <span class="order-date">{{ order.created_at|date:"F d, Y" }}</span>
-          <span class="order-total">₹{{ order.total_amount }}</span>
+        <div class="d-flex flex-column flex-md-row gap-2 gap-md-4">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-calendar me-2 text-muted"></i>
+            <span class="order-date">{{ order.created_at|date:"F d, Y" }}</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <i class="bi bi-currency-rupee me-2 text-muted"></i>
+            <span class="order-total fw-bold">₹{{ order.total_amount }}</span>
+          </div>
         </div>
       </div>
 
       <!-- Two Column Layout -->
-      <div class="row g-4 mb-5">
+      <div class="row g-4 mb-4">
         <!-- Delivery Address -->
         <div class="col-lg-6">
-          <div class="info-card">
-            <div class="info-card-header">
-              <i class="bi bi-truck"></i>
-              <h3>Delivery Address</h3>
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-header bg-white">
+              <h3 class="h5 mb-0">
+                <i class="bi bi-truck text-primary me-2"></i>
+                Delivery Address
+              </h3>
             </div>
-            <div class="info-card-body">
+            <div class="card-body">
               <div class="address-details">
-                <p class="address-name">Name: {{ order.name }}</p>
-                <p class="address-street">Address: {{ order.address }}</p>
-                <p class="address-city">City: {{ order.city }}, Pincode: {{ order.pincode }}</p>
+                <h4 class="h6 fw-bold mb-3">{{ order.name }}</h4>
+                <p class="mb-2">{{ order.address }}</p>
+                <p class="mb-3">{{ order.city }}, {{ order.pincode }}</p>
                 <div class="address-contacts">
-                  <p><i class="bi bi-telephone"></i> Phone: {{ order.phone }}</p>
-                  <p><i class="bi bi-envelope"></i> Email: {{ order.email }}</p>
+                  <p class="mb-1">
+                    <i class="bi bi-telephone me-2 text-muted"></i>
+                    {{ order.phone }}
+                  </p>
+                  <p class="mb-0">
+                    <i class="bi bi-envelope me-2 text-muted"></i>
+                    {{ order.email }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -49,29 +65,42 @@
 
         <!-- Order Summary -->
         <div class="col-lg-6">
-          <div class="info-card">
-            <div class="info-card-header">
-              <i class="bi bi-receipt"></i>
-              <h3>Order Summary</h3>
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-header bg-white">
+              <h3 class="h5 mb-0">
+                <i class="bi bi-card-checklist text-primary me-2"></i>
+                Order Summary
+              </h3>
             </div>
-            <div class="info-card-body">
-              <div class="summary-grid">
-                <div class="summary-item">
-                  <span>Order Date</span>
-                  <span>{{ order.created_at|date:"d M Y, H:i" }}</span>
-                </div>
-                <div class="summary-item">
-                  <span>Payment Method</span>
-                  <span>Cash on Delivery</span>
-                </div>
-                <div class="summary-item">
-                  <span>Status</span>
-                  <span class="status-text">{{ order.status }}</span>
-                </div>
-                <div class="summary-item total">
-                  <span>Total Amount</span>
-                  <span>₹{{ order.total_amount }}</span>
-                </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-borderless mb-0">
+                  <tbody>
+                    <tr>
+                      <td>Order Date</td>
+                      <td class="text-end">{{ order.created_at|date:"d M Y, h:i A" }}</td>
+                    </tr>
+                    <tr>
+                      <td>Payment Method</td>
+                      <td class="text-end">Cash on Delivery</td>
+                    </tr>
+                    <tr>
+                      <td>Status</td>
+                      <td class="text-end">
+                        <span class="badge 
+                          {% if order.status == 'Delivered' %}bg-success
+                          {% elif order.status == 'Cancelled' %}bg-danger
+                          {% else %}bg-warning{% endif %}">
+                          {{ order.status }}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr class="border-top">
+                      <td class="fw-bold pt-3">Total Amount</td>
+                      <td class="text-end fw-bold pt-3">₹{{ order.total_amount }}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -79,70 +108,132 @@
       </div>
 
       <!-- Ordered Items -->
-      <div class="order-items-section">
-        <h3 class="section-title">Ordered Items</h3>
-        <div class="order-items-container">
-          {% for item in order.items.all %}
-          <div class="order-item">
-            <div class="item-image">
-              <a href="{% url 'product_detail' item.product.id %}">
-                <img src="{{ item.product.product_image.url }}" 
-                     alt="{{ item.product.product_name }}"
-                     class="img-fluid">
-              </a>
-            </div>
-            <div class="item-details">
-              <h4 class="item-name">{{ item.product.product_name }}</h4>
-              <p class="item-desc">{{ item.product.product_description|truncatechars:80 }}</p>
-            </div>
-            <div class="item-price">
-              <span>₹{{ item.price }}</span>
-            </div>
-            <div class="item-quantity">
-              <span>Qty: {{ item.quantity }}</span>
-            </div>
-            <div class="item-total">
-              <span>₹{% widthratio item.price 1 item.quantity %}</span>
+      <div class="card border-0 shadow-sm mt-4">
+        <div class="card-header bg-white">
+          <h3 class="h5 mb-0">
+            <i class="bi bi-box-seam text-primary me-2"></i>
+            Ordered Items ({{ order.items.count }})
+          </h3>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 80px">Product</th>
+                  <th>Details</th>
+                  <th class="text-end">Price</th>
+                  <th class="text-center">Qty</th>
+                  <th class="text-end">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                  <td>
+                    <div class="product-thumbnail">
+                      <a href="{% url 'product_detail' item.product.id %}">
+                        {% if item.product.product_image %}
+                        <img src="{{ item.product.product_image.url }}" 
+                             alt="{{ item.product.product_name }}"
+                             class="img-fluid rounded border">
+                        {% else %}
+                        <div class="no-image bg-light d-flex align-items-center justify-content-center">
+                          <i class="bi bi-image text-muted"></i>
+                        </div>
+                        {% endif %}
+                      </a>
+                    </div>
+                  </td>
+                  <td>
+                    <a href="{% url 'product_detail' item.product.id %}" class="text-decoration-none">
+                      <h5 class="mb-1 fw-bold text-dark">{{ item.product.product_name }}</h5>
+                    </a>
+                    <p class="small text-muted mb-0">{{ item.product.product_description|truncatechars:60 }}</p>
+                  </td>
+                  <td class="text-end">
+                    <span class="fw-medium">₹{{ item.price }}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-dark">{{ item.quantity }}</span>
+                  </td>
+                  <td class="text-end">
+                    <span class="fw-bold">₹{% widthratio item.price 1 item.quantity %}</span>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary Footer -->
+      <div class="card border-0 shadow-sm mt-4">
+        <div class="card-body">
+          <div class="row justify-content-end">
+            <div class="col-md-5">
+              <div class="table-responsive">
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <td>Subtotal</td>
+                      <td class="text-end">₹{{ order.total_amount }}</td>
+                    </tr>
+                    <tr>
+                      <td>Shipping</td>
+                      <td class="text-end">FREE</td>
+                    </tr>
+                    <tr class="border-top">
+                      <td class="fw-bold pt-2">Total</td>
+                      <td class="text-end fw-bold pt-2">₹{{ order.total_amount }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-          {% endfor %}
         </div>
       </div>
 
       <!-- Action Buttons -->
-      <div class="order-actions mt-5">
-        <a href="{% url 'my_orders' %}" class="btn btn-back">
-          <i class="bi bi-arrow-left"></i> Back to Orders
+      <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mt-4">
+        <a href="{% url 'my_orders' %}" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left me-2"></i>Back to Orders
         </a>
-        {% if order.status != 'Cancelled' and order.status != 'Delivered' %}
-          <button class="btn btn-cancel" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
-            <i class="bi bi-x-circle"></i> Cancel Order
+        <div class="d-flex gap-3">
+          <button onclick="window.print()" class="btn btn-outline-primary">
+            <i class="bi bi-printer me-2"></i>Print Invoice
           </button>
-        {% endif %}
+          {% if order.status != 'Cancelled' and order.status != 'Delivered' %}
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
+              <i class="bi bi-x-circle me-2"></i>Cancel Order
+            </button>
+          {% endif %}
+        </div>
       </div>
     </div>
 
     <!-- Cancel Order Modal -->
-    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order #{{ order.id }}</h5>
+          <div class="modal-header border-0">
+            <h5 class="modal-title">Cancel Order #{{ order.id }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            <div class="confirmation-content">
-              <div class="confirmation-icon">
-                <i class="bi bi-exclamation-triangle"></i>
-              </div>
-              <p>Are you sure you want to cancel this order?</p>
-              <div class="order-summary">
-                <p>Total: <strong>₹{{ order.total_amount }}</strong></p>
-              </div>
+          <div class="modal-body text-center py-4">
+            <div class="mb-4">
+              <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 3rem;"></i>
+            </div>
+            <h5 class="mb-3">Are you sure you want to cancel this order?</h5>
+            <p class="text-muted">This action cannot be undone.</p>
+            <div class="bg-light p-3 rounded-2 mb-4">
+              <p class="mb-0">Total: <strong>₹{{ order.total_amount }}</strong></p>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+          <div class="modal-footer border-0 justify-content-center">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Go Back</button>
             <form method="post" action="{% url 'cancel_order' order.id %}">
               {% csrf_token %}
               <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
@@ -152,9 +243,15 @@
       </div>
     </div>
   {% else %}
-    <div class="error-message">
-      <i class="bi bi-exclamation-circle"></i>
-      <p>Order not found or you don't have permission to view this order.</p>
+    <div class="alert alert-danger text-center py-4">
+      <div class="mb-3">
+        <i class="bi bi-exclamation-octagon-fill" style="font-size: 2rem;"></i>
+      </div>
+      <h4 class="alert-heading">Order Not Found</h4>
+      <p>This order doesn't exist or you don't have permission to view it.</p>
+      <a href="{% url 'my_orders' %}" class="btn btn-outline-danger mt-2">
+        <i class="bi bi-arrow-left me-2"></i>Back to Orders
+      </a>
     </div>
   {% endif %}
 </div>
@@ -168,287 +265,127 @@
 
   /* Order Header */
   .order-header {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
+    background-color: #f8f9fa;
   }
   .order-title {
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
-  }
-  .order-meta {
-    display: flex;
-    gap: 1rem;
-    color: #7f8c8d;
-    font-size: 0.9rem;
+    font-weight: 600;
+    color: #212529;
   }
   .order-status-badge {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: 600;
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
     font-size: 0.85rem;
-    text-transform: uppercase;
-  }
-  .order-status-badge.delivered {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-  }
-  .order-status-badge.cancelled {
-    background-color: #ffebee;
-    color: #c62828;
-  }
-  .order-status-badge.processing {
-    background-color: #fff8e1;
-    color: #f57f17;
-  }
-
-  /* Info Cards */
-  .info-card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    height: 100%;
-  }
-  .info-card-header {
-    display: flex;
-    align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid #f5f5f5;
-  }
-  .info-card-header i {
-    font-size: 1.5rem;
-    margin-right: 1rem;
-    color: #3498db;
-  }
-  .info-card-header h3 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0;
-    color: #2c3e50;
-  }
-  .info-card-body {
-    padding: 1.5rem;
-  }
-
-  /* Address Details */
-  .address-details {
-    line-height: 1.6;
-  }
-  .address-name {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #2c3e50;
-  }
-  .address-street, .address-city {
-    color: #7f8c8d;
-    margin-bottom: 0.5rem;
-  }
-  .address-contacts {
-    margin-top: 1rem;
-  }
-  .address-contacts p {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #7f8c8d;
-    margin-bottom: 0.3rem;
-  }
-
-  /* Summary Grid */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .summary-item {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #f5f5f5;
-  }
-  .summary-item span:first-child {
-    color: #7f8c8d;
-  }
-  .summary-item.total {
-    margin-top: 1rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid #eee;
-    font-weight: 600;
-    color: #2c3e50;
-  }
-  .status-text {
     font-weight: 500;
-  }
-
-  /* Order Items Section */
-  .order-items-section {
-    margin-top: 2rem;
-  }
-  .section-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #eee;
-  }
-  .order-items-container {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    overflow: hidden;
-  }
-  .order-item {
-    display: grid;
-    grid-template-columns: 80px 2fr 1fr 1fr 1fr;
-    gap: 1.5rem;
-    align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid #f5f5f5;
-  }
-  .order-item:last-child {
-    border-bottom: none;
-  }
-  .item-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 6px;
-    object-fit: contain;
-  }
-  .item-details {
-    padding-right: 1rem;
-  }
-  .item-name {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #2c3e50;
-  }
-  .item-desc {
-    color: #7f8c8d;
-    font-size: 0.9rem;
-    margin-bottom: 0;
-  }
-  .item-price, .item-quantity, .item-total {
-    text-align: center;
-    font-weight: 500;
-  }
-  .item-total {
-    font-weight: 600;
-    color: #2c3e50;
-  }
-
-  /* Action Buttons */
-  .order-actions {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 2rem;
-    border-top: 1px solid #eee;
-  }
-  .btn-back, .btn-cancel {
-    padding: 0.7rem 1.5rem;
-    border-radius: 6px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.2s ease;
-  }
-  .btn-back {
-    background-color:rgb(12, 156, 89);
-    color:rgb(234, 237, 241);
-    border: 1px solid #ddd;
-  }
-  .btn-back:hover {
-    background-color: #e0e0e0;
-  }
-  .btn-cancel {
-    background-color: white;
-    color: #e74c3c;
-    border: 1px solid #e74c3c;
-  }
-  .btn-cancel:hover {
-    background-color: #e74c3c;
     color: white;
   }
 
-  /* Modal Styles */
-  .confirmation-content {
-    text-align: center;
-    padding: 1rem;
-  }
-  .confirmation-icon {
-    font-size: 3rem;
-    color: #e74c3c;
-    margin-bottom: 1rem;
-  }
-  .confirmation-content p {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-  }
-  .order-summary {
-    background: #f9f9f9;
-    padding: 1rem;
+  /* Product Thumbnail */
+  .product-thumbnail {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
     border-radius: 6px;
-    margin-top: 1rem;
+    overflow: hidden;
   }
-
-  /* Error Message */
-  .error-message {
-    background: #ffebee;
-    padding: 2rem;
-    border-radius: 10px;
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
+  .product-thumbnail img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
   }
-  .error-message i {
-    font-size: 2.5rem;
-    color: #c62828;
-    margin-bottom: 1rem;
-  }
-  .error-message p {
-    font-size: 1.1rem;
-    color: #c62828;
-    margin-bottom: 0;
+  .no-image {
+    width: 100%;
+    height: 100%;
+    font-size: 1.5rem;
   }
 
   /* Responsive Adjustments */
-  @media (max-width: 992px) {
-    .order-item {
-      grid-template-columns: 70px 1fr;
-      grid-template-rows: auto auto;
-      gap: 1rem;
+  @media (max-width: 768px) {
+    .order-header {
+      padding: 1rem;
     }
-    .item-details {
-      grid-column: 2;
-      grid-row: 1;
+    .order-title {
+      font-size: 1.1rem;
     }
-    .item-price, .item-quantity, .item-total {
-      grid-row: 2;
-      text-align: left;
-      padding-left: 85px;
+    .order-status-badge {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+    }
+    
+    /* Stack table columns on mobile */
+    table.table thead {
+      display: none;
+    }
+    table.table tr {
+      display: block;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+    table.table td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      border: none;
+      text-align: right !important;
+    }
+    table.table td::before {
+      content: attr(data-label);
+      font-weight: 500;
+      color: #6c757d;
+      margin-right: 1rem;
+    }
+    table.table td:first-child {
+      padding-top: 1rem;
+    }
+    table.table td:last-child {
+      padding-bottom: 1rem;
+    }
+    .product-thumbnail {
+      margin: 0 auto;
     }
   }
 
-  @media (max-width: 576px) {
-    .order-meta {
-      flex-direction: column;
-      gap: 0.3rem;
+  @media print {
+    body * {
+      visibility: hidden;
     }
-    .order-actions {
-      flex-direction: column;
-      gap: 1rem;
+    .order-details-container, .order-details-container * {
+      visibility: visible;
     }
-    .btn-back, .btn-cancel {
+    .order-details-container {
+      position: absolute;
+      left: 0;
+      top: 0;
       width: 100%;
-      justify-content: center;
     }
-    .order-item {
-      padding: 1rem;
+    .btn, .no-print {
+      display: none !important;
     }
-    .item-price, .item-quantity, .item-total {
-      padding-left: 0;
+    .card {
+      border: none !important;
+      box-shadow: none !important;
     }
   }
 </style>
+
+<script>
+  // Add data-labels to table cells for mobile view
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth <= 768) {
+      const table = document.querySelector('.table');
+      if (table) {
+        const headers = ['Product', 'Details', 'Price', 'Quantity', 'Total'];
+        const cells = table.querySelectorAll('tbody td');
+        
+        cells.forEach((td, index) => {
+          const headerIndex = index % headers.length;
+          td.setAttribute('data-label', headers[headerIndex]);
+        });
+      }
+    }
+  });
+</script>
 {% endblock %}

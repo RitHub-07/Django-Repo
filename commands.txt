@@ -51,3 +51,11 @@ Category => Electronics, fashion, footwear, Home & Furniture, Beauty Products, G
 
 
 for redirect urls => 2 methods  , a => href = "/login" , b => href = "{% url 'function_name" %}"
+
+
+SMTP credentials ------------------------------- 
+
+rktu nyvk gffv ftut
+
+
+techmac.236@gmail.com

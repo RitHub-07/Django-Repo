@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Invoice - {{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="container my-3 my-md-5">
+  <div class="card invoice-card shadow-sm">
+    <div class="card-header bg-primary text-white py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="h4 mb-0">Order Confirmation</h1>
+          <p class="small mb-0">Thank you for your purchase, {{ order.name }}!</p>
+        </div>
+        <div class="text-end">
+          <p class="small mb-0">Order #{{ order.id }}</p>
+          <p class="small mb-0">{{ order.created_at|date:"F j, Y" }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-body">
+      <!-- Order & Shipping Info -->
+      <div class="row mb-4 g-3">
+        <div class="col-md-6">
+          <div class="p-3 bg-light rounded">
+            <h2 class="h5 mb-3 text-primary">Shipping Address</h2>
+            <address class="mb-0">
+              <strong>{{ order.name }}</strong><br>
+              {{ order.address }}<br>
+              {{ order.city }}, {{ order.pincode }}<br>
+              <abbr title="Phone">P:</abbr> {{ order.phone }}<br>
+              <abbr title="Email">E:</abbr> {{ order.email }}
+            </address>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="p-3 bg-light rounded h-100">
+            <h2 class="h5 mb-3 text-primary">Order Summary</h2>
+            <div class="d-flex justify-content-between">
+              <span>Subtotal:</span>
+              <strong>₹{{ order.total_amount }}</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>Shipping:</span>
+              <strong>FREE</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>Tax:</span>
+              <strong>₹0.00</strong>
+            </div>
+            <hr class="my-2">
+            <div class="d-flex justify-content-between fw-bold">
+              <span>Total:</span>
+              <strong class="text-success">₹{{ order.total_amount }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Items -->
+      <h2 class="h5 mb-3 text-primary">Order Details</h2>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 80px">Image</th>
+              <th>Product</th>
+              <th class="text-end">Price</th>
+              <th class="text-center">Qty</th>
+              <th class="text-end">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in order.orderitem_set.all %}
+            <tr>
+              <td>
+                <div class="product-img-container">
+                  {% if item.product.image %}
+                  <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                       class="img-fluid rounded border">
+                  {% else %}
+                  <div class="no-image-placeholder">
+                    <i class="bi bi-image text-muted"></i>
+                  </div>
+                  {% endif %}
+                </div>
+              </td>
+              <td>
+                <strong>{{ item.product.name }}</strong>
+                {% if item.product.sku %}
+                <div class="text-muted small">SKU: {{ item.product.sku }}</div>
+                {% endif %}
+              </td>
+              <td class="text-end">₹{{ item.price }}</td>
+              <td class="text-center">{{ item.quantity }}</td>
+              <td class="text-end fw-bold">₹{{ item.total_price }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Order Status & Actions -->
+      <div class="row mt-4">
+        <div class="col-md-8">
+          <div class="alert alert-success d-flex align-items-center">
+            <i class="bi bi-check-circle-fill me-3 fs-4"></i>
+            <div>
+              <h3 class="h6 alert-heading mb-1">Order Confirmed</h3>
+              <p class="mb-0 small">Your order has been received and is being processed. We'll notify you when it ships.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="d-grid gap-2">
+            <a href="/" class="btn btn-primary">
+              <i class="bi bi-arrow-left-short"></i> Continue Shopping
+            </a>
+            <button onclick="window.print()" class="btn btn-outline-secondary">
+              <i class="bi bi-printer-fill"></i> Print Invoice
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-footer bg-light text-center py-3">
+      <p class="small mb-0">Thank you for shopping with <strong>Flippkart</strong>!</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Product Image Styling */
+  .product-img-container {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  
+  .product-img-container img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  
+  .no-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #6c757d;
+    border-radius: 4px;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 767.98px) {
+    .invoice-card .card-header {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .table td, .table th {
+      padding: 0.5rem;
+      font-size: 0.875rem;
+    }
+    
+    .product-img-container {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  
+  /* Print Styles */
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    .invoice-card, .invoice-card * {
+      visibility: visible;
+    }
+    .invoice-card {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      margin: 0;
+      box-shadow: none;
+      border: none;
+    }
+    .btn, .no-print {
+      display: none !important;
+    }
+  }
+</style>
+{% endblock %}

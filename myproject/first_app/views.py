@@ -542,11 +542,16 @@ def product_detail(request, product_id):
 
 
 
-def place_order(request):
-    if not request.user.is_authenticated:
-        messages.error(request, "Please login to place an order")
-        return redirect('login')
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.conf import settings
+from .models import Cart, Order, OrderItem
+from django.contrib.auth.decorators import login_required
 
+@login_required
+def place_order(request): 
     if request.method == "POST":
         cart = get_object_or_404(Cart, user=request.user)
         cart_items = cart.items.select_related('product')
@@ -580,7 +585,7 @@ def place_order(request):
             total_amount=total_amount
         )
 
-        # Create Order Items
+        # Add items to order
         for item in cart_items:
             OrderItem.objects.create(
                 order=order,
@@ -588,19 +593,29 @@ def place_order(request):
                 quantity=item.quantity,
                 price=item.product.selling_price
             )
-
-            # Update stock
             item.product.quantity -= item.quantity
             item.product.save()
 
-        # Clear cart
+        # Clear the cart
         cart.items.all().delete()
 
-        messages.success(request, "Order placed successfully!")
+        # ✅ Send Invoice Email
+        subject = f"Your Invoice - Order #{order.id}"
+        message = render_to_string('invoice.html', {'order': order})
+        email_msg = EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+        email_msg.content_subtype = "html"
+        email_msg.send()
+
+        # ✅ Redirect to home with success message
+        messages.success(request, "Order placed successfully! Invoice has been sent to your email.")
         return redirect('home')
 
-    # fallback if accessed via GET
     return redirect('checkout')
+
+@login_required
+def invoice_view(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'invoice.html', {'order': order})
 
 
 def checkout_view(request):
@@ -688,3 +703,19 @@ def cancel_order(request, order_id):
         messages.error(request, "Order not found")
 
     return redirect('order_detail', order_id=order_id)
+
+
+
+
+from django.core.mail import send_mail
+from django.http import HttpResponse
+
+def send_test_email(request):
+    send_mail(
+        'Test Email',
+        'This is a test message from Django.',
+        'techmac.236@gmail.com',  # From
+        ['rituldingora1@gmail.com'],  # To
+        fail_silently=False,
+    )
+    return HttpResponse("Email sent successfully.")
