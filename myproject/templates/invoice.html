@@ -1,238 +1,166 @@
 {% load static %}
-{% block title %}Invoice - {{ order.id }}{% endblock %}
-<div class="card-body invoice-container">
-  <!-- Invoice Header -->
-  <div class="invoice-header text-center mb-4">
-    <h1 class="h3 mb-0 text-primary">Flippkart</h1>
-    <p class="text-muted mb-2">Your trusted online shopping destination</p>
-    <h2 class="h4 mb-3 text-primary">Order Invoice</h2>
-    <div class="badge bg-success bg-opacity-10 text-success fs-6 fw-normal p-2">
-      <i class="bi bi-check-circle-fill me-1"></i> Order Confirmed
-    </div>
-  </div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Flippkart Invoice #{{ order.id }}</title>
+    <style type="text/css">
+        /* Client-specific styles */
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+        
+        /* Reset styles */
+        body { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+        
+        /* iOS BLUE LINKS */
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f5f5f5;">
 
-  <div class="table-responsive">
-    <table class="table table-bordered invoice-table">
-      <tbody>
-        <!-- Order Info -->
-        <tr class="table-primary">
-          <td colspan="2" class="fw-bold fs-5 py-2">
-            <i class="bi bi-info-circle-fill me-2"></i>Order Information
-          </td>
-        </tr>
-        <tr>
-          <th width="30%" class="bg-light">Order ID</th>
-          <td>#{{ order.id }}</td>
-        </tr>
-        <tr>
-          <th class="bg-light">Order Date</th>
-          <td>{{ order.created_at|date:"F j, Y" }} at {{ order.created_at|time:"g:i A" }}</td>
-        </tr>
-        <tr>
-          <th class="bg-light">Customer Name</th>
-          <td>{{ order.name }}</td>
-        </tr>
-        <tr>
-          <th class="bg-light">Email</th>
-          <td><a href="mailto:{{ order.email }}" class="text-decoration-none">{{ order.email }}</a></td>
-        </tr>
-        <tr>
-          <th class="bg-light">Phone</th>
-          <td><a href="tel:{{ order.phone }}" class="text-decoration-none">{{ order.phone }}</a></td>
-        </tr>
-
-        <!-- Shipping Info -->
-        <tr class="table-primary">
-          <td colspan="2" class="fw-bold fs-5 py-2">
-            <i class="bi bi-truck me-2"></i>Shipping Address
-          </td>
-        </tr>
-        <tr>
-          <th class="bg-light">Address</th>
-          <td>{{ order.address }}</td>
-        </tr>
-        <tr>
-          <th class="bg-light">City</th>
-          <td>{{ order.city }}</td>
-        </tr>
-        <tr>
-          <th class="bg-light">Pincode</th>
-          <td>{{ order.pincode }}</td>
-        </tr>
-
-        <!-- Order Summary -->
-        <tr class="table-primary">
-          <td colspan="2" class="fw-bold fs-5 py-2">
-            <i class="bi bi-receipt me-2"></i>Order Summary
-          </td>
-        </tr>
-        <tr>
-          <th class="bg-light">Subtotal</th>
-          <td>₹{{ order.total_amount }}</td>
-        </tr>
-        <tr>
-          <th class="bg-light">Shipping</th>
-          <td class="text-success">FREE</td>
-        </tr>
-        <tr>
-          <th class="bg-light">Tax</th>
-          <td>₹0.00</td>
-        </tr>
-        <tr class="fw-bold">
-          <th class="bg-light">Total Amount</th>
-          <td class="text-success fs-5">₹{{ order.total_amount }}</td>
-        </tr>
-        <tr>
-          <th class="bg-light">Payment Method</th>
-          <td>Cash on Delivery</td>
-        </tr>
-
-        <!-- Order Items -->
-        <tr class="table-primary">
-          <td colspan="2" class="fw-bold fs-5 py-2">
-            <i class="bi bi-cart-check me-2"></i>Products Ordered
-          </td>
-        </tr>
-        {% for item in order.orderitem_set.all %}
-        <tr>
-          <td colspan="2" class="py-3">
-            <div class="d-flex align-items-center gap-3">
-              <div class="product-image-container">
-                {% if item.product.image %}
-                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
-                {% else %}
-                <div class="no-image-placeholder d-flex align-items-center justify-content-center">
-                  <i class="bi bi-image text-muted fs-4"></i>
-                </div>
-                {% endif %}
-              </div>
-              <div class="flex-grow-1">
-                <div class="d-flex justify-content-between flex-wrap">
-                  <div>
-                    <strong class="product-name">{{ item.product.name }}</strong>
-                    {% if item.product.sku %}
-                    <div class="text-muted small">SKU: {{ item.product.sku }}</div>
-                    {% endif %}
-                  </div>
-                  <div class="text-end">
-                    <span class="product-price">₹{{ item.total_price }}</span>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between mt-2">
-                  <div>
-                    <span class="badge bg-light text-dark border">Price: ₹{{ item.price }}</span>
-                    <span class="badge bg-light text-dark border mx-1">Qty: {{ item.quantity }}</span>
-                  </div>
-                  <div class="text-muted small">
-                    Item Total: ₹{{ item.total_price }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Thank You & Actions -->
-  <div class="thank-you-section text-center mt-4 p-4 bg-light rounded">
-    <div class="thank-you-icon mb-3">
-      <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
-    </div>
-    <h3 class="h5 mb-2">Thank you for your order!</h3>
-    <p class="text-muted mb-3">Your order has been confirmed and will be processed shortly.</p>
-    <p class="small text-muted mb-3">Order ID: #{{ order.id }} | Date: {{ order.created_at|date:"F j, Y" }}</p>
-    
-    <div class="d-flex justify-content-center gap-3">
-      <a href="/" class="btn btn-primary px-4">
-        <i class="bi bi-arrow-left-short me-1"></i> Continue Shopping
-      </a>
-      <button onclick="window.print()" class="btn btn-outline-primary px-4">
-        <i class="bi bi-printer-fill me-1"></i> Print Invoice
-      </button>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <div class="invoice-footer text-center mt-4 pt-3 border-top">
-    <p class="small text-muted mb-1">Need help? Contact our customer support at support@flippkart.com</p>
-    <p class="small text-muted">© {% now "Y" %} Flippkart. All rights reserved.</p>
-  </div>
+<!-- Email Container -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f5f5f5;">
+    <tr>
+        <td align="center" valign="top">
+            <!-- Main Content (600px width) -->
+            <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
+                <!-- Header -->
+                <tr>
+                    <td align="center" style="padding: 30px 0; background-color: #2962ff;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td align="center">
+                                    <div class="header" style="background: #2962ff; padding: 30px; text-align: center;">
+    <h1 style="color: white; margin: 0; font-size: 32px; font-weight: 700; letter-spacing: 1px;">
+        <span style="color: white;">FLIPP</span><span style="color: #FFD700;">KART</span>
+    </h1>
+    <h2 style="color: white; margin-top: 15px; margin-bottom: 5px;">Order Invoice #{{ order.id }}</h2>
+    <p style="color: rgba(255,255,255,0.8); margin: 0;">{{ order.created_at|date:"F j, Y" }}</p>
 </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="padding: 20px 0 0 0; color: #ffffff; font-size: 28px; font-weight: bold;">
+                                    ORDER INVOICE
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+                <!-- Order Info -->
+                <tr>
+                    <td bgcolor="#ffffff" style="padding: 30px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td width="50%" style="padding-bottom: 20px;">
+                                    <strong style="font-size: 16px; color: #2962ff;">ORDER DETAILS</strong><br>
+                                    <span style="color: #666666;">#{{ order.id }}</span><br>
+                                    {{ order.created_at|date:"F j, Y" }}<br>
+                                    Cash on Delivery
+                                </td>
+                                <td width="50%" style="padding-bottom: 20px;" align="right">
+                                    <strong style="font-size: 16px; color: #2962ff;">CUSTOMER</strong><br>
+                                    {{ order.name }}<br>
+                                    {{ order.email }}<br>
+                                    {{ order.phone }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="padding-bottom: 20px;">
+                                    <strong style="font-size: 16px; color: #2962ff;">SHIPPING ADDRESS</strong><br>
+                                    {{ order.address }}, {{ order.city }}, {{ order.pincode }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+                <!-- Products Table -->
+                <tr>
+                    <td bgcolor="#ffffff">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+                            <tr bgcolor="#f5f7fa">
+                                <th align="left" style="padding: 15px; color: #2962ff; border-bottom: 1px solid #dddddd;">PRODUCT</th>
+                                <th align="center" style="padding: 15px; color: #2962ff; border-bottom: 1px solid #dddddd;">PRICE</th>
+                                <th align="center" style="padding: 15px; color: #2962ff; border-bottom: 1px solid #dddddd;">QTY</th>
+                                <th align="right" style="padding: 15px; color: #2962ff; border-bottom: 1px solid #dddddd;">TOTAL</th>
+                            </tr>
+                            {% for item in order.orderitem_set.all %}
+                            <tr>
+                                <td style="padding: 15px; border-bottom: 1px solid #eeeeee; vertical-align: top;">
+                                    <strong>{{ item.product.name }}</strong><br>
+                                    <small style="color: #888888;">SKU: {{ item.product.sku|default:"N/A" }}</small>
+                                </td>
+                                <td align="center" style="padding: 15px; border-bottom: 1px solid #eeeeee;">₹{{ item.price }}</td>
+                                <td align="center" style="padding: 15px; border-bottom: 1px solid #eeeeee;">{{ item.quantity }}</td>
+                                <td align="right" style="padding: 15px; border-bottom: 1px solid #eeeeee;">₹{{ item.total_price }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+                
+                <!-- Order Summary -->
+                <tr>
+                    <td bgcolor="#ffffff" style="padding: 30px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td width="60%"></td>
+                                <td width="40%">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td style="padding: 5px 0;"><strong>Subtotal:</strong></td>
+                                            <td align="right" style="padding: 5px 0;">₹{{ order.total_amount }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 5px 0;"><strong>Shipping:</strong></td>
+                                            <td align="right" style="padding: 5px 0; color: #00c853;">FREE</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 5px 0;"><strong>Tax:</strong></td>
+                                            <td align="right" style="padding: 5px 0;">₹0.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px 0; border-top: 1px solid #dddddd;"><strong>TOTAL:</strong></td>
+                                            <td align="right" style="padding: 10px 0; border-top: 1px solid #dddddd; font-size: 18px; color: #2962ff;">₹{{ order.total_amount }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+                <!-- Thank You Section -->
+                <tr>
+                    <td bgcolor="#2962ff" style="padding: 30px; color: #ffffff; text-align: center;">
+                        <h2 style="margin: 0 0 15px 0;">Thank You For Your Order!</h2>
+                        <p style="margin: 0; line-height: 1.6;">Your order has been confirmed and will be shipped within 24 hours.<br>
+                        For any questions, contact us at support@flippkart.com</p>
+                    </td>
+                </tr>
+                
+                <!-- Footer -->
+                <tr>
+                    <td bgcolor="#f5f7fa" style="padding: 20px; text-align: center; color: #888888; font-size: 12px;">
+                        <p style="margin: 0;">© {% now "Y" %} Flippkart. All Rights Reserved.<br>
+                        123 Business Road, Tech City, TC 12345</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 
-<style>
-  .invoice-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #fff;
-    box-shadow: 0 0 20px rgba(0,0,0,0.05);
-  }
-  
-  .invoice-header {
-    border-bottom: 2px solid #e9ecef;
-    padding-bottom: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .invoice-table {
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .invoice-table th {
-    font-weight: 500;
-  }
-  
-  .product-image-container {
-    width: 80px;
-    height: 80px;
-    flex-shrink: 0;
-  }
-  
-  .product-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 4px;
-    border: 1px solid #dee2e6;
-  }
-  
-  .no-image-placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: #f8f9fa;
-    border-radius: 4px;
-    border: 1px dashed #dee2e6;
-  }
-  
-  .product-name {
-    font-size: 1.05rem;
-  }
-  
-  .product-price {
-    font-weight: 600;
-    color: #0d6efd;
-  }
-  
-  .thank-you-section {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
-  }
-  
-  @media print {
-    .no-print {
-      display: none;
-    }
-    body {
-      background: none;
-      padding: 0;
-    }
-    .invoice-container {
-      box-shadow: none;
-      padding: 0;
-    }
-  }
-</style>
+</body>
+</html>
