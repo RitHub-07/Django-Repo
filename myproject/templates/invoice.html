@@ -6,104 +6,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Flippkart Invoice #{{ order.id }}</title>
     <style type="text/css">
-        /* Client-specific styles */
+        /* Client-specific resets */
         body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
         table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
         img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
-        
-        /* Reset styles */
-        body { margin: 0 !important; padding: 0 !important; width: 100% !important; }
-        
-        /* iOS BLUE LINKS */
-        a[x-apple-data-detectors] {
-            color: inherit !important;
-            text-decoration: none !important;
-            font-size: inherit !important;
-            font-family: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-        }
     </style>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f5f5f5;">
+<body style="margin: 0; padding: 0; background-color: #f7fafc; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
 
 <!-- Email Container -->
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f5f5f5;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f7fafc;">
     <tr>
         <td align="center" valign="top">
-            <!-- Main Content (600px width) -->
+            <!--[if (gte mso 9)|(IE)]>
+            <table align="center" border="0" cellspacing="0" cellpadding="0" width="600">
+            <tr>
+            <td align="center" valign="top" width="600">
+            <![endif]-->
             <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
-                <!-- Header -->
+                <!-- Premium Header with Logo -->
                 <tr>
-                    <td align="center" style="padding: 30px 0; background-color: #2962ff;">
+                    <td align="center" style="padding: 40px 0 30px 0; background: linear-gradient(135deg, #2962ff, #304ffe);">
+                        <!-- Flippkart Logo (Replace with your hosted image URL) -->
+                        <img src="https://example.com/static/images/flippkart-logo-white.png" alt="Flippkart" width="180" style="display: block; width: 180px; max-width: 180px; height: auto;">
+                        
+                        <!-- Text Fallback for Logo -->
+                        <div style="color: #ffffff; font-size: 0; height: 0; overflow: hidden; visibility: hidden; mso-hide: all;">
+                            Flippkart
+                        </div>
+                        
+                        <h1 style="color: #ffffff; font-size: 24px; font-weight: 300; margin: 20px 0 0 0; letter-spacing: 1px;">ORDER INVOICE</h1>
+                        <p style="color: rgba(255,255,255,0.8); font-size: 14px; margin: 8px 0 0 0;">
+                            #{{ order.id }} | {{ order.created_at|date:"F j, Y" }}
+                        </p>
+                    </td>
+                </tr>
+                
+                <!-- Order Status Ribbon -->
+                <tr>
+                    <td align="center" style="padding: 0; background-color: #ffffff;">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
-                                <td align="center">
-                                    <div class="header" style="background: #2962ff; padding: 30px; text-align: center;">
-    <h1 style="color: white; margin: 0; font-size: 32px; font-weight: 700; letter-spacing: 1px;">
-        <span style="color: white;">FLIPP</span><span style="color: #FFD700;">KART</span>
-    </h1>
-    <h2 style="color: white; margin-top: 15px; margin-bottom: 5px;">Order Invoice #{{ order.id }}</h2>
-    <p style="color: rgba(255,255,255,0.8); margin: 0;">{{ order.created_at|date:"F j, Y" }}</p>
-</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="center" style="padding: 20px 0 0 0; color: #ffffff; font-size: 28px; font-weight: bold;">
-                                    ORDER INVOICE
+                                <td style="background-color: #00c853; color: #ffffff; padding: 12px 0; text-align: center; font-weight: 500; font-size: 14px;">
+                                    <i class="bi bi-check-circle-fill" style="margin-right: 8px;"></i> Order Confirmed • Expected Delivery: {{ expected_delivery|date:"F j" }}
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
                 
-                <!-- Order Info -->
+                <!-- Customer & Shipping Info -->
                 <tr>
                     <td bgcolor="#ffffff" style="padding: 30px;">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
-                                <td width="50%" style="padding-bottom: 20px;">
-                                    <strong style="font-size: 16px; color: #2962ff;">ORDER DETAILS</strong><br>
-                                    <span style="color: #666666;">#{{ order.id }}</span><br>
-                                    {{ order.created_at|date:"F j, Y" }}<br>
-                                    Cash on Delivery
+                                <td width="50%" style="padding-bottom: 20px; vertical-align: top;">
+                                    <h3 style="color: #2962ff; font-size: 16px; margin: 0 0 12px 0;">CUSTOMER DETAILS</h3>
+                                    <p style="margin: 0 0 8px 0; color: #37474f;">
+                                        <strong>{{ order.name }}</strong><br>
+                                        {{ order.email }}<br>
+                                        {{ order.phone }}
+                                    </p>
                                 </td>
-                                <td width="50%" style="padding-bottom: 20px;" align="right">
-                                    <strong style="font-size: 16px; color: #2962ff;">CUSTOMER</strong><br>
-                                    {{ order.name }}<br>
-                                    {{ order.email }}<br>
-                                    {{ order.phone }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" style="padding-bottom: 20px;">
-                                    <strong style="font-size: 16px; color: #2962ff;">SHIPPING ADDRESS</strong><br>
-                                    {{ order.address }}, {{ order.city }}, {{ order.pincode }}
+                                <td width="50%" style="padding-bottom: 20px; vertical-align: top;">
+                                    <h3 style="color: #2962ff; font-size: 16px; margin: 0 0 12px 0;">SHIPPING ADDRESS</h3>
+                                    <p style="margin: 0 0 8px 0; color: #37474f;">
+                                        {{ order.address }}<br>
+                                        {{ order.city }}, {{ order.pincode }}<br>
+                                        India
+                                    </p>
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
                 
-                <!-- Products Table -->
+                <!-- Order Items Table -->
                 <tr>
                     <td bgcolor="#ffffff">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
                             <tr bgcolor="#f5f7fa">
-                                <th align="left" style="padding: 15px; color: #2962ff; border-bottom: 1px solid #dddddd;">PRODUCT</th>
-                                <th align="center" style="padding: 15px; color: #2962ff; border-bottom: 1px solid #dddddd;">PRICE</th>
-                                <th align="center" style="padding: 15px; color: #2962ff; border-bottom: 1px solid #dddddd;">QTY</th>
-                                <th align="right" style="padding: 15px; color: #2962ff; border-bottom: 1px solid #dddddd;">TOTAL</th>
+                                <th align="left" style="padding: 15px; color: #2962ff; border-bottom: 2px solid #e0e0e0; font-size: 14px; font-weight: 600;">PRODUCT</th>
+                                <th align="center" style="padding: 15px; color: #2962ff; border-bottom: 2px solid #e0e0e0; font-size: 14px; font-weight: 600;">PRICE</th>
+                                <th align="center" style="padding: 15px; color: #2962ff; border-bottom: 2px solid #e0e0e0; font-size: 14px; font-weight: 600;">QTY</th>
+                                <th align="right" style="padding: 15px; color: #2962ff; border-bottom: 2px solid #e0e0e0; font-size: 14px; font-weight: 600;">TOTAL</th>
                             </tr>
                             {% for item in order.orderitem_set.all %}
                             <tr>
                                 <td style="padding: 15px; border-bottom: 1px solid #eeeeee; vertical-align: top;">
-                                    <strong>{{ item.product.name }}</strong><br>
-                                    <small style="color: #888888;">SKU: {{ item.product.sku|default:"N/A" }}</small>
+                                    <strong style="color: #263238;">{{ item.product.name }}</strong><br>
+                                    <small style="color: #78909c; font-size: 12px;">SKU: {{ item.product.sku|default:"N/A" }}</small>
                                 </td>
-                                <td align="center" style="padding: 15px; border-bottom: 1px solid #eeeeee;">₹{{ item.price }}</td>
-                                <td align="center" style="padding: 15px; border-bottom: 1px solid #eeeeee;">{{ item.quantity }}</td>
-                                <td align="right" style="padding: 15px; border-bottom: 1px solid #eeeeee;">₹{{ item.total_price }}</td>
+                                <td align="center" style="padding: 15px; border-bottom: 1px solid #eeeeee; color: #37474f;">₹{{ item.price }}</td>
+                                <td align="center" style="padding: 15px; border-bottom: 1px solid #eeeeee; color: #37474f;">{{ item.quantity }}</td>
+                                <td align="right" style="padding: 15px; border-bottom: 1px solid #eeeeee; color: #37474f; font-weight: 500;">₹{{ item.total_price }}</td>
                             </tr>
                             {% endfor %}
                         </table>
@@ -112,27 +108,31 @@
                 
                 <!-- Order Summary -->
                 <tr>
-                    <td bgcolor="#ffffff" style="padding: 30px;">
+                    <td bgcolor="#ffffff" style="padding: 20px 30px 30px 30px;">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
                                 <td width="60%"></td>
                                 <td width="40%">
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tr>
-                                            <td style="padding: 5px 0;"><strong>Subtotal:</strong></td>
-                                            <td align="right" style="padding: 5px 0;">₹{{ order.total_amount }}</td>
+                                            <td style="padding: 8px 0; color: #546e7a;">Subtotal:</td>
+                                            <td align="right" style="padding: 8px 0; color: #546e7a;">₹{{ order.total_amount }}</td>
                                         </tr>
                                         <tr>
-                                            <td style="padding: 5px 0;"><strong>Shipping:</strong></td>
-                                            <td align="right" style="padding: 5px 0; color: #00c853;">FREE</td>
+                                            <td style="padding: 8px 0; color: #546e7a;">Shipping:</td>
+                                            <td align="right" style="padding: 8px 0; color: #00c853;">FREE</td>
                                         </tr>
                                         <tr>
-                                            <td style="padding: 5px 0;"><strong>Tax:</strong></td>
-                                            <td align="right" style="padding: 5px 0;">₹0.00</td>
+                                            <td style="padding: 8px 0; color: #546e7a;">Tax:</td>
+                                            <td align="right" style="padding: 8px 0; color: #546e7a;">₹0.00</td>
                                         </tr>
                                         <tr>
-                                            <td style="padding: 10px 0; border-top: 1px solid #dddddd;"><strong>TOTAL:</strong></td>
-                                            <td align="right" style="padding: 10px 0; border-top: 1px solid #dddddd; font-size: 18px; color: #2962ff;">₹{{ order.total_amount }}</td>
+                                            <td style="padding: 12px 0; border-top: 1px solid #e0e0e0; font-weight: 600; color: #263238;">Total Amount:</td>
+                                            <td align="right" style="padding: 12px 0; border-top: 1px solid #e0e0e0; font-weight: 600; color: #2962ff; font-size: 18px;">₹{{ order.total_amount }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 8px 0 0 0; color: #546e7a;">Payment Method:</td>
+                                            <td align="right" style="padding: 8px 0 0 0; color: #546e7a;">Cash on Delivery</td>
                                         </tr>
                                     </table>
                                 </td>
@@ -143,21 +143,35 @@
                 
                 <!-- Thank You Section -->
                 <tr>
-                    <td bgcolor="#2962ff" style="padding: 30px; color: #ffffff; text-align: center;">
-                        <h2 style="margin: 0 0 15px 0;">Thank You For Your Order!</h2>
-                        <p style="margin: 0; line-height: 1.6;">Your order has been confirmed and will be shipped within 24 hours.<br>
-                        For any questions, contact us at support@flippkart.com</p>
+                    <td bgcolor="#e3f2fd" style="padding: 30px; text-align: center;">
+                        <img src="https://example.com/static/images/icon-order-confirmed.png" alt="Confirmed" width="60" style="display: block; margin: 0 auto 15px auto; width: 60px; height: auto;">
+                        <h3 style="color: #2962ff; margin: 0 0 10px 0; font-size: 20px;">Thank You For Shopping With Flippkart!</h3>
+                        <p style="color: #37474f; margin: 0 0 20px 0; line-height: 1.6; max-width: 500px; margin-left: auto; margin-right: auto;">
+                            Your order has been confirmed and will be shipped soon. You'll receive tracking information via email once your items are dispatched.
+                        </p>
+                        <a href="https://flippkart.com/track-order/{{ order.id }}" style="background-color: #2962ff; color: #ffffff; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: 500; display: inline-block; margin: 0 5px;">Track Your Order</a>
+                        <a href="https://flippkart.com" style="background-color: #ffffff; color: #2962ff; text-decoration: none; padding: 12px 25px; border-radius: 4px; border: 1px solid #2962ff; font-weight: 500; display: inline-block; margin: 0 5px;">Continue Shopping</a>
                     </td>
                 </tr>
                 
                 <!-- Footer -->
                 <tr>
-                    <td bgcolor="#f5f7fa" style="padding: 20px; text-align: center; color: #888888; font-size: 12px;">
-                        <p style="margin: 0;">© {% now "Y" %} Flippkart. All Rights Reserved.<br>
-                        123 Business Road, Tech City, TC 12345</p>
+                    <td bgcolor="#263238" style="padding: 25px; text-align: center;">
+                        <p style="color: #b0bec5; margin: 0 0 10px 0; font-size: 12px;">
+                            Need help? Contact our <a href="mailto:support@flippkart.com" style="color: #bbdefb; text-decoration: underline;">customer support</a> or call us at +91 1234567890
+                        </p>
+                        <p style="color: #b0bec5; margin: 0; font-size: 12px;">
+                            © {% now "Y" %} Flippkart. All Rights Reserved.<br>
+                            123 Business Park, Bangalore, Karnataka 560001
+                        </p>
                     </td>
                 </tr>
             </table>
+            <!--[if (gte mso 9)|(IE)]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
         </td>
     </tr>
 </table>
