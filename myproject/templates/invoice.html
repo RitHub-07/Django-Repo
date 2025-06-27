@@ -1,203 +1,238 @@
-{% extends 'base.html' %}
 {% load static %}
 {% block title %}Invoice - {{ order.id }}{% endblock %}
-
-{% block content %}
-<div class="container my-3 my-md-5">
-  <div class="card invoice-card shadow-sm">
-    <div class="card-header bg-primary text-white py-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h1 class="h4 mb-0">Order Confirmation</h1>
-          <p class="small mb-0">Thank you for your purchase, {{ order.name }}!</p>
-        </div>
-        <div class="text-end">
-          <p class="small mb-0">Order #{{ order.id }}</p>
-          <p class="small mb-0">{{ order.created_at|date:"F j, Y" }}</p>
-        </div>
-      </div>
+<div class="card-body invoice-container">
+  <!-- Invoice Header -->
+  <div class="invoice-header text-center mb-4">
+    <h1 class="h3 mb-0 text-primary">Flippkart</h1>
+    <p class="text-muted mb-2">Your trusted online shopping destination</p>
+    <h2 class="h4 mb-3 text-primary">Order Invoice</h2>
+    <div class="badge bg-success bg-opacity-10 text-success fs-6 fw-normal p-2">
+      <i class="bi bi-check-circle-fill me-1"></i> Order Confirmed
     </div>
-    
-    <div class="card-body">
-      <!-- Order & Shipping Info -->
-      <div class="row mb-4 g-3">
-        <div class="col-md-6">
-          <div class="p-3 bg-light rounded">
-            <h2 class="h5 mb-3 text-primary">Shipping Address</h2>
-            <address class="mb-0">
-              <strong>{{ order.name }}</strong><br>
-              {{ order.address }}<br>
-              {{ order.city }}, {{ order.pincode }}<br>
-              <abbr title="Phone">P:</abbr> {{ order.phone }}<br>
-              <abbr title="Email">E:</abbr> {{ order.email }}
-            </address>
-          </div>
-        </div>
-        
-        <div class="col-md-6">
-          <div class="p-3 bg-light rounded h-100">
-            <h2 class="h5 mb-3 text-primary">Order Summary</h2>
-            <div class="d-flex justify-content-between">
-              <span>Subtotal:</span>
-              <strong>₹{{ order.total_amount }}</strong>
-            </div>
-            <div class="d-flex justify-content-between">
-              <span>Shipping:</span>
-              <strong>FREE</strong>
-            </div>
-            <div class="d-flex justify-content-between">
-              <span>Tax:</span>
-              <strong>₹0.00</strong>
-            </div>
-            <hr class="my-2">
-            <div class="d-flex justify-content-between fw-bold">
-              <span>Total:</span>
-              <strong class="text-success">₹{{ order.total_amount }}</strong>
-            </div>
-          </div>
-        </div>
-      </div>
+  </div>
 
-      <!-- Order Items -->
-      <h2 class="h5 mb-3 text-primary">Order Details</h2>
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead class="table-light">
-            <tr>
-              <th style="width: 80px">Image</th>
-              <th>Product</th>
-              <th class="text-end">Price</th>
-              <th class="text-center">Qty</th>
-              <th class="text-end">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for item in order.orderitem_set.all %}
-            <tr>
-              <td>
-                <div class="product-img-container">
-                  {% if item.product.image %}
-                  <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
-                       class="img-fluid rounded border">
-                  {% else %}
-                  <div class="no-image-placeholder">
-                    <i class="bi bi-image text-muted"></i>
-                  </div>
-                  {% endif %}
+  <div class="table-responsive">
+    <table class="table table-bordered invoice-table">
+      <tbody>
+        <!-- Order Info -->
+        <tr class="table-primary">
+          <td colspan="2" class="fw-bold fs-5 py-2">
+            <i class="bi bi-info-circle-fill me-2"></i>Order Information
+          </td>
+        </tr>
+        <tr>
+          <th width="30%" class="bg-light">Order ID</th>
+          <td>#{{ order.id }}</td>
+        </tr>
+        <tr>
+          <th class="bg-light">Order Date</th>
+          <td>{{ order.created_at|date:"F j, Y" }} at {{ order.created_at|time:"g:i A" }}</td>
+        </tr>
+        <tr>
+          <th class="bg-light">Customer Name</th>
+          <td>{{ order.name }}</td>
+        </tr>
+        <tr>
+          <th class="bg-light">Email</th>
+          <td><a href="mailto:{{ order.email }}" class="text-decoration-none">{{ order.email }}</a></td>
+        </tr>
+        <tr>
+          <th class="bg-light">Phone</th>
+          <td><a href="tel:{{ order.phone }}" class="text-decoration-none">{{ order.phone }}</a></td>
+        </tr>
+
+        <!-- Shipping Info -->
+        <tr class="table-primary">
+          <td colspan="2" class="fw-bold fs-5 py-2">
+            <i class="bi bi-truck me-2"></i>Shipping Address
+          </td>
+        </tr>
+        <tr>
+          <th class="bg-light">Address</th>
+          <td>{{ order.address }}</td>
+        </tr>
+        <tr>
+          <th class="bg-light">City</th>
+          <td>{{ order.city }}</td>
+        </tr>
+        <tr>
+          <th class="bg-light">Pincode</th>
+          <td>{{ order.pincode }}</td>
+        </tr>
+
+        <!-- Order Summary -->
+        <tr class="table-primary">
+          <td colspan="2" class="fw-bold fs-5 py-2">
+            <i class="bi bi-receipt me-2"></i>Order Summary
+          </td>
+        </tr>
+        <tr>
+          <th class="bg-light">Subtotal</th>
+          <td>₹{{ order.total_amount }}</td>
+        </tr>
+        <tr>
+          <th class="bg-light">Shipping</th>
+          <td class="text-success">FREE</td>
+        </tr>
+        <tr>
+          <th class="bg-light">Tax</th>
+          <td>₹0.00</td>
+        </tr>
+        <tr class="fw-bold">
+          <th class="bg-light">Total Amount</th>
+          <td class="text-success fs-5">₹{{ order.total_amount }}</td>
+        </tr>
+        <tr>
+          <th class="bg-light">Payment Method</th>
+          <td>Cash on Delivery</td>
+        </tr>
+
+        <!-- Order Items -->
+        <tr class="table-primary">
+          <td colspan="2" class="fw-bold fs-5 py-2">
+            <i class="bi bi-cart-check me-2"></i>Products Ordered
+          </td>
+        </tr>
+        {% for item in order.orderitem_set.all %}
+        <tr>
+          <td colspan="2" class="py-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="product-image-container">
+                {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                {% else %}
+                <div class="no-image-placeholder d-flex align-items-center justify-content-center">
+                  <i class="bi bi-image text-muted fs-4"></i>
                 </div>
-              </td>
-              <td>
-                <strong>{{ item.product.name }}</strong>
-                {% if item.product.sku %}
-                <div class="text-muted small">SKU: {{ item.product.sku }}</div>
                 {% endif %}
-              </td>
-              <td class="text-end">₹{{ item.price }}</td>
-              <td class="text-center">{{ item.quantity }}</td>
-              <td class="text-end fw-bold">₹{{ item.total_price }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Order Status & Actions -->
-      <div class="row mt-4">
-        <div class="col-md-8">
-          <div class="alert alert-success d-flex align-items-center">
-            <i class="bi bi-check-circle-fill me-3 fs-4"></i>
-            <div>
-              <h3 class="h6 alert-heading mb-1">Order Confirmed</h3>
-              <p class="mb-0 small">Your order has been received and is being processed. We'll notify you when it ships.</p>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between flex-wrap">
+                  <div>
+                    <strong class="product-name">{{ item.product.name }}</strong>
+                    {% if item.product.sku %}
+                    <div class="text-muted small">SKU: {{ item.product.sku }}</div>
+                    {% endif %}
+                  </div>
+                  <div class="text-end">
+                    <span class="product-price">₹{{ item.total_price }}</span>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                  <div>
+                    <span class="badge bg-light text-dark border">Price: ₹{{ item.price }}</span>
+                    <span class="badge bg-light text-dark border mx-1">Qty: {{ item.quantity }}</span>
+                  </div>
+                  <div class="text-muted small">
+                    Item Total: ₹{{ item.total_price }}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="d-grid gap-2">
-            <a href="/" class="btn btn-primary">
-              <i class="bi bi-arrow-left-short"></i> Continue Shopping
-            </a>
-            <button onclick="window.print()" class="btn btn-outline-secondary">
-              <i class="bi bi-printer-fill"></i> Print Invoice
-            </button>
-          </div>
-        </div>
-      </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Thank You & Actions -->
+  <div class="thank-you-section text-center mt-4 p-4 bg-light rounded">
+    <div class="thank-you-icon mb-3">
+      <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
     </div>
+    <h3 class="h5 mb-2">Thank you for your order!</h3>
+    <p class="text-muted mb-3">Your order has been confirmed and will be processed shortly.</p>
+    <p class="small text-muted mb-3">Order ID: #{{ order.id }} | Date: {{ order.created_at|date:"F j, Y" }}</p>
     
-    <div class="card-footer bg-light text-center py-3">
-      <p class="small mb-0">Thank you for shopping with <strong>Flippkart</strong>!</p>
+    <div class="d-flex justify-content-center gap-3">
+      <a href="/" class="btn btn-primary px-4">
+        <i class="bi bi-arrow-left-short me-1"></i> Continue Shopping
+      </a>
+      <button onclick="window.print()" class="btn btn-outline-primary px-4">
+        <i class="bi bi-printer-fill me-1"></i> Print Invoice
+      </button>
     </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="invoice-footer text-center mt-4 pt-3 border-top">
+    <p class="small text-muted mb-1">Need help? Contact our customer support at support@flippkart.com</p>
+    <p class="small text-muted">© {% now "Y" %} Flippkart. All rights reserved.</p>
   </div>
 </div>
 
 <style>
-  /* Product Image Styling */
-  .product-img-container {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .invoice-container {
+    max-width: 800px;
     margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
   }
   
-  .product-img-container img {
-    max-height: 100%;
-    max-width: 100%;
+  .invoice-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .invoice-table {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .invoice-table th {
+    font-weight: 500;
+  }
+  
+  .product-image-container {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
   }
   
   .no-image-placeholder {
     width: 100%;
     height: 100%;
-    background: #f8f9fa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: #6c757d;
+    background-color: #f8f9fa;
     border-radius: 4px;
+    border: 1px dashed #dee2e6;
   }
   
-  /* Responsive Adjustments */
-  @media (max-width: 767.98px) {
-    .invoice-card .card-header {
-      flex-direction: column;
-      text-align: center;
-    }
-    
-    .table td, .table th {
-      padding: 0.5rem;
-      font-size: 0.875rem;
-    }
-    
-    .product-img-container {
-      width: 50px;
-      height: 50px;
-    }
+  .product-name {
+    font-size: 1.05rem;
   }
   
-  /* Print Styles */
+  .product-price {
+    font-weight: 600;
+    color: #0d6efd;
+  }
+  
+  .thank-you-section {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+  }
+  
   @media print {
-    body * {
-      visibility: hidden;
+    .no-print {
+      display: none;
     }
-    .invoice-card, .invoice-card * {
-      visibility: visible;
+    body {
+      background: none;
+      padding: 0;
     }
-    .invoice-card {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      margin: 0;
+    .invoice-container {
       box-shadow: none;
-      border: none;
-    }
-    .btn, .no-print {
-      display: none !important;
+      padding: 0;
     }
   }
 </style>
-{% endblock %}
