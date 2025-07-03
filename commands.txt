@@ -58,4 +58,9 @@ SMTP credentials -------------------------------
 rktu nyvk gffv ftut
 
 
+----->  make a invoice.html file
+----->  make a fxn in views.py and define path in urls.py regarding invoice mail
+----->  fxn call through place order option/link
+
+
 techmac.236@gmail.com
