@@ -33,8 +33,13 @@
             width: 100%;
         }
         img {
-            max-width: 100%;
+            border: 0;
             height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+            display: block;
         }
         .container {
             max-width: 650px;
@@ -87,7 +92,8 @@
                 <table width="100%">
                     <tr>
                         <td style="padding: 30px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); text-align: center;">
-                            <img src="https://via.placeholder.com/150x50/1e40af/ffffff?text=Flippkart" alt="Flippkart Logo" style="height: 40px;">
+                            <!-- Logo with absolute URL or base64 encoded fallback -->
+                            <img src="https://via.placeholder.com/150x50/1e40af/ffffff?text=Flippkart" alt="Flippkart Logo" width="150" height="50" style="height: auto; width: 150px; max-width: 100%;">
                             <p style="color: #e0e7ff; margin: 10px 0 0; font-size: 14px;">Order Invoice #{{ order.id }}</p>
                         </td>
                     </tr>
@@ -163,7 +169,7 @@
                                                     <tr>
                                                         <td style="width: 60px; vertical-align: middle;">
                                                             {% if item.product.product_image %}
-                                                            <img src="{{ item.product.product_image.url }}" width="60" alt="{{ item.product.product_name }}" style="border-radius: 4px;">
+                                                            <img src="{{ item.product.product_image.url }}" width="60" height="60" alt="{{ item.product.product_name }}" style="border-radius: 4px; width: 60px; height: 60px; object-fit: cover;">
                                                             {% else %}
                                                             <div style="width: 60px; height: 60px; background-color: #f8fafc; text-align: center; line-height: 60px; color: #94a3b8; border-radius: 4px;">No Image</div>
                                                             {% endif %}
