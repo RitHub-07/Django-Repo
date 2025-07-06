@@ -29,11 +29,12 @@ def search_view(request):
 
     if query:
         results = Category_Products.objects.filter(
-            product_name__icontains=query
+            Q(product_name__icontains=query) |
+            Q(product_description__icontains=query)
         )
 
     return render(request, 'search_results.html', {'query': query, 'results': results})
-
+    
 def home_view(request):
     # Main categories to display (change number/order anytime)
     categories = Category.objects.all()[:6]  # Show 6 categories
