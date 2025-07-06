@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 import os
+from django.db.models import Q
 from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
 # from django.urls import CartItem
@@ -22,6 +23,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 def base_view(request):
     return render(request,'base.html')
 
+def search_view(request):
+    query = request.GET.get('q')
+    results = []
+
+    if query:
+        results = Category_Products.objects.filter(
+            product_name__icontains=query
+        )
+
+    return render(request, 'search_results.html', {'query': query, 'results': results})
 
 def home_view(request):
     # Main categories to display (change number/order anytime)

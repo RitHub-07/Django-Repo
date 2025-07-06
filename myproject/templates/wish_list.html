@@ -1,130 +1,507 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %} My Wishlist - Flippkart {% endblock %}
 
 {% block content %}
-<div class="container my-5">
-  <div class="row">
-    <div class="col-12">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">My Wishlist</h2>
-        {% if wishlist_items %}
-        <a href="{% url 'wishlist_all_remove' %}" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to remove all items from your wishlist?');">
-          <i class="bi bi-trash-fill"></i> Remove All
-        </a>
-        {% endif %}
+<div class="wishlist-container">
+  <!-- Wishlist Header with Search -->
+  <div class="wishlist-header">
+    <h2 class="wishlist-title">My Wishlist</h2>
+    <div class="wishlist-search-container">
+      <div class="search-box">
+        <input type="text" id="wishlist-search" placeholder="Search in wishlist..." class="search-input">
+        <button class="search-btn">
+          <i class="bi bi-search"></i>
+        </button>
       </div>
-      
       {% if wishlist_items %}
-      <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-          <thead class="table-light">
-            <tr>
-              <th scope="col">Product</th>
-              <th scope="col">Price</th>
-              <th scope="col">Status</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for item in wishlist_items %}
-            <tr>
-              <td>
-                <div class="d-flex align-items-center">
-                  {% if item.product.product_image %}
-                  <img src="{{ item.product.product_image.url }}" alt="{{ item.product.product_name }}"
-                       class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: contain;">
-                  {% else %}
-                  <img src="{% static 'images/default-product.png' %}" alt="No image available"
-                       class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: contain;">
-                  {% endif %}
-                  <div>
-                    <h6 class="mb-1">{{ item.product.product_name }}</h6>
-                    <p class="text-muted mb-0">{{ item.product.short_description|truncatechars:50 }}</p>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <span class="fw-bold text-primary">₹{{ item.product.selling_price }}</span>
-              </td>
-              <td>
-  {% if item.product.quantity > 5 %}
-    <span class="badge bg-success">In Stock</span>
-  {% elif item.product.quantity > 0 %}
-    <span class="badge bg-warning text-dark">Few Left</span>
-  {% else %}
-    <span class="badge bg-danger">Out of Stock</span>
-  {% endif %}
-</td>
-              <td>
-                <div class="d-flex gap-2">
-                  {% if item.product.quantity > 0 %}
-                  <form action="{% url 'add_to_cart' item.product.id %}" method="post" class="d-inline">
-                    {% csrf_token %}
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn btn-primary btn-sm">
-                      <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                  </form>
-                  {% endif %}
-                  <form action="{% url 'remove_wishlist_item' item.id %}" method="post" class="d-inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger btn-sm">
-                      <i class="bi bi-trash"></i> Remove
-                    </button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-
-      <div class="d-flex justify-content-between mt-4">
-        <a href="/categories/" class="btn btn-outline-primary">
-          <i class="bi bi-plus-circle"></i> Add More Items
-        </a>
-      </div>
-      {% else %}
-      <div class="text-center py-5">
-        <div class="empty-wishlist-icon mb-4">
-          <i class="bi bi-heart" style="font-size: 4rem; color: #ff4081;"></i>
-        </div>
-        <h4 class="my-3">Your wishlist is empty</h4>
-        <p class="text-muted">Save your favorite items here to keep track of them</p>
-        <a href="/categories/" class="btn btn-primary mt-3 px-4">
-          <i class="bi bi-shop"></i> Start Shopping
-        </a>
-      </div>
+      <button class="clear-all-btn" onclick="window.location.href='{% url 'wishlist_all_remove' %}'" 
+              data-confirm="Are you sure you want to remove all items?">
+        <i class="bi bi-trash-fill"></i> Clear All
+      </button>
       {% endif %}
     </div>
   </div>
+
+  <!-- Wishlist Content -->
+  {% if wishlist_items %}
+  <div class="wishlist-items-container">
+    {% for item in wishlist_items %}
+    <div class="wishlist-item" data-product-name="{{ item.product.product_name|lower }}" 
+         data-product-desc="{{ item.product.short_description|lower|default:'' }}">
+      <div class="product-image-container">
+        {% if item.product.product_image %}
+        <img src="{{ item.product.product_image.url }}" alt="{{ item.product.product_name }}" class="product-image">
+        {% else %}
+        <img src="{% static 'images/default-product.png' %}" alt="No image available" class="product-image">
+        {% endif %}
+        {% if item.product.original_price > item.product.selling_price %}
+        <span class="discount-badge">
+          {{ item.product.get_discount_percentage }}% OFF
+        </span>
+        {% endif %}
+      </div>
+
+      <div class="product-details">
+        <h4 class="product-name">{{ item.product.product_name }}</h4>
+        <p class="product-desc">{{ item.product.short_description|truncatechars:100 }}</p>
+        
+        <div class="product-meta">
+          <div class="price-container">
+            {% if item.product.original_price > item.product.selling_price %}
+            <span class="original-price">₹{{ item.product.original_price }}</span>
+            {% endif %}
+            <span class="current-price">₹{{ item.product.selling_price }}</span>
+          </div>
+          
+          <div class="stock-status">
+            {% if item.product.quantity > 5 %}
+            <span class="badge in-stock">In Stock</span>
+            {% elif item.product.quantity > 0 %}
+            <span class="badge few-left">Few Left</span>
+            {% else %}
+            <span class="badge out-of-stock">Out of Stock</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="product-actions">
+        {% if item.product.quantity > 0 %}
+        <form action="{% url 'add_to_cart' item.product.id %}" method="post" class="d-inline">
+          {% csrf_token %}
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="btn-add-to-cart">
+            <i class="bi bi-cart-plus"></i> Add to Cart
+          </button>
+        </form>
+        {% endif %}
+        
+        <form action="{% url 'remove_wishlist_item' item.id %}" method="post" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn-remove">
+            <i class="bi bi-trash"></i> Remove
+          </button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="wishlist-footer">
+    <a href="/categories/" class="btn-continue-shopping">
+      <i class="bi bi-arrow-left"></i> Continue Shopping
+    </a>
+  </div>
+  {% else %}
+  <div class="empty-wishlist">
+    <div class="empty-icon">
+      <i class="bi bi-heart" style="font-size: 4rem; color: #ff4081;"></i>
+    </div>
+    <h3>Your wishlist is empty</h3>
+    <p>Save your favorite items here to keep track of them</p>
+    <a href="/categories/" class="btn-start-shopping">
+      <i class="bi bi-shop"></i> Start Shopping
+    </a>
+  </div>
+  {% endif %}
 </div>
 
 <style>
-  .empty-wishlist-icon {
-    animation: pulse 2s infinite;
+/* Wishlist Container */
+.wishlist-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Wishlist Header */
+.wishlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.wishlist-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  background: linear-gradient(45deg, #2874f0, #1a5bb9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.wishlist-search-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-box {
+  position: relative;
+  width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-right: 3rem;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #2874f0;
+  box-shadow: 0 2px 12px rgba(40, 116, 240, 0.2);
+}
+
+.search-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 3rem;
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  border-radius: 0 50px 50px 0;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  color: #2874f0;
+}
+
+.clear-all-btn {
+  background: #fff;
+  color: #ff4081;
+  border: 1px solid #ff4081;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.clear-all-btn:hover {
+  background: #ff4081;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 64, 129, 0.2);
+}
+
+/* Wishlist Items */
+.wishlist-items-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.wishlist-item {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+}
+
+.wishlist-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.product-image-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #f9f9f9;
+  padding: 1rem;
+  transition: transform 0.5s ease;
+}
+
+.wishlist-item:hover .product-image {
+  transform: scale(1.05);
+}
+
+.discount-badge {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  background: #fb641b;
+  color: white;
+  padding: 0.25rem 1rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: 0 4px 4px 0;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+}
+
+.product-details {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.product-desc {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.product-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.original-price {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.current-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2874f0;
+}
+
+.stock-status .badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge.in-stock {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.badge.few-left {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+}
+
+.badge.out-of-stock {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.product-actions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.btn-add-to-cart, .btn-remove {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-add-to-cart {
+  background: #2874f0;
+  color: white;
+}
+
+.btn-add-to-cart:hover {
+  background: #1a5bb9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 116, 240, 0.3);
+}
+
+.btn-remove {
+  background: #f8f9fa;
+  color: #dc3545;
+  border: 1px solid #eee;
+}
+
+.btn-remove:hover {
+  background: #dc3545;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+/* Wishlist Footer */
+.wishlist-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.btn-continue-shopping {
+  background: white;
+  color: #2874f0;
+  border: 1px solid #2874f0;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-continue-shopping:hover {
+  background: #2874f0;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 116, 240, 0.3);
+}
+
+/* Empty Wishlist */
+.empty-wishlist {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin: 2rem 0;
+}
+
+.empty-icon {
+  margin-bottom: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+.empty-wishlist h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.empty-wishlist p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.btn-start-shopping {
+  background: #2874f0;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-start-shopping:hover {
+  background: #1a5bb9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 116, 240, 0.3);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .wishlist-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
   
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+  .search-box {
+    width: 100%;
   }
   
-  .table th {
-    white-space: nowrap;
+  .wishlist-items-container {
+    grid-template-columns: 1fr;
   }
-  
-  .table img {
-    background-color: #f8f9fa;
-    border-radius: 4px;
-  }
-  
-  .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-  }
+}
 </style>
+
+<script>
+// Search functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('wishlist-search');
+  const wishlistItems = document.querySelectorAll('.wishlist-item');
+  
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    
+    wishlistItems.forEach(item => {
+      const productName = item.dataset.productName;
+      const productDesc = item.dataset.productDesc || '';
+      
+      if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
+        item.style.display = 'flex';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+  
+  // Clear all confirmation
+  const clearAllBtn = document.querySelector('.clear-all-btn');
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', function(e) {
+      if (!confirm(this.dataset.confirm)) {
+        e.preventDefault();
+      }
+    });
+  }
+});
+</script>
 {% endblock %}

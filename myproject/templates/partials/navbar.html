@@ -1,5 +1,18 @@
+{% load static %}
 <style>
-  /* Custom Navbar Styling with Gradient and Modern Effects */
+  /* Enhanced Navbar Styling with Variables */
+  :root {
+    --primary: #2874f0;
+    --primary-dark: #1a5bb9;
+    --secondary: #fb641b;
+    --accent: #ff9f00;
+    --dark: #212121;
+    --light: #f9f9f9;
+    --gray: #878787;
+    --light-gray: #f1f3f6;
+    --danger: #dc3545;
+  }
+
   .navbar {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -8,91 +21,138 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    z-index: 1030;
   }
 
   .navbar.scrolled {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.98) !important;
     padding: 0.3rem 2rem;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   }
 
   .navbar-brand {
     font-weight: 800;
     font-size: 1.8rem;
-    background: linear-gradient(45deg, #2874f0, #1a5bb9);
+    background: linear-gradient(45deg, var(--primary), var(--primary-dark));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.5px;
     position: relative;
-    padding-right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
+  .navbar-brand img {
+    height: 30px;
+    width: auto;
+  }
+
+  /* Search Bar with Enhanced Functionality */
+  .navbar-search {
+    flex-grow: 1;
+    max-width: 600px;
+    margin: 0 2rem;
+    position: relative;
+  }
+
+  .search-container {
+    position: relative;
+    border-radius: 50px;
+    background: #f1f3f6;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-container.focused {
+    background: white;
+    box-shadow: 0 0 0 2px rgba(40, 116, 240, 0.2);
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1.5rem 0.75rem 3rem;
+    background: transparent;
+    border: none;
+    font-size: 0.95rem;
+    color: var(--dark);
+  }
+
+  .search-input::placeholder {
+    color: var(--gray);
+  }
+
+  .search-input:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1.25rem;
+    color: var(--gray);
+    pointer-events: none;
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 1rem;
+    color: var(--gray);
+    cursor: pointer;
+    display: none;
+  }
+
+  /* Navigation Links */
   .nav-link {
     font-weight: 600;
-    color: #4a5568 !important;
-    padding: 0.6rem 1.2rem !important;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border-radius: 6px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .nav-link::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: #2874f0;
+    color: var(--dark) !important;
+    padding: 0.7rem 1.2rem !important;
+    margin: 0 0.2rem;
+    border-radius: 8px;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .nav-link:hover {
-    color: #2874f0 !important;
-    background-color: rgba(40, 116, 240, 0.05);
+    color: var(--primary) !important;
+    background: rgba(40, 116, 240, 0.05);
     transform: translateY(-2px);
   }
 
-  .nav-link:hover::before {
-    width: 60%;
-  }
-
   .nav-link.active {
-    color: #2874f0 !important;
-    background-color: rgba(40, 116, 240, 0.08);
+    color: var(--primary) !important;
+    background: rgba(40, 116, 240, 0.08);
+    font-weight: 700;
   }
 
-  .nav-link.active::before {
-    width: 60%;
-  }
-
-  /* Cart Icon Styling */
-  .bi-cart4 {
+  /* Icons with Badges */
+  .nav-icon {
     position: relative;
-    transition: transform 0.3s ease;
-  }
-
-  .bi-cart4:hover {
-    transform: scale(1.1);
-  }
-
-  /* Wishlist Icon Styling */
-  .bi-heart-fill {
-    color: #ff4081;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     transition: all 0.3s ease;
-    text-shadow: 0 2px 4px rgba(255, 64, 129, 0.3);
   }
 
-  .bi-heart-fill:hover {
-    transform: scale(1.2);
-    color: #ff1a6b;
+  .badge-counter {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--secondary);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
   }
 
-  /* Dropdown Menu Styling */
+  /* Dropdown Menu */
   .dropdown-menu {
     border: none;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
@@ -109,23 +169,183 @@
   }
 
   .dropdown-item {
-    padding: 0.6rem 1.5rem;
+    padding: 0.7rem 1.5rem;
     transition: all 0.2s ease;
-    font-weight: 500;
-    color: #4a5568;
-    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
   }
 
-  .dropdown-item:hover, .dropdown-item.active {
-    background-color: #f8f9fa;
-    color: #2874f0;
+  .dropdown-item:hover {
+    background: #f8f9fa;
+    color: var(--primary);
     padding-left: 1.8rem;
+  }
+
+  .dropdown-divider {
+    border-color: rgba(0,0,0,0.05);
+  }
+
+  /* Auth Buttons */
+  .auth-btn {
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .login-btn {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+  }
+
+  .login-btn:hover {
+    background: rgba(40, 116, 240, 0.05);
+  }
+
+  .register-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border: none;
+    box-shadow: 0 2px 10px rgba(40, 116, 240, 0.3);
+  }
+
+  .register-btn:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 116, 240, 0.4);
+  }
+
+  /* Search Suggestions */
+  .search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    display: none;
+  }
+
+  .search-suggestions.active {
+    display: block;
+  }
+
+  .suggestion-item {
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--dark);
+  }
+
+  .suggestion-item:hover {
+    background: #f8fafc;
+  }
+
+  .suggestion-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  .suggestion-info {
+    flex: 1;
+  }
+
+  .suggestion-name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+
+  .suggestion-price {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.9rem;
+  }
+
+  .suggestion-price del {
+    color: var(--gray);
+    font-weight: normal;
+    margin-right: 0.5rem;
+  }
+
+  .no-suggestions {
+    padding: 1rem;
+    color: var(--gray);
+    text-align: center;
+  }
+
+  .view-all-results {
+    padding: 0.75rem 1.5rem;
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    color: var(--primary);
+    border-top: 1px solid #f1f5f9;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 992px) {
+    .navbar {
+      padding: 0.5rem 1rem;
+    }
+    
+    .navbar-search {
+      margin: 1rem 0;
+      order: 3;
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    .search-container {
+      background: white;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .nav-link {
+      margin: 0.2rem 0;
+      padding: 0.8rem 1rem !important;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .navbar-brand {
+      font-size: 1.5rem;
+    }
+    
+    .auth-btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+    }
+    
+    .search-input {
+      padding-left: 2.5rem;
+    }
+    
+    .search-icon {
+      left: 1rem;
+    }
   }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Flippkart</a>
+    <a class="navbar-brand" href="/">
+      <img src="{% static 'images/logo.png' %}" alt="Flippkart Logo">
+      Flippkart
+    </a>
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarNav" aria-controls="navbarNav"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -135,50 +355,95 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {% if request.path == '/abouttt' %}active{% endif %}" aria-current="page" href="/abouttt">About Us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {% if request.path|slice:'0:8' == '/contact' %}active{% endif %}" href="/contact">Contact Us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {% if request.path|slice:'0:11' == '/categories/' %}active{% endif %}" href="/categories/">Categories</a>
-        </li>
-      </ul>
-
-      <ul class="navbar-nav align-items-center" style="gap: 15px;">
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link {% if request.path|slice:'0:9' == '/wishlist' %}active{% endif %}" href="/wishlist">
-            <i class="bi bi-heart-fill"></i> <span class="d-none d-lg-inline">Wishlist</span>
+          <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">
+            <i class="bi bi-house-door d-lg-none me-2"></i> Home
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link {% if request.path == '/abouttt' %}active{% endif %}" href="/abouttt">
+            <i class="bi bi-info-circle d-lg-none me-2"></i> About
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path|slice:'0:8' == '/contact' %}active{% endif %}" href="/contact">
+            <i class="bi bi-headset d-lg-none me-2"></i> Contact
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path|slice:'0:11' == '/categories/' %}active{% endif %}" href="/categories/">
+            <i class="bi bi-grid d-lg-none me-2"></i> Categories
+          </a>
+        </li>
+      </ul>
+
+      <!-- Enhanced Search Bar -->
+      <div class="navbar-search">
+        <div class="search-container" id="searchContainer">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" class="form-control search-input" placeholder="Search for products..." 
+                 id="navbarSearchInput" autocomplete="off" aria-label="Search">
+          <i class="bi bi-x search-clear" id="searchClear"></i>
+          <div class="search-suggestions" id="searchSuggestions">
+            <div class="no-suggestions">Start typing to search products</div>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav align-items-center ms-3" style="gap: 12px;">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link position-relative {% if request.path|slice:'0:9' == '/wishlist' %}active{% endif %}" href="/wishlist">
+            <i class="bi bi-heart nav-icon"></i>
+            <span class="d-none d-lg-inline ms-1">Wishlist</span>
+            {% if wishlist_count > 0 %}
+            <span class="badge-counter">{{ wishlist_count }}</span>
+            {% endif %}
+          </a>
+        </li>
+        <li class="nav-item position-relative">
           <a class="nav-link {% if request.path|slice:'0:5' == '/cart' %}active{% endif %}" href="/cart">
-            <i class="bi bi-cart4" style="font-size: 1.2rem;"></i> <span class="d-none d-lg-inline">Cart</span>
+            <i class="bi bi-cart3 nav-icon"></i>
+            <span class="d-none d-lg-inline ms-1">Cart</span>
+            {% if cart_items_count > 0 %}
+            <span class="badge-counter">{{ cart_items_count }}</span>
+            {% endif %}
           </a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle d-flex align-items-center {% if request.path|slice:'0:10' == '/my_profile' or request.path|slice:'0:10' == '/my-orders' or request.path|slice:'0:14' == '/saved_address' %}active{% endif %}" 
              href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <span>Profile</span>
+            <i class="bi bi-person-circle d-lg-none me-2"></i>
+            <span class="d-none d-lg-inline">Account</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item {% if request.path|slice:'0:10' == '/my_profile' %}active{% endif %}" href="/my_profile">My Profile</a></li>
-            <li><a class="dropdown-item {% if request.path|slice:'0:10' == '/my-orders' %}active{% endif %}" href="/my-orders/">My Orders</a></li>
-            <li><a class="dropdown-item {% if request.path|slice:'0:14' == '/saved_address' %}active{% endif %}" href="/saved_address">Saved Address</a></li>
-            <li><a class="dropdown-item {% if request.path|slice:'0:9' == '/wishlist' %}active{% endif %}" href="/wishlist">My Wishlist</a></li>
-            <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
+            <li><a class="dropdown-item {% if request.path|slice:'0:10' == '/my_profile' %}active{% endif %}" href="/my_profile">
+              <i class="bi bi-person me-2"></i> Profile
+            </a></li>
+            <li><a class="dropdown-item {% if request.path|slice:'0:10' == '/my-orders' %}active{% endif %}" href="/my-orders/">
+              <i class="bi bi-bag me-2"></i> Orders
+            </a></li>
+            <li><a class="dropdown-item {% if request.path|slice:'0:14' == '/saved_address' %}active{% endif %}" href="/saved_address">
+              <i class="bi bi-geo-alt me-2"></i> Addresses
+            </a></li>
+            <li><a class="dropdown-item {% if request.path|slice:'0:9' == '/wishlist' %}active{% endif %}" href="/wishlist">
+              <i class="bi bi-heart me-2"></i> Wishlist
+            </a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="/logout">
+              <i class="bi bi-box-arrow-right me-2"></i> Logout
+            </a></li>
           </ul>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link btn btn-outline-primary px-3 {% if request.path|slice:'0:6' == '/login' %}active{% endif %}" href="/login">Login</a>
+          <a class="nav-link auth-btn login-btn {% if request.path|slice:'0:6' == '/login' %}active{% endif %}" href="/login">
+            Login
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link btn btn-primary text-white px-3 {% if request.path|slice:'0:9' == '/register' %}active{% endif %}" href="/register">Register</a>
+          <a class="nav-link auth-btn register-btn {% if request.path|slice:'0:9' == '/register' %}active{% endif %}" href="/register">
+            Register
+          </a>
         </li>
         {% endif %}
       </ul>
@@ -187,13 +452,159 @@
 </nav>
 
 <script>
-  // Add scrolled class on scroll
-  window.addEventListener('scroll', function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    // Scroll effect
     const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 10) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
+    function updateNavbar() {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
     }
+    window.addEventListener('scroll', updateNavbar);
+    updateNavbar(); // Initialize
+
+    // Search functionality
+    const searchInput = document.getElementById('navbarSearchInput');
+    const searchContainer = document.getElementById('searchContainer');
+    const searchClear = document.getElementById('searchClear');
+    const searchSuggestions = document.getElementById('searchSuggestions');
+    let searchXhr = null;
+    let lastQuery = '';
+
+    // Focus/blur effects
+    searchInput.addEventListener('focus', function() {
+      searchContainer.classList.add('focused');
+    });
+
+    searchInput.addEventListener('blur', function() {
+      searchContainer.classList.remove('focused');
+    });
+
+    // Clear search
+    searchClear.addEventListener('click', function() {
+      searchInput.value = '';
+      searchInput.focus();
+      searchClear.style.display = 'none';
+      searchSuggestions.classList.remove('active');
+    });
+
+    // Input handling with debounce
+    searchInput.addEventListener('input', function() {
+      const query = this.value.trim();
+      
+      // Show/hide clear button
+      searchClear.style.display = query ? 'block' : 'none';
+      
+      // Don't search for short queries
+      if (query.length < 2) {
+        searchSuggestions.innerHTML = '<div class="no-suggestions">Type at least 2 characters</div>';
+        searchSuggestions.classList.remove('active');
+        return;
+      }
+
+      // Don't search the same query again
+      if (query === lastQuery) return;
+      lastQuery = query;
+
+      // Cancel previous request if it exists
+      if (searchXhr) {
+        searchXhr.abort();
+      }
+
+      // Show loading state
+      searchSuggestions.innerHTML = '<div class="no-suggestions">Searching...</div>';
+      searchSuggestions.classList.add('active');
+
+      // Create new request
+      searchXhr = new XMLHttpRequest();
+      searchXhr.open('GET', `/search-suggestions/?q=${encodeURIComponent(query)}`, true);
+      searchXhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      
+      searchXhr.onload = function() {
+        if (this.status === 200) {
+          try {
+            const data = JSON.parse(this.responseText);
+            renderSuggestions(data);
+          } catch (e) {
+            showSearchError();
+          }
+        } else {
+          showSearchError();
+        }
+      };
+      
+      searchXhr.onerror = function() {
+        showSearchError();
+      };
+      
+      searchXhr.send();
+    });
+
+    function renderSuggestions(data) {
+      if (data.results && data.results.length > 0) {
+        let html = '';
+        data.results.slice(0, 5).forEach(product => {
+          const price = product.selling_price || product.price;
+          const originalPrice = product.original_price > price ? product.original_price : null;
+          
+          html += `
+            <a href="/product/${product.id}" class="suggestion-item">
+              <img src="${product.product_image || product.image}" alt="${product.product_name || product.name}">
+              <div class="suggestion-info">
+                <div class="suggestion-name">${product.product_name || product.name}</div>
+                <div class="suggestion-price">
+                  ${originalPrice ? `<del>₹${originalPrice}</del>` : ''}
+                  ₹${price}
+                </div>
+              </div>
+            </a>
+          `;
+        });
+        
+        // Add view all results link if there are more than 5
+        if (data.results.length > 5) {
+          html += `
+            <a href="/search/?q=${encodeURIComponent(lastQuery)}" class="view-all-results">
+              View all ${data.results.length} results
+            </a>
+          `;
+        }
+        
+        searchSuggestions.innerHTML = html;
+      } else {
+        searchSuggestions.innerHTML = '<div class="no-suggestions">No products found</div>';
+      }
+      searchSuggestions.classList.add('active');
+    }
+
+    function showSearchError() {
+      searchSuggestions.innerHTML = '<div class="no-suggestions">Error loading suggestions</div>';
+      searchSuggestions.classList.add('active');
+    }
+
+    // Handle Enter key for search
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const query = this.value.trim();
+        if (query) {
+          window.location.href = `/search/?q=${encodeURIComponent(query)}`;
+        }
+      }
+    });
+
+    // Click outside to close suggestions
+    document.addEventListener('click', function(e) {
+      if (!searchContainer.contains(e.target)) {
+        searchSuggestions.classList.remove('active');
+      }
+    });
+
+    // Mobile menu toggle animation
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    navbarToggler.addEventListener('click', function() {
+      this.classList.toggle('active');
+    });
   });
 </script>
