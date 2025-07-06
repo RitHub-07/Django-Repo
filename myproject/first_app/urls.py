@@ -49,6 +49,7 @@ urlpatterns = [
   path('wishlist/', wishlist_view, name='wishlist'),
   path('add-to-wishlist/<int:product_id>/', add_to_wishlist, name='add_to_wishlist'),
   path('remove-wishlist-item/<int:item_id>/', remove_wishlist_item, name='remove_wishlist_item'),
+  path('wishlist/remove-all/', wishlist_all_remove, name='wishlist_all_remove'),
  
   # Employee URLs
   path('emp/create/', employee_add, name='employee_add'),

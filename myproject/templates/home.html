@@ -73,9 +73,22 @@
             </span>
           {% endif %}
           <div class="product-actions">
-            <button class="action-btn" title="Add to Wishlist"><i class="bi bi-heart"></i></button>
-            <button class="action-btn" title="Quick View"><i class="bi bi-eye"></i></button>
-            <button class="action-btn" title="Add to Cart"><i class="bi bi-cart4"></i></button>
+            <form action="{% url 'add_to_wishlist' product.id %}" method="post" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="action-btn" title="Add to Wishlist">
+                <i class="bi bi-heart"></i>
+              </button>
+            </form>
+            <a href="{% url 'product_detail' product.id %}" class="action-btn" title="Quick View">
+              <i class="bi bi-eye"></i>
+            </a>
+            <form action="{% url 'add_to_cart' product.id %}" method="post" class="d-inline">
+              {% csrf_token %}
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" class="action-btn" title="Add to Cart">
+                <i class="bi bi-cart4"></i>
+              </button>
+            </form>
           </div>
         </div>
         <div class="product-content">
@@ -96,8 +109,8 @@
             {% endif %}
             <span class="sale-price">₹{{ product.selling_price }}</span>
           </div>
-          <a href="{% url 'categories_product' product.category.id %}" class="add-to-cart-btn">
-            <i class="fas fa-shopping-cart me-2"></i> View More
+          <a href="{% url 'product_detail' product.id %}" class="add-to-cart-btn">
+            <i class="fas fa-shopping-cart me-2"></i> View Details
           </a>
         </div>
       </div>
@@ -177,10 +190,6 @@
   font-size: 0.9rem;
   opacity: 0.9;
 }
-
-/* Rest of your existing CSS remains the same */
-/* ... */
-
 
 .hero-btn:hover {
   background-color:rgb(33, 95, 220);

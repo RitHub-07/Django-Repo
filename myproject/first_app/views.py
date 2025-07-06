@@ -444,7 +444,7 @@ def return_policy(request):
 
 def wishlist_view(request):
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
-    wishlist_items = wishlist.items.select_related('product')
+    wishlist_items = wishlist.items.select_related('product').order_by('-added_at')
     
     context = {
         'wishlist_items': wishlist_items,
@@ -480,14 +480,28 @@ def remove_wishlist_item(request, item_id):
     messages.success(request, 'Item removed from wishlist successfully.')
     return redirect('wishlist')
 
-# def wishlisht_all_remove(request):
-#     wishlist = get_object_or_404(WishlistItem, wishlist_user=request)
-#     wishlist.items.all().delete()
-#     messages.success(request, "All items removed from Wishlist")
-#     return redirect('wishlist')
-
-
-
+def wishlist_all_remove(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You need to be logged in to modify your wishlist")
+        return redirect('login')  # Or your login URL name
+    
+    try:
+        # Get the user's wishlist
+        wishlist = Wishlist.objects.get(user=request.user)
+        # Get all items in this wishlist
+        wishlist_items = WishlistItem.objects.filter(wishlist=wishlist)
+        
+        if wishlist_items.exists():
+            count = wishlist_items.count()
+            wishlist_items.delete()
+            messages.success(request, f"Successfully removed {count} items from your wishlist")
+        else:
+            messages.info(request, "Your wishlist is already empty")
+    
+    except Wishlist.DoesNotExist:
+        messages.info(request, "You don't have a wishlist yet")
+    
+    return redirect('wishlist')
 
 def product_detail(request, product_id):
     product = get_object_or_404(Category_Products, id=product_id)
