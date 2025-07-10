@@ -363,7 +363,7 @@ def cart_view(request):
     
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = cart.items.select_related('product').order_by('-added_at')
-    # cart_items = cart_items.select_related('product').order_by('-added_at')
+    
     
     grand_total = sum(item.product.selling_price * item.quantity for item in cart_items)
     delivery_threshold = 500
