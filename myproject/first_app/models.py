@@ -66,6 +66,7 @@ class CartItem(models.Model):
   cart = models.ForeignKey(Cart, on_delete = models.CASCADE, related_name = 'items')
   product = models.ForeignKey(Category_Products, on_delete = models.CASCADE, related_name = 'cart_items')
   quantity = models.PositiveBigIntegerField(default=1)
+  added_at = models.DateTimeField(auto_now_add=True)
 
   def __str__(self):
     return self.product.product_name
